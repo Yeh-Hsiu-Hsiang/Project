@@ -18,12 +18,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button addclothes = (Button)findViewById(R.id.button4);
+        //去新增衣服(頁面)
+        Button addclothes = (Button)findViewById(R.id.Addclothes);
         addclothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this  , AddClothes.class);
+                startActivity(intent);
+            }
+        });
+        //去個人設定(頁面)
+        Button mysetting = (Button)findViewById(R.id.Mysetting);
+        mysetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this  , setting.class);
                 startActivity(intent);
             }
         });
@@ -33,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
     Boolean openlist = true;
     public void dowhat(View view) {
         //出現清單
-        Button button1 = (Button) findViewById(R.id.button1);
-        Button button2 = (Button) findViewById(R.id.button2);
-        Button button3 = (Button) findViewById(R.id.button3);
-        Button button4 = (Button) findViewById(R.id.button4);
-        Button button5 = (Button) findViewById(R.id.button5);
-        Button button6 = (Button) findViewById(R.id.button6);
+        Button button1 = (Button) findViewById(R.id.AddSchedule);
+        Button button2 = (Button) findViewById(R.id.Weekweather);
+        Button button3 = (Button) findViewById(R.id.Manageclothes);
+        Button button4 = (Button) findViewById(R.id.Addclothes);
+        Button button5 = (Button) findViewById(R.id.View_wearing);
+        Button button6 = (Button) findViewById(R.id.Mysetting);
         if (openlist) {
             //出現(動畫)
             TranslateAnimation am1 = new TranslateAnimation(0, -450, 0, -500);
@@ -74,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
-                Button button1 = (Button) findViewById(R.id.button1);
-                Button button2 = (Button) findViewById(R.id.button2);
-                Button button3 = (Button) findViewById(R.id.button3);
-                Button button4 = (Button) findViewById(R.id.button4);
-                Button button5 = (Button) findViewById(R.id.button5);
-                Button button6 = (Button) findViewById(R.id.button6);
+                Button button1 = (Button) findViewById(R.id.AddSchedule);
+                Button button2 = (Button) findViewById(R.id.Weekweather);
+                Button button3 = (Button) findViewById(R.id.Manageclothes);
+                Button button4 = (Button) findViewById(R.id.Addclothes);
+                Button button5 = (Button) findViewById(R.id.View_wearing);
+                Button button6 = (Button) findViewById(R.id.Mysetting);
 
                 @Override
                 public void run() {
@@ -141,12 +152,12 @@ public class MainActivity extends AppCompatActivity {
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
-                Button button1 = (Button) findViewById(R.id.button1);
-                Button button2 = (Button) findViewById(R.id.button2);
-                Button button3 = (Button) findViewById(R.id.button3);
-                Button button4 = (Button) findViewById(R.id.button4);
-                Button button5 = (Button) findViewById(R.id.button5);
-                Button button6 = (Button) findViewById(R.id.button6);
+                Button button1 = (Button) findViewById(R.id.AddSchedule);
+                Button button2 = (Button) findViewById(R.id.Weekweather);
+                Button button3 = (Button) findViewById(R.id.Manageclothes);
+                Button button4 = (Button) findViewById(R.id.Addclothes);
+                Button button5 = (Button) findViewById(R.id.View_wearing);
+                Button button6 = (Button) findViewById(R.id.Mysetting);
 
                 @Override
                 public void run() {
