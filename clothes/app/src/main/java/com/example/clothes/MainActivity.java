@@ -1,6 +1,7 @@
 package com.example.clothes;
 
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,10 +17,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
     }
 
     Boolean openlist = true;
     public void dowhat(View view) {
+        //出現清單
         Button button1 = (Button) findViewById(R.id.button1);
         Button button2 = (Button) findViewById(R.id.button2);
         Button button3 = (Button) findViewById(R.id.button3);
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Button button5 = (Button) findViewById(R.id.button5);
         Button button6 = (Button) findViewById(R.id.button6);
         if (openlist) {
+            //出現(動畫)
             TranslateAnimation am1 = new TranslateAnimation(0, -450, 0, -500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
@@ -69,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    //過兩秒後要做的事情
+                    //出現(移動)
+                    //過1秒後要做的事情
                     button1.setTranslationX(-450);
                     button1.setTranslationY(-500);
 
@@ -92,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }, 999);
             openlist = false;
         }else{
+            //回到原位(動畫)
             TranslateAnimation am1 = new TranslateAnimation(0, 450, 0, 500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
@@ -134,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    //過兩秒後要做的事情
+                    //回到原位
                     button1.setTranslationX(0);
                     button1.setTranslationY(0);
 
