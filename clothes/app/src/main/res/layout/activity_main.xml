@@ -87,8 +87,10 @@
 
     <ImageButton
         android:id="@+id/imageButton"
+        style="@style/Widget.AppCompat.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/people"
         android:onClick="dowhat"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
