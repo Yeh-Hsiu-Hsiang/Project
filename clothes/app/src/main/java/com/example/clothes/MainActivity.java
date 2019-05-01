@@ -44,40 +44,46 @@ public class MainActivity extends AppCompatActivity {
     Boolean openlist = true;
     public void dowhat(View view) {
         //出現清單
-        Button button1 = (Button) findViewById(R.id.AddSchedule);
-        Button button2 = (Button) findViewById(R.id.Weekweather);
-        Button button3 = (Button) findViewById(R.id.Manageclothes);
-        Button button4 = (Button) findViewById(R.id.Addclothes);
-        Button button5 = (Button) findViewById(R.id.View_wearing);
-        Button button6 = (Button) findViewById(R.id.Mysetting);
+        final Button button1 = (Button) findViewById(R.id.AddSchedule);
+        final Button button2 = (Button) findViewById(R.id.Weekweather);
+        final Button button3 = (Button) findViewById(R.id.Manageclothes);
+        final Button button4 = (Button) findViewById(R.id.Addclothes);
+        final Button button5 = (Button) findViewById(R.id.View_wearing);
+        final Button button6 = (Button) findViewById(R.id.Mysetting);
         if (openlist) {
             //出現(動畫)
-            TranslateAnimation am1 = new TranslateAnimation(0, -450, 0, -500);
+            final TranslateAnimation am1 = new TranslateAnimation(0, -450, 0, -500);
             am1.setDuration(1000);
+//            am1.setRepeatMode(am1.REVERSE);
+//            am1.setFillAfter(true);
             button1.setAnimation(am1);
             button1.startAnimation(am1);
 
-            TranslateAnimation am2 = new TranslateAnimation(0, -270, 0, -600);
+            final TranslateAnimation am2 = new TranslateAnimation(0, -270, 0, -600);
             am2.setDuration(1000);
+//            am2.setRepeatMode(am2.REVERSE);
+//            am2.setFillAfter(true);
             button2.setAnimation(am2);
             button2.startAnimation(am2);
 
-            TranslateAnimation am3 = new TranslateAnimation(0, -90, 0, -700);
+
+            final TranslateAnimation am3 = new TranslateAnimation(0, -90, 0, -700);
             am3.setDuration(1000);
             button3.setAnimation(am3);
             button3.startAnimation(am3);
+//            am3.cancel();
 
-            TranslateAnimation am4 = new TranslateAnimation(0, 90, 0, -700);
+            final TranslateAnimation am4 = new TranslateAnimation(0, 90, 0, -700);
             am4.setDuration(1000);
             button4.setAnimation(am4);
             button4.startAnimation(am4);
 
-            TranslateAnimation am5 = new TranslateAnimation(0, 270, 0, -600);
+            final TranslateAnimation am5 = new TranslateAnimation(0, 270, 0, -600);
             am5.setDuration(1000);
             button5.setAnimation(am5);
             button5.startAnimation(am5);
 
-            TranslateAnimation am6 = new TranslateAnimation(0, 450, 0, -500);
+            final TranslateAnimation am6 = new TranslateAnimation(0, 450, 0, -500);
             am6.setDuration(1000);
             button6.setAnimation(am6);
             button6.startAnimation(am6);
@@ -85,12 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
-                Button button1 = (Button) findViewById(R.id.AddSchedule);
-                Button button2 = (Button) findViewById(R.id.Weekweather);
-                Button button3 = (Button) findViewById(R.id.Manageclothes);
-                Button button4 = (Button) findViewById(R.id.Addclothes);
-                Button button5 = (Button) findViewById(R.id.View_wearing);
-                Button button6 = (Button) findViewById(R.id.Mysetting);
+
 
                 @Override
                 public void run() {
@@ -98,53 +99,54 @@ public class MainActivity extends AppCompatActivity {
                     //過1秒後要做的事情
                     button1.setTranslationX(-450);
                     button1.setTranslationY(-500);
-
+                    am1.cancel();
                     button2.setTranslationX(-270);
                     button2.setTranslationY(-600);
-
+                    am2.cancel();
                     button3.setTranslationX(-90);
                     button3.setTranslationY(-700);
-
+                    am3.cancel();
                     button4.setTranslationX(90);
                     button4.setTranslationY(-700);
-
+                    am4.cancel();
                     button5.setTranslationX(270);
                     button5.setTranslationY(-600);
-
+                    am5.cancel();
                     button6.setTranslationX(450);
                     button6.setTranslationY(-500);
+                    am6.cancel();
                     //Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
                 }
-            }, 999);
+            }, 1000);
             openlist = false;
         }else{
             //歸位(動畫)
-            TranslateAnimation am1 = new TranslateAnimation(0, 450, 0, 500);
+            final TranslateAnimation am1 = new TranslateAnimation(0, 450, 0, 500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
             button1.startAnimation(am1);
 
-            TranslateAnimation am2 = new TranslateAnimation(0, 270, 0, 600);
+            final TranslateAnimation am2 = new TranslateAnimation(0, 270, 0, 600);
             am2.setDuration(1000);
             button2.setAnimation(am2);
             button2.startAnimation(am2);
 
-            TranslateAnimation am3 = new TranslateAnimation(0, 90, 0, 700);
+            final TranslateAnimation am3 = new TranslateAnimation(0, 90, 0, 700);
             am3.setDuration(1000);
             button3.setAnimation(am3);
             button3.startAnimation(am3);
 
-            TranslateAnimation am4 = new TranslateAnimation(0, -90, 0, 700);
+            final TranslateAnimation am4 = new TranslateAnimation(0, -90, 0, 700);
             am4.setDuration(1000);
             button4.setAnimation(am4);
             button4.startAnimation(am4);
 
-            TranslateAnimation am5 = new TranslateAnimation(0, -270, 0, 600);
+            final TranslateAnimation am5 = new TranslateAnimation(0, -270, 0, 600);
             am5.setDuration(1000);
             button5.setAnimation(am5);
             button5.startAnimation(am5);
 
-            TranslateAnimation am6 = new TranslateAnimation(0, -450, 0, 500);
+            final TranslateAnimation am6 = new TranslateAnimation(0, -450, 0, 500);
             am6.setDuration(1000);
             button6.setAnimation(am6);
             button6.startAnimation(am6);
@@ -152,36 +154,32 @@ public class MainActivity extends AppCompatActivity {
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
-                Button button1 = (Button) findViewById(R.id.AddSchedule);
-                Button button2 = (Button) findViewById(R.id.Weekweather);
-                Button button3 = (Button) findViewById(R.id.Manageclothes);
-                Button button4 = (Button) findViewById(R.id.Addclothes);
-                Button button5 = (Button) findViewById(R.id.View_wearing);
-                Button button6 = (Button) findViewById(R.id.Mysetting);
+
 
                 @Override
                 public void run() {
                     //回到原位
                     button1.setTranslationX(0);
                     button1.setTranslationY(0);
-
+                    am1.cancel();
                     button2.setTranslationX(0);
                     button2.setTranslationY(0);
-
+                    am2.cancel();
                     button3.setTranslationX(0);
                     button3.setTranslationY(0);
-
+                    am3.cancel();
                     button4.setTranslationX(0);
                     button4.setTranslationY(0);
-
+                    am4.cancel();
                     button5.setTranslationX(0);
                     button5.setTranslationY(0);
-
+                    am5.cancel();
                     button6.setTranslationX(0);
                     button6.setTranslationY(0);
+                    am6.cancel();
                     //Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
                 }
-            }, 999);
+            }, 1000);
             openlist = true;
         }
     }
