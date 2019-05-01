@@ -18,7 +18,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Button addclothes = (Button)findViewById(R.id.button4);
+        addclothes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this  , AddClothes.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -99,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             }, 999);
             openlist = false;
         }else{
-            //回到原位(動畫)
+            //歸位(動畫)
             TranslateAnimation am1 = new TranslateAnimation(0, 450, 0, 500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
