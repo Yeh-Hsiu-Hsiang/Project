@@ -47,19 +47,6 @@
         app:layout_constraintVertical_bias="0.64" />
 
     <Button
-        android:id="@+id/Addclothes"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:stateListAnimator="@null"
-        android:text="新增衣服"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
-        app:layout_constraintVertical_bias="0.64" />
-
-    <Button
         android:id="@+id/View_wearing"
         android:layout_width="55dp"
         android:layout_height="55dp"
