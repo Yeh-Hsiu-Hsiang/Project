@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
@@ -18,6 +19,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //去新增活動(頁面)
+        Button addschedule = (Button)findViewById(R.id.AddSchedule);
+        addschedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this  , AddSchedule.class);
+                startActivity(intent);
+            }
+        });
+        //去天氣詳細(頁面)
+        Button weekweather = (Button)findViewById(R.id.Weekweather);
+        weekweather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this  , Weekweather.class);
+                startActivity(intent);
+            }
+        });
+        //去新增衣服(頁面)
+        Button manageclothes = (Button)findViewById(R.id.Manageclothes);
+        manageclothes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this  , Manageclothes.class);
+                startActivity(intent);
+            }
+        });
         //去新增衣服(頁面)
         Button addclothes = (Button)findViewById(R.id.Addclothes);
         addclothes.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         //去個人設定(頁面)
         Button mysetting = (Button)findViewById(R.id.Mysetting);
         mysetting.setOnClickListener(new View.OnClickListener() {
@@ -50,28 +82,23 @@ public class MainActivity extends AppCompatActivity {
         final Button button4 = (Button) findViewById(R.id.Addclothes);
         final Button button5 = (Button) findViewById(R.id.View_wearing);
         final Button button6 = (Button) findViewById(R.id.Mysetting);
+
         if (openlist) {
             //出現(動畫)
             final TranslateAnimation am1 = new TranslateAnimation(0, -450, 0, -500);
             am1.setDuration(1000);
-//            am1.setRepeatMode(am1.REVERSE);
-//            am1.setFillAfter(true);
             button1.setAnimation(am1);
             button1.startAnimation(am1);
 
             final TranslateAnimation am2 = new TranslateAnimation(0, -270, 0, -600);
             am2.setDuration(1000);
-//            am2.setRepeatMode(am2.REVERSE);
-//            am2.setFillAfter(true);
             button2.setAnimation(am2);
             button2.startAnimation(am2);
-
 
             final TranslateAnimation am3 = new TranslateAnimation(0, -90, 0, -700);
             am3.setDuration(1000);
             button3.setAnimation(am3);
             button3.startAnimation(am3);
-//            am3.cancel();
 
             final TranslateAnimation am4 = new TranslateAnimation(0, 90, 0, -700);
             am4.setDuration(1000);
@@ -88,11 +115,8 @@ public class MainActivity extends AppCompatActivity {
             button6.setAnimation(am6);
             button6.startAnimation(am6);
 
-
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
-
-
                 @Override
                 public void run() {
                     //出現(移動)
@@ -150,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
             am6.setDuration(1000);
             button6.setAnimation(am6);
             button6.startAnimation(am6);
-
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

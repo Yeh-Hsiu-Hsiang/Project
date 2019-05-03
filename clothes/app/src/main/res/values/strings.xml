@@ -73,4 +73,10 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="新增衣服">新增衣服</string>
+    <string name="其他設定">其他設定</string>
+    <string name="今天穿甚麼">今天穿甚麼？</string>
+    <string name="新增活動">新增活動</string>
+    <string name="管理衣服">管理衣服</string>
+    <string name="天氣詳細">天氣詳細</string>
 </resources>
