@@ -1,68 +1,93 @@
 package com.example.clothes;
 
-import android.content.ContentResolver;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class AddClothes extends AppCompatActivity {
+
+    private static final int takepic = 111;
+    Uri imgurl;
+    ImageView imv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
+        imv = (ImageView)findViewById(R.id.imageView);
         //找尋Button按鈕
-        ImageButton button = (ImageButton)findViewById(R.id.imageButton);
-        //設定按鈕內文字
-        //button.setText("選擇圖片");
-        //設定按鈕監聽式
-        button.setOnClickListener(new ImageButton.OnClickListener(){
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                //開啟Pictures畫面Type設定為image
-                intent.setType("image/*");
-                //使用Intent.ACTION_GET_CONTENT這個Action                                            //會開啟選取圖檔視窗讓您選取手機內圖檔
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                //取得相片後返回本畫面
-                startActivityForResult(intent, 1);
-            }
+        ImageButton filePic = (ImageButton)findViewById(R.id.upfile);
+        ImageButton cameraPic = (ImageButton)findViewById(R.id.camera);
 
-        });
+
     }
 
-    //取得相片後返回的監聽式
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //當使用者按下確定後
-        if (resultCode == RESULT_OK) {
-            //取得圖檔的路徑位置
-            Uri uri = data.getData();
-            //寫log
-            Log.e("uri", uri.toString());
-            //抽象資料的接口
-            ContentResolver cr = this.getContentResolver();
-            try {
-                //由抽象資料接口轉換圖檔路徑為Bitmap
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                //取得圖片控制項ImageView
-                ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                // 將Bitmap設定到ImageView
-                imageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                Log.e("Exception", e.getMessage(),e);
+    public void onGet(View v){
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED){
+            //未取得權限
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},200);
+        }else{
+            //有取得權限
+            savePhoto();
+
+        }
+    }
+
+    //user 拒絕
+    public void onRequestPermissionResult(int requestCode,String[] permission, int[] grantResults){
+        if(requestCode == 200){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                savePhoto();
+            }else{
+                Toast.makeText(this,"程式需要權限才能運作",Toast.LENGTH_SHORT).show();
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private void savePhoto(){
+        imgurl = getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new ContentValues());
+        Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
+        it.putExtra(MediaStore.EXTRA_OUTPUT,imgurl);
+
+        startActivityForResult(it,takepic);
+    }
+
+    //取得相片後返回
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (resultCode == Activity.RESULT_OK && requestCode == takepic){
+            Bitmap bmp = null;
+            try{
+                bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
+
+            }catch (IOException e){
+                Toast.makeText(this,"無法讀取圖片",Toast.LENGTH_LONG).show();
+            }
+            imv.setImageBitmap(bmp);
+        }else{
+            Toast.makeText(this,"沒拍到照片",Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }
