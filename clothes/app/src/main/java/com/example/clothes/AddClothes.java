@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,12 +19,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
 public class AddClothes extends AppCompatActivity {
 
     private static final int takepic = 111;
+    private static final int filepic = 222;
     Uri imgurl;
     ImageView imv;
 
@@ -32,10 +35,7 @@ public class AddClothes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
         imv = (ImageView)findViewById(R.id.imageView);
-        //找尋Button按鈕
-        ImageButton filePic = (ImageButton)findViewById(R.id.upfile);
-        ImageButton cameraPic = (ImageButton)findViewById(R.id.camera);
-
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 
     }
 
@@ -48,8 +48,12 @@ public class AddClothes extends AppCompatActivity {
         }else{
             //有取得權限
             savePhoto();
-
         }
+    }
+    public void onPick(View v){
+        Intent it = new Intent(Intent.ACTION_GET_CONTENT);
+        it.setType("image/*");
+        startActivityForResult(it,filepic);
     }
 
     //user 拒絕
@@ -63,9 +67,7 @@ public class AddClothes extends AppCompatActivity {
         }
     }
     private void savePhoto(){
-        imgurl = getContentResolver().insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new ContentValues());
+        imgurl = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
         Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
         it.putExtra(MediaStore.EXTRA_OUTPUT,imgurl);
 
@@ -75,13 +77,24 @@ public class AddClothes extends AppCompatActivity {
     //取得相片後返回
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
-        if (resultCode == Activity.RESULT_OK && requestCode == takepic){
+        if (resultCode == Activity.RESULT_OK ){
             Bitmap bmp = null;
-            try{
-                bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
-
-            }catch (IOException e){
-                Toast.makeText(this,"無法讀取圖片",Toast.LENGTH_LONG).show();
+            switch (requestCode){
+                case (takepic):
+                    try{
+                        bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
+                    }catch (IOException e){
+                        Toast.makeText(this,"無法讀取圖片",Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case (filepic):
+                    imgurl = data.getData();
+                    try {
+                        bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(this,"無法選取圖片",Toast.LENGTH_LONG).show();
+                    }
+                    break;
             }
             imv.setImageBitmap(bmp);
         }else{
