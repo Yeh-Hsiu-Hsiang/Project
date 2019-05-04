@@ -2,6 +2,8 @@ package com.example.clothes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,7 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.github.gabrielbb.cutout.CutOut;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -24,19 +27,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddClothes extends AppCompatActivity {
-    private ImageView imageView;
+
+    private static final int takepic = 111;
+    private static final int filepic = 222;
+    Uri imgurl;
+    ImageView imv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
-        Button b = findViewById(R.id.button);
-        imageView = findViewById(R.id.imageView);
-        b.setOnClickListener(view -> {
-            CutOut.activity()
-                    .bordered()
-                    .noCrop()
-                    .start(this);
-        });
+        imv = (ImageView)findViewById(R.id.imageView);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
     }
 
     @Override
@@ -75,24 +78,20 @@ public class AddClothes extends AppCompatActivity {
         }
     }
 
-    //Uri轉成Bitmap
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor =
-                getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }
-
-    private void saveToLocal(Bitmap bitmap) throws IOException {
-        String timeStamp = new SimpleDateFormat ("yyyyMMdd_HHmmss").format(new Date ());
-        String imageFileName = "clothesPNG_" + timeStamp;
-        File path = new File ( Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM) + "/clothes");
-        if (!path.exists()) {
-            path.mkdir();
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED){
+            //未取得權限
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},200);
+        }else{
+            //有取得權限
+            savePhoto();
         }
+    }
+    public void onPick(View v){
+        Intent it = new Intent(Intent.ACTION_GET_CONTENT);
+        it.setType("image/*");
+        startActivityForResult(it,filepic);
+    }
 
         File file = new File(path +"/"+
                         imageFileName +
@@ -101,21 +100,36 @@ public class AddClothes extends AppCompatActivity {
         if (file.exists()) {
             file.delete();
         }
+    }
+    private void savePhoto(){
+        imgurl = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+        Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
+        it.putExtra(MediaStore.EXTRA_OUTPUT,imgurl);
 
-        FileOutputStream out;
-        try {
-            out = new FileOutputStream(file);
-            if (bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)) {
-                out.flush();
-                out.close();
-                //保存图片后发送广播通知更新数据库
-                // Uri uri = Uri.fromFile(file);
-                // sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
-                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                Uri uri = Uri.fromFile(file);
-                intent.setData(uri);
-                this.sendBroadcast(intent);
+        startActivityForResult(it,takepic);
+    }
 
+    //取得相片後返回
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (resultCode == Activity.RESULT_OK ){
+            Bitmap bmp = null;
+            switch (requestCode){
+                case (takepic):
+                    try{
+                        bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
+                    }catch (IOException e){
+                        Toast.makeText(this,"無法讀取圖片",Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case (filepic):
+                    imgurl = data.getData();
+                    try {
+                        bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(this,"無法選取圖片",Toast.LENGTH_LONG).show();
+                    }
+                    break;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
