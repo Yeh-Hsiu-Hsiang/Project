@@ -57,26 +57,26 @@ public class WebPageUtil {
 //        }
 //    }
 
-        /*** 使用Socket请求（获取）一个网页。<br/>
+        /*** 使用Socket请求（获取）一个網頁。<br/>
          * 例如:<br/>
-         * processUrl("http://www.baidu.com/")会获取百度首页；<br/>*
+         * processUrl("http://www.baidu.com/")會獲取百度首頁；<br/>*
          * @param url
-         *            这个网页或者网页内容的地址
+         *            這個網頁或者網頁内容的地址
          * @throws Exception*/
         public WebPageUtil processUrl(String url) throws Exception {
 
-            //清空上次获取的数据
+            //清空上次獲取的數據
             this.msgHeader = "";
             this.msgHeaderBuffer.setLength(0);
             this.bytes = new byte[0];
 
             url = formatUrl(url);
 
-            // 设置要连接的服务器地址
+            // 設置要連接的伺服器地址
             Socket socket = new Socket(getHost(url), getPort(url));
             socket.setSoTimeout(3000);
 
-            // 构造请求，详情请参考HTTP协议(RFC2616)
+            // 要求連線，详情请参考HTTP协议(RFC2616)
             String request = String.format("GET %s HTTP/1.0\r\n", getSubUrl(url));
             request += String.format("HOST: %s \r\n\r\n", getHost(url));
 
@@ -84,24 +84,24 @@ public class WebPageUtil {
                 System.out.println("request:\r\n"+request);
             }
 
-            // 发送请求
+            // 發送請求
             socket.getOutputStream().write(request.getBytes());
 
-            // 设置缓存，最好跟系统的socket接收缓存一样
+            // 設置缓存，最好跟系统的socket接收缓存一样
             this.buffer_size = socket.getReceiveBufferSize();
-            byte[] bytesBuffer = new byte[buffer_size];// 缓存InputStream的原始数据
-            char[] charsBuffer = new char[buffer_size];// 缓存InputStream的字符数据
+            byte[] bytesBuffer = new byte[buffer_size];// 缓存InputStream的原始數據
+            char[] charsBuffer = new char[buffer_size];// 缓存InputStream的字符數據
 
-            // 来自服务器响应(InputStream)
+            // 来自伺服器(InputStream)
             InputStream is = socket.getInputStream();
 
-            // 局部变量，读取到的内容长度（字节）
+            // 局部變量，讀取到的內容長度
             int bytesLength = 0;
-            // 局部变量，判断消息头是否读取完毕
+            // 局部變量，判断消息是否讀取完畢
             boolean headerComplete = false;
 
-            // 从InputStream中读取网页的内容，如果读取到的内容
-            // 长度为-1，则读取完毕
+            // 从InputStream中讀取網頁的内容，如果讀取到的内容
+            // 長度為-1，則讀取完畢
             while ((bytesLength = is.read(bytesBuffer, 0, buffer_size)) != -1) {
                 if (headerComplete) {
                     SaveBytes(bytesBuffer, 0, bytesLength);
@@ -123,15 +123,15 @@ public class WebPageUtil {
 
             socket.close();
 
-            //获取网页编码
+            //獲取網頁編碼
             this.getCharset();
 
             return this;
         }
 
-        /*** 根据网址获取服务器端口。<br/>
-         * http 端口为80<br/>
-         * https端口为443
+        /*** 根據網址獲取伺服器port。<br/>
+         * http port為80<br/>
+         * https port為443
          * @param url
          * @return*/
         public static int getPort(String url) {
@@ -149,12 +149,12 @@ public class WebPageUtil {
             return port;
         }
 
-        /*** 根据网址，获取服务器地址<br/>
+        /*** 根據網址，獲取伺服器地址<br/>
          * 例如：<br/>
          * http://m.weathercn.com/common/province.jsp<p>
          * 返回：<br/>
          * m.weathercn.com
-         * @param url 网址
+         * @param url 網址
          * @return*/
         public static String getHost(String url) {
             String host = "";
@@ -170,13 +170,13 @@ public class WebPageUtil {
             return host;
         }
 
-        /*** 根据网址，获取网页路径
+        /*** 根據網址，獲取網頁
          * 例如：<br/>
          * http://m.weathercn.com/common/province.jsp<p>
          * 返回：<br/>
          * /common/province.jsp
          * @param url
-         * @return 如果没有获取到网页路径，返回"";*/
+         * @return 如果没有獲取到網頁，返回"";*/
         public static String getSubUrl(String url) {
             String subUrl = "";
             Matcher mat = Pattern.compile("https?://.+?(?=/)").matcher(url);
@@ -192,7 +192,7 @@ public class WebPageUtil {
         }
 
         /**
-         * 在某些网址上加个"/"<br/>
+         * 在網址上加个"/"<br/>
          * 例如：<br/>
          * http://www.baidu.com<br/>
          * 返回：<br/>
@@ -212,12 +212,12 @@ public class WebPageUtil {
             }
         }
 
-        /*** 把从输入流中读取到的数据保存到bytes数组中，
-         * 每次都创建一个新的byte[]来存储原来bytes[]数组中的数据和
-         * 新读取到的b中的数据。
-         * @param b 存储内容的byte[]
+        /*** 把输入流中讀取到的數據保存到bytes數據中，
+         * 每次都創建一个新的byte[]来儲存原来bytes[]數據中的數據和
+         * 新讀取到的b中的數據。
+         * @param b 儲存内容的byte[]
          * @param start 内容的起始位置，从0开始
-         * @param length 内容的长度
+         * @param length 內容的長度
          * @throws Exception*/
         private void SaveBytes(byte[] b, int start, int length) throws Exception {
             //do some check
@@ -233,7 +233,7 @@ public class WebPageUtil {
 
         }
 
-        /*** 将字节数据转换成字符数据
+        /*** 將數據轉換成字串
          * @param srcBytes
          * @param dstChars
          * @param length
@@ -246,14 +246,12 @@ public class WebPageUtil {
             return dstChars;
         }
 
-        /*** 获取网页资源（文件）的消息头，里面包含了服务器和资源的一些属性*/
+        /***獲取網頁（文件）的前部分，裡面包含伺服器和資源的一些屬性*/
         public String getMsgHeader() {
             return msgHeader;
         }
 
-        /*** 获取网页或网页资源的编码，如果在消息头里面没有找到编码，那么就
-         * 返回系统默认编码。
-         * @return*/
+        /*** 獲取網頁或網頁資源的編碼，如果在前裡面沒有找到編碼，那么就返回系统預設編碼。* @return*/
         public Charset getCharset() {
             String header = this.msgHeader.toUpperCase();
             Matcher mat = Pattern.compile("CHARSET=.+").matcher(header);
@@ -266,7 +264,7 @@ public class WebPageUtil {
         }
 
         /**
-         * 获取网页内容* @return*/
+         * 獲取網頁內容* @return*/
         public String getWebContent() {
             return new String(bytes, charset);
         }

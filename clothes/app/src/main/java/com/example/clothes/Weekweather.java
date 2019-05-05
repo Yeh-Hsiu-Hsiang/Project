@@ -1,18 +1,48 @@
 package com.example.clothes;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class Weekweather extends AppCompatActivity {
+
+    private Button btn1; //宣告Button
+    private EditText txt1; //宣告EditText
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekweather);
+
+        btn1 = (Button) findViewById(R.id.enter);  //取得Button
+        txt1 = (EditText) findViewById(R.id.CityName); //取得EditText
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //取得EditText的輸入內容
+                String content = txt1.getText().toString();
+                //顯示在Debug Console
+                Log.d("debug", "button click");
+                //使用Toast顯示在螢幕上
+                Toast.makeText(Weekweather.this, content, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//        @Override
+//        public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//            getMenuInflater().inflate(R.menu.main, menu);
+//            return true;
+//        }
     }
 
     /*** 天氣預報類，天氣預報的基本屬性。* @author siqi**/
-    public class WeatherReport {
         private String city;
         private String date;
         private String weekDay;
@@ -100,12 +130,12 @@ public class Weekweather extends AppCompatActivity {
             this.wind = wind;
         }
 
-        /*** 獲取天氣預報是白天还是晚上* @return*/
+        /*** 獲取天氣預報是白天還是晚上* @return*/
         public String getDayOrNight() {
             return dayOrNight;
         }
 
-        /*** 設置天氣預報是白天还是晚上* @param dayOrNight*/
+        /*** 設置天氣預報是白天還是晚上* @param dayOrNight*/
         public void setDayOrNight(String dayOrNight) {
             this.dayOrNight = dayOrNight;
         }
@@ -119,4 +149,4 @@ public class Weekweather extends AppCompatActivity {
         }
 
     }
-}
+
