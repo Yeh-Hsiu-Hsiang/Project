@@ -42,7 +42,6 @@
         android:id="@+id/camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onGet"
         app:layout_constraintBottom_toBottomOf="@+id/upfile"
         app:layout_constraintEnd_toStartOf="@+id/upfile"
         app:layout_constraintHorizontal_bias="0.5"
