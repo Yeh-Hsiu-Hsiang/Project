@@ -74,27 +74,27 @@ public class MainActivity extends AppCompatActivity {
 
         if (openlist) {
             //出現(動畫)
-            final TranslateAnimation am1 = new TranslateAnimation(0, -400, 0, -500);
+            final TranslateAnimation am1 = new TranslateAnimation(0, -250, 0, -500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
             button1.startAnimation(am1);
 
-            final TranslateAnimation am2 = new TranslateAnimation(0, -200, 0, -650);
+            final TranslateAnimation am2 = new TranslateAnimation(0, -150, 0, -600);
             am2.setDuration(1000);
             button2.setAnimation(am2);
             button2.startAnimation(am2);
 
-            final TranslateAnimation am3 = new TranslateAnimation(0, 0, 0, -750);
+            final TranslateAnimation am3 = new TranslateAnimation(0, 0, 0, -700);
             am3.setDuration(1000);
             button3.setAnimation(am3);
             button3.startAnimation(am3);
 
-            final TranslateAnimation am4 = new TranslateAnimation(0, 200, 0, -650);
+            final TranslateAnimation am4 = new TranslateAnimation(0, 150, 0, -600);
             am4.setDuration(1000);
             button4.setAnimation(am4);
             button4.startAnimation(am4);
 
-            final TranslateAnimation am5 = new TranslateAnimation(0, 400, 0, -500);
+            final TranslateAnimation am5 = new TranslateAnimation(0, 250, 0, -500);
             am5.setDuration(1000);
             button5.setAnimation(am5);
             button5.startAnimation(am5);
@@ -105,19 +105,19 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     //出現(移動)
                     //過1秒後要做的事情
-                    button1.setTranslationX(-400);
+                    button1.setTranslationX(-250);
                     button1.setTranslationY(-500);
                     am1.cancel();
-                    button2.setTranslationX(-200);
-                    button2.setTranslationY(-650);
+                    button2.setTranslationX(-150);
+                    button2.setTranslationY(-600);
                     am2.cancel();
                     button3.setTranslationX( 0);
-                    button3.setTranslationY(-750);
+                    button3.setTranslationY(-700);
                     am3.cancel();
-                    button4.setTranslationX( 200);
-                    button4.setTranslationY(-650);
+                    button4.setTranslationX( 150);
+                    button4.setTranslationY(-600);
                     am4.cancel();
-                    button5.setTranslationX( 400);
+                    button5.setTranslationX( 250);
                     button5.setTranslationY(-500);
                     am5.cancel();
                     //Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
@@ -126,27 +126,27 @@ public class MainActivity extends AppCompatActivity {
             openlist = false;
         }else{
             //歸位(動畫)
-            final TranslateAnimation am1 = new TranslateAnimation(0, 400, 0, 500);
+            final TranslateAnimation am1 = new TranslateAnimation(0, 250, 0, 500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
             button1.startAnimation(am1);
 
-            final TranslateAnimation am2 = new TranslateAnimation(0, 200, 0, 650);
+            final TranslateAnimation am2 = new TranslateAnimation(0, 150, 0, 600);
             am2.setDuration(1000);
             button2.setAnimation(am2);
             button2.startAnimation(am2);
 
-            final TranslateAnimation am3 = new TranslateAnimation(0, 0, 0, 750);
+            final TranslateAnimation am3 = new TranslateAnimation(0, 0, 0, 700);
             am3.setDuration(1000);
             button3.setAnimation(am3);
             button3.startAnimation(am3);
 
-            final TranslateAnimation am4 = new TranslateAnimation(0, -200, 0, 650);
+            final TranslateAnimation am4 = new TranslateAnimation(0, -150, 0, 600);
             am4.setDuration(1000);
             button4.setAnimation(am4);
             button4.startAnimation(am4);
 
-            final TranslateAnimation am5 = new TranslateAnimation(0, -400, 0, 500);
+            final TranslateAnimation am5 = new TranslateAnimation(0, -250, 0, 500);
             am5.setDuration(1000);
             button5.setAnimation(am5);
             button5.startAnimation(am5);
