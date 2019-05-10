@@ -27,27 +27,37 @@
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <ImageButton
-        android:id="@+id/upfile"
+        android:id="@+id/camera"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="96dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <Button
+        android:id="@+id/updata"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="496dp"
-        android:onClick="onPick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/camera"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:layout_height="49dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="確定衣服"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
-        android:id="@+id/camera"
+        android:id="@+id/fromfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/upfile"
-        app:layout_constraintEnd_toStartOf="@+id/upfile"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/upfile"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="93dp"
+        android:onClick="onPick"
+        app:layout_constraintStart_toEndOf="@+id/camera"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.constraint.ConstraintLayout>

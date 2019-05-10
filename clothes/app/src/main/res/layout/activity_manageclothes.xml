@@ -19,9 +19,10 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/myViewPager"
-        android:layout_width="match_parent"
+        android:layout_width="407dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/TabLayout"></android.support.v4.view.ViewPager>
+        app:layout_constraintTop_toBottomOf="@+id/TabLayout"
+        tools:layout_editor_absoluteX="4dp"></android.support.v4.view.ViewPager>
 
     <Button
         android:id="@+id/Addclothes"
@@ -34,5 +35,17 @@
         android:text="新增衣服"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Addclothes"
+        app:srcCompat="@drawable/addclothes" />
 
 </android.support.constraint.ConstraintLayout>

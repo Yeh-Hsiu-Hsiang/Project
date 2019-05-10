@@ -13,11 +13,11 @@
         android:layout_height="55dp"
         android:stateListAnimator="@null"
         android:text="新增活動"
-        app:layout_constraintBottom_toTopOf="@+id/upfile"
-        app:layout_constraintEnd_toStartOf="@+id/upfile"
+        app:layout_constraintBottom_toTopOf="@+id/people"
+        app:layout_constraintEnd_toStartOf="@+id/people"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upfile"
-        app:layout_constraintTop_toBottomOf="@+id/upfile"
+        app:layout_constraintStart_toEndOf="@+id/people"
+        app:layout_constraintTop_toBottomOf="@+id/people"
         app:layout_constraintVertical_bias="0.64" />
 
     <Button
@@ -26,11 +26,11 @@
         android:layout_height="55dp"
         android:stateListAnimator="@null"
         android:text="一週天氣"
-        app:layout_constraintBottom_toTopOf="@+id/upfile"
-        app:layout_constraintEnd_toStartOf="@+id/upfile"
+        app:layout_constraintBottom_toTopOf="@+id/people"
+        app:layout_constraintEnd_toStartOf="@+id/people"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upfile"
-        app:layout_constraintTop_toBottomOf="@+id/upfile"
+        app:layout_constraintStart_toEndOf="@+id/people"
+        app:layout_constraintTop_toBottomOf="@+id/people"
         app:layout_constraintVertical_bias="0.64" />
 
     <Button
@@ -39,11 +39,11 @@
         android:layout_height="55dp"
         android:stateListAnimator="@null"
         android:text="衣服管理"
-        app:layout_constraintBottom_toTopOf="@+id/upfile"
-        app:layout_constraintEnd_toStartOf="@+id/upfile"
+        app:layout_constraintBottom_toTopOf="@+id/people"
+        app:layout_constraintEnd_toStartOf="@+id/people"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upfile"
-        app:layout_constraintTop_toBottomOf="@+id/upfile"
+        app:layout_constraintStart_toEndOf="@+id/people"
+        app:layout_constraintTop_toBottomOf="@+id/people"
         app:layout_constraintVertical_bias="0.64" />
 
     <Button
@@ -52,11 +52,11 @@
         android:layout_height="55dp"
         android:stateListAnimator="@null"
         android:text="預覽穿衣"
-        app:layout_constraintBottom_toTopOf="@+id/upfile"
-        app:layout_constraintEnd_toStartOf="@+id/upfile"
+        app:layout_constraintBottom_toTopOf="@+id/people"
+        app:layout_constraintEnd_toStartOf="@+id/people"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upfile"
-        app:layout_constraintTop_toBottomOf="@+id/upfile"
+        app:layout_constraintStart_toEndOf="@+id/people"
+        app:layout_constraintTop_toBottomOf="@+id/people"
         app:layout_constraintVertical_bias="0.64" />
 
     <Button
@@ -65,19 +65,19 @@
         android:layout_height="55dp"
         android:stateListAnimator="@null"
         android:text="其他設定"
-        app:layout_constraintBottom_toTopOf="@+id/upfile"
-        app:layout_constraintEnd_toStartOf="@+id/upfile"
+        app:layout_constraintBottom_toTopOf="@+id/people"
+        app:layout_constraintEnd_toStartOf="@+id/people"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upfile"
-        app:layout_constraintTop_toBottomOf="@+id/upfile"
+        app:layout_constraintStart_toEndOf="@+id/people"
+        app:layout_constraintTop_toBottomOf="@+id/people"
         app:layout_constraintVertical_bias="0.64" />
 
     <ImageButton
-        android:id="@+id/upfile"
+        android:id="@+id/people"
         style="@style/Widget.AppCompat.ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/people"
+        android:background="@null"
         android:onClick="dowhat"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"

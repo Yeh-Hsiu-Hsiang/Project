@@ -4,6 +4,7 @@ package com.example.clothes;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -41,6 +43,16 @@ public class AddClothes extends AppCompatActivity {
 
         init();
 
+        //去新增衣服(頁面)
+        Button updata = (Button)findViewById(R.id.updata);
+        updata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(AddClothes.this  , editclothes.class);
+                startActivity(intent);
+            }
+        });
     }
     private void init() {
         //取得權限
@@ -77,6 +89,9 @@ public class AddClothes extends AppCompatActivity {
                 galleryAddPic();
             }
         });
+
+
+
     }
 
     String mPublicPhotoPath;
@@ -89,7 +104,7 @@ public class AddClothes extends AppCompatActivity {
             path.mkdir();
         }
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss.S",Locale.getDefault()).format(new Date());
         String imageFileName = "clothesJPG_" + timeStamp;
         File image = File.createTempFile(
                 imageFileName,  /* 前缀 */
@@ -98,7 +113,9 @@ public class AddClothes extends AppCompatActivity {
         );
         //照片路徑
         mPublicPhotoPath = image.getAbsolutePath();
+
         return image;
+
     }
 
     private void galleryAddPic() {
@@ -152,6 +169,14 @@ public class AddClothes extends AppCompatActivity {
                     try {
                         bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
 
+                        //?
+//                        String[] proj = {MediaStore.Images.Media.DATA};
+//                        Cursor cursor = managedQuery(imgurl, proj, null, null, null);
+//                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                        cursor.moveToFirst();
+//                        String path = cursor.getString(column_index);
+//                        Log.d("tag" , path);
+
                     } catch (FileNotFoundException e) {
                         Toast.makeText(this,"無法選取圖片",Toast.LENGTH_LONG).show();
                     }
@@ -160,6 +185,7 @@ public class AddClothes extends AppCompatActivity {
             imv.setImageBitmap(bmp);
         }else{
             Toast.makeText(this,"取消讀取到照片",Toast.LENGTH_LONG).show();
+           // Log.d("tag" , mPublicPhotoPath.toString());
         }
 
     }

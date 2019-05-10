@@ -82,4 +82,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="clothesclass">
+        <item>長袖上衣</item>
+        <item>短袖上衣</item>
+        <item>長褲</item>
+        <item>短褲</item>
+        <item>裙子</item>
+        <item>連身褲</item>
+        <item>連衣裙</item>
+        <item>外套</item>
+        <item>圍巾</item>
+    </string-array>
 </resources>
