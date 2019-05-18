@@ -7,7 +7,7 @@
     tools:context=".editclothes">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/clothesPic"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
@@ -26,7 +26,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/clothesPic"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginLeft="21dp"
         android:text="衣服名稱"
         app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintStart_toEndOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/clothesPic" />
 
     <TextView
         android:id="@+id/textView4"
@@ -48,7 +48,7 @@
         android:layout_marginTop="60dp"
         android:text="衣服類別"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/clothesPic" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -83,37 +83,37 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/spring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:text="春"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox2" />
+        app:layout_constraintEnd_toStartOf="@+id/summer" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/summer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:text="夏"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox3" />
+        app:layout_constraintEnd_toStartOf="@+id/autumn" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/autumn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:text="秋"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox4" />
+        app:layout_constraintEnd_toStartOf="@+id/winter" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/winter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -130,6 +130,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="52dp"
         android:text="顏色"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -139,6 +140,7 @@
         android:layout_height="20dp"
         android:layout_marginEnd="268dp"
         android:layout_marginRight="268dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:color/holo_purple" />
@@ -161,6 +163,7 @@
         android:layout_marginEnd="65dp"
         android:layout_marginRight="65dp"
         android:layout_marginBottom="48dp"
+        android:onClick="CompleteAdd"
         android:text="完成離開"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
