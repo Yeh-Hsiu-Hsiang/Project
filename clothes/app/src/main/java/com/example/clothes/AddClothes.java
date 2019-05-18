@@ -1,6 +1,8 @@
 package com.example.clothes;
 
 import android.app.Activity;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,33 +35,42 @@ public class AddClothes extends AppCompatActivity {
 
     private static final int takepic = 111;
     private static final int filepic = 222;
-    Uri imgurl;
+    Uri imguri;
     ImageView imv;
     ImageButton mAddGallery;
+    Bitmap bmp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
-
+        bmp = null;
         init();
 
         //去新增衣服(頁面)
-        Button updata = (Button)findViewById(R.id.updata);
+        Button updata = (Button) findViewById(R.id.updata);
         updata.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(AddClothes.this  , editclothes.class);
-                startActivity(intent);
+                if (bmp != null) {
+                    editclothes.PicPath = mPublicPhotoPath;
+                    Intent intent = new Intent();
+                    intent.setClass(AddClothes.this, editclothes.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
+
     private void init() {
         //取得權限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
         }
-        imv = (ImageView)findViewById(R.id.imageView);
+        imv = (ImageView) findViewById(R.id.imageView);
         mAddGallery = (ImageButton) findViewById(R.id.camera);
 
     @Override
@@ -100,7 +111,7 @@ public class AddClothes extends AppCompatActivity {
 
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // Ensure that there's a camera activity to handle the intent
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {//判断是否有相机应用
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {//判断是否有相機應用
                     // Create the File where the photo should go
                     File photoFile = null;
                     try {
@@ -123,20 +134,20 @@ public class AddClothes extends AppCompatActivity {
         });
 
 
-
     }
 
     String mPublicPhotoPath;
+
     private File createPublicImageFile() throws IOException {
         //自訂資料夾
-        File path =  new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM)+"/clothes");
-        if(!path.exists()) {
+        File path = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM) + "/clothes");
+        if (!path.exists()) {
             //如果沒有就建立一個
             path.mkdir();
         }
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss.S",Locale.getDefault()).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "clothesJPG_" + timeStamp;
         File image = File.createTempFile(
                 imageFileName,  /* 前缀 */
@@ -144,6 +155,7 @@ public class AddClothes extends AppCompatActivity {
                 path      /* 文件夹 */
         );
         //照片路徑
+
         mPublicPhotoPath = image.getAbsolutePath();
 
         return image;
@@ -158,10 +170,10 @@ public class AddClothes extends AppCompatActivity {
         sendBroadcast(mediaScanIntent);
     }
 
-    public void onPick(View v){
+    public void onPick(View v) {
         Intent it = new Intent(Intent.ACTION_GET_CONTENT);
         it.setType("image/*");
-        startActivityForResult(it,filepic);
+        startActivityForResult(it, filepic);
     }
 
         File file = new File(path +"/"+
@@ -182,10 +194,10 @@ public class AddClothes extends AppCompatActivity {
 
     //取得相片後返回
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        if (resultCode == Activity.RESULT_OK ){
-            Bitmap bmp = null;
-            switch (requestCode){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+
+            switch (requestCode) {
                 case (takepic):
 
                     // Get the dimensions of the View
@@ -212,20 +224,18 @@ public class AddClothes extends AppCompatActivity {
 
                     break;
                 case (filepic):
-                    imgurl = data.getData();
-                    try {
-                        bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imgurl),null,null);
+                    imguri = data.getData();
 
-                        //?
-//                        String[] proj = {MediaStore.Images.Media.DATA};
-//                        Cursor cursor = managedQuery(imgurl, proj, null, null, null);
-//                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                        cursor.moveToFirst();
-//                        String path = cursor.getString(column_index);
-//                        Log.d("tag" , path);
+                    //uri轉path 傳送路徑到editclothes整合sqlite
+                    String path = getPath(AddClothes.this, imguri);
+                    mPublicPhotoPath = path;
+                    //=========如何將其他路徑的照片另存新檔至本app的指定路徑??============
+
+                    try {
+                        bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imguri), null, null);
 
                     } catch (FileNotFoundException e) {
-                        Toast.makeText(this,"無法選取圖片",Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "無法選取圖片", Toast.LENGTH_LONG).show();
                     }
                     break;
             }
