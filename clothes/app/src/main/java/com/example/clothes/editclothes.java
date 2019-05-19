@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ public class editclothes extends AppCompatActivity {
     //傳入照片
     protected static String PicPath;
     //資料庫
-    static final String db_name = "clothes";
+    static final String db_name = "clothes.db";
     static final String tb_name = "ManageClothes";
     SQLiteDatabase db;
 
@@ -48,6 +49,31 @@ public class editclothes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editclothes);
+        //完成後選項
+        final Button Leave = (Button)findViewById(R.id.leave);
+        final Button backAdd = (Button)findViewById(R.id.keepadd);
+        Leave.setOnClickListener(LeaveOrAdd);
+        backAdd.setOnClickListener(LeaveOrAdd);
+
+        //溫度區間--定義資料
+        final TextView temp_range_upper = (TextView)findViewById(R.id.TempRange_Upper);
+        final TextView temp_range_lower = (TextView)findViewById(R.id.TempRange_Lower);
+        temp_range_upper.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下底線
+        temp_range_upper.getPaint().setAntiAlias(true);//抗鋸齒
+        temp_range_lower.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下底線
+        temp_range_lower.getPaint().setAntiAlias(true);//抗鋸齒
+        temp_range_upper.setOnClickListener(tempChangeListener);
+        temp_range_lower.setOnClickListener(tempChangeListener);
+
+        //穿衣季節
+        CheckBox Spring = (CheckBox) findViewById(R.id.spring);
+        CheckBox Summer = (CheckBox) findViewById(R.id.summer);
+        CheckBox Autumn = (CheckBox) findViewById(R.id.autumn);
+        CheckBox Winter = (CheckBox) findViewById(R.id.winter);
+        Spring.setOnCheckedChangeListener(seasonCheckedChangeListener);
+        Summer.setOnCheckedChangeListener(seasonCheckedChangeListener);
+        Autumn.setOnCheckedChangeListener(seasonCheckedChangeListener);
+        Winter.setOnCheckedChangeListener(seasonCheckedChangeListener);
 
         //顯示照片
         showPic(PicPath);
@@ -68,16 +94,6 @@ public class editclothes extends AppCompatActivity {
             }
         });
 
-
-        //溫度區間--定義資料
-        final TextView temp_range_upper = (TextView)findViewById(R.id.TempRange_Upper);
-        final TextView temp_range_lower = (TextView)findViewById(R.id.TempRange_Lower);
-        temp_range_upper.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下底線
-        temp_range_upper.getPaint().setAntiAlias(true);//抗鋸齒
-        temp_range_lower.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下底線
-        temp_range_lower.getPaint().setAntiAlias(true);//抗鋸齒
-        temp_range_upper.setOnClickListener(tempChangeListener);
-        temp_range_lower.setOnClickListener(tempChangeListener);
 
         //建立選擇器資料
         initOptionData();
@@ -108,16 +124,7 @@ public class editclothes extends AppCompatActivity {
                 .build();
         pvOptions.setPicker(options1Items);
 
-        //穿衣季節
-        CheckBox Spring = (CheckBox) findViewById(R.id.spring);
-        CheckBox Summer = (CheckBox) findViewById(R.id.summer);
-        CheckBox Autumn = (CheckBox) findViewById(R.id.autumn);
-        CheckBox Winter = (CheckBox) findViewById(R.id.winter);
-        Spring.setOnCheckedChangeListener(seasonCheckedChangeListener);
-        Summer.setOnCheckedChangeListener(seasonCheckedChangeListener);
-        Autumn.setOnCheckedChangeListener(seasonCheckedChangeListener);
-        Winter.setOnCheckedChangeListener(seasonCheckedChangeListener);
-        // OpenDB();
+        OpenDB();
     }
 
     public void showPic(String picpath){
@@ -127,6 +134,31 @@ public class editclothes extends AppCompatActivity {
         imv.setImageBitmap(bitmap);
     }
 
+    private View.OnClickListener LeaveOrAdd = new View.OnClickListener() {
+        Intent intent = new Intent();
+        @Override
+        public void onClick(View v) {
+            CompleteAdd();
+            switch (v.getId()){
+                case R.id.leave:
+                    //回到管理頁面
+                    intent.setClass(editclothes.this  , Manageclothes.class);
+                    startActivity(intent);
+
+                    editclothes.this.finish();
+
+                    break;
+                case R.id.keepadd:
+                    //回到新增衣服頁面
+                    AddClothes.finishActivity();
+                    intent.setClass(editclothes.this  , AddClothes.class);
+                    startActivity(intent);
+                    editclothes.this.finish();
+
+                    break;
+            }
+        }
+    };
     //溫度區間監聽事件
     private View.OnClickListener tempChangeListener = new View.OnClickListener() {
         @Override
@@ -188,7 +220,9 @@ public class editclothes extends AppCompatActivity {
 
 
     };
-    public void CompleteAdd(View view){
+    //整理
+    public void CompleteAdd(){
+
         //1衣服編號
 
         //2衣服照片(路徑)<<PicPath>>
@@ -220,9 +254,11 @@ public class editclothes extends AppCompatActivity {
         Log.e("CompleteAdd",clothesSeason);
 
         //8建立日期<<timeStamp>>
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date());
         Log.e("CompleteAdd",timeStamp);
 
+        addData(PicPath, clothesName, clothesType, tempLower, tempUpper, clothesSeason, timeStamp);
+        db.close();
     }
 
 
@@ -232,7 +268,7 @@ public class editclothes extends AppCompatActivity {
         db = openOrCreateDatabase(db_name, MODE_PRIVATE , null);
         String createTable = "CREATE TABLE IF NOT EXISTS "+
                 tb_name +
-                "(衣服編號 INTEGER NOT NULL , " +
+                "(衣服編號  INTEGER primary key autoincrement , " +
                 "衣服照片 TEXT NOT NULL , " +
                 "衣服名稱 TEXT , "+
                 "衣服類型  TEXT NOT NULL , " +
@@ -244,21 +280,20 @@ public class editclothes extends AppCompatActivity {
     }
 
     //加入db資料
-    private void addData(){
-//        ContentValues values = new ContentValues();
-//        values.put("衣服編號");
-//        values.put("衣服照片");
-//        values.put("衣服名稱");
-//        values.put("衣服類型");
-//        values.put("穿衣溫度_下限");
-//        values.put("穿衣溫度_上限");
-//        values.put("季節");
-//        values.put("建立日期");
+    private void addData(String picPath, String clothesName, String clothesType, Integer tempLower, Integer tempUpper,
+                         String clothesSeason, String timeStamp){
+        ContentValues values = new ContentValues();
+        //values.put("衣服編號",);
+        values.put("衣服照片", picPath);
+        values.put("衣服名稱", clothesName);
+        values.put("衣服類型", clothesType);
+        values.put("穿衣溫度_下限", tempLower);
+        values.put("穿衣溫度_上限", tempUpper);
+        values.put("季節", clothesSeason);
+        values.put("建立日期", timeStamp);
+
+        db.insert(tb_name,null,values);
 
     }
-
-
-
-
 
 }
