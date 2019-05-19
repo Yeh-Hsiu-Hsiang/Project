@@ -146,7 +146,7 @@
         app:srcCompat="@android:color/holo_purple" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/keepadd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="42dp"
@@ -154,16 +154,15 @@
         android:layout_marginBottom="48dp"
         android:text="繼續新增"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2" />
+        app:layout_constraintEnd_toStartOf="@+id/leave" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/leave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="65dp"
         android:layout_marginRight="65dp"
         android:layout_marginBottom="48dp"
-        android:onClick="CompleteAdd"
         android:text="完成離開"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

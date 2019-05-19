@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -58,6 +59,7 @@ public class AddClothes extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(AddClothes.this, editclothes.class);
                     startActivity(intent);
+
                 } else {
                     Toast.makeText(AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
                 }
