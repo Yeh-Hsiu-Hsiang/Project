@@ -142,15 +142,17 @@ public class editclothes extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.leave:
                     //回到管理頁面
+                    AddClothes.finishself.finish();
+                    Manageclothes.finishself.finish();
                     intent.setClass(editclothes.this  , Manageclothes.class);
                     startActivity(intent);
-
                     editclothes.this.finish();
 
                     break;
                 case R.id.keepadd:
                     //回到新增衣服頁面
-                    AddClothes.finishActivity();
+                    AddClothes.finishself.finish();
+                    //Manageclothes.finishself.finish();
                     intent.setClass(editclothes.this  , AddClothes.class);
                     startActivity(intent);
                     editclothes.this.finish();
