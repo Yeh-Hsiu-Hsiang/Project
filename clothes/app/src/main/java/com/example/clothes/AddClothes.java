@@ -36,17 +36,20 @@ public class AddClothes extends AppCompatActivity {
 
     private static final int takepic = 111;
     private static final int filepic = 222;
+
     Uri imguri;
     ImageView imv;
     ImageButton mAddGallery;
     Bitmap bmp;
-
+    //在別的activity中關閉自己的方法
+    public static AddClothes finishself = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
         bmp = null;
         init();
+        finishself = this;
 
         //去新增衣服(頁面)
         Button updata = (Button) findViewById(R.id.updata);
