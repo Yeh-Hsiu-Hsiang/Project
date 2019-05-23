@@ -1,10 +1,16 @@
 package com.example.clothes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,11 +30,11 @@ public class clothes1Fragment extends Fragment {
     static final String tb_name = "ManageClothes";
     static final String type = "長袖上衣";
     SQLiteDatabase db;
-    private View view;//定义view用来设置fragment的layout
-    public RecyclerView mCollectRecyclerView;//定义RecyclerView
-    //定义以goodsentity实体类为对象的数据集合
+    private View view;//定義view用來設置fragment的layout
+    public RecyclerView mCollectRecyclerView;//定義RecyclerView
+    //定義getClothesMember的集合
     private ArrayList<getClothesMember> clothesList = new ArrayList<getClothesMember>();
-    //自定义recyclerveiw的适配器
+    //自定義recyclerveiw的Adapter
     private MemberAdapter memberAdapter;
 
 
@@ -36,15 +42,15 @@ public class clothes1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_clothes1, container, false);
-        //对recycleview进行配置
+        //對recycleview進行重製
         initRecyclerView();
-        //模拟数据
+        //建立數據
         initData();
 
         return view;
     }
     private void initData(){
-        //List<getClothesMember> memberList = new ArrayList<>();
+
         //開啟或建立資料庫
         db = getActivity().openOrCreateDatabase(db_name, Context.MODE_PRIVATE , null);
         String createTable = "CREATE TABLE IF NOT EXISTS "+
@@ -68,7 +74,7 @@ public class clothes1Fragment extends Fragment {
                 String clothesName = c.getString(2);
                 String clothesType = c.getString(3);
 
-                if(clothesType.equals("長袖上衣")){//沒有判定成功????
+                if(clothesType.equals("長袖上衣")){
                     Log.e("getData",clothesType);
                     getclothesmember.setId(clothesID) ;
                     getclothesmember.setImgPath(clothesPIC);
@@ -88,7 +94,27 @@ public class clothes1Fragment extends Fragment {
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
         mCollectRecyclerView.setAdapter(memberAdapter);
         mCollectRecyclerView.setLayoutManager(new GridLayoutManager(getActivity() ,2,GridLayoutManager.VERTICAL,false));
+       //解決留白問題 用分隔線
+        mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
+        //點擊進入修改
+        //無法完整顯示?
     }
 
+    //RecyclerView的分隔線
+    public class MyPaddingDecoration extends RecyclerView.ItemDecoration {
+        private int divider;
+        public MyPaddingDecoration() {
+            //  設置分隔線寬度
+            divider = 10;
+        }
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.left = divider;  //相對於 設置 left padding
+            outRect.top = divider;   //相對於 設置 top padding
+            outRect.right = divider; //相對於 設置 right padding
+            outRect.bottom = divider;  //相對於 設置 bottom padding
+        }
+    }
 }
