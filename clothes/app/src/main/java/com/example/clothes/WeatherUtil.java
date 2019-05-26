@@ -25,10 +25,10 @@ public class WeatherUtil {
         /*** 省份页面（省）*/
         public static final String PROVINCE_URL = "http://m.weathercn.com/common/province.jsp";
         /*** 城市頁面<br/>* pid=%s中%s表示城市編號 例：http://m.weathercn.com/common/dis.do?pid=010101*/
-        public static final String DISTRICT_URL = "http://m.weathercn.com/common/dis.do?pid=%s";
+        public static final String DISTRICT_URL = "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0001-001?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=XML";
         /*** 區<br/>* did=%s中%s表示縣區編號<br/>* pid=%s中%s表示城市編號<br/>
          * 例：http://m.weathercn.com/common/cout.do?did=01010101&pid=010101*/
-        public static final String COUNTY_URL = "http://m.weathercn.com/common/cout.do?did=%s&pid=%s";
+        public static final String COUNTY_URL = "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=XML";
         /*** 7天天氣預報頁面<br/>
          * cid=%s中%s表示區編號<br/>
          * 例：http://m.weathercn.com/common/7d.do?cid=0101010110*/
