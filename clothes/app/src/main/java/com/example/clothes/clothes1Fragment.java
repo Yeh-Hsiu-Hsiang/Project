@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +30,15 @@ public class clothes1Fragment extends Fragment {
     //資料庫
     static final String db_name = "clothes.db";
     static final String tb_name = "ManageClothes";
-    static final String type = "長袖上衣";
+    static int count = 0;
     SQLiteDatabase db;
     private View view;//定義view用來設置fragment的layout
     public RecyclerView mCollectRecyclerView;//定義RecyclerView
     //定義getClothesMember的集合
-    private ArrayList<getClothesMember> clothesList = new ArrayList<getClothesMember>();
+    private ArrayList<getClothesMember> clothesList;
     //自定義recyclerveiw的Adapter
     private MemberAdapter memberAdapter;
+   // String text = null;
 
 
     @Override
@@ -43,12 +46,27 @@ public class clothes1Fragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_clothes1, container, false);
         //對recycleview進行重製
-        initRecyclerView();
-        //建立數據
-        initData();
+//        initData();
+//        initRecyclerView();
+//        //建立數據
+
 
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (clothesList != null)
+            clothesList=null;
+
+        clothesList = new ArrayList<>();
+        initData();
+        initRecyclerView();
+        //建立數據
+
+    }
+
     private void initData(){
 
         //開啟或建立資料庫
@@ -82,12 +100,15 @@ public class clothes1Fragment extends Fragment {
                     clothesList.add(new getClothesMember(clothesID,
                             clothesPIC,
                             clothesName));
-
+                    count++;
                 }
             } while(c.moveToNext());    // 有一下筆就繼續迴圈
         }
 
         db.close();
+        Log.e("count","fragmant"+Integer.toString(count));
+        count = 0;
+        //點別的fragment再回來會重新再載入??
     }
     private void initRecyclerView(){
         mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
@@ -98,7 +119,17 @@ public class clothes1Fragment extends Fragment {
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
         //點擊進入修改
+        memberAdapter.setOnItemClickListener(new MemberAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view ,getClothesMember data) {
+                //此處進行監聽事件的動作處理
+                Toast.makeText(getActivity(),data.id,Toast.LENGTH_SHORT).show();
+            }
+        });
+
         //無法完整顯示?
+
+
     }
 
     //RecyclerView的分隔線
