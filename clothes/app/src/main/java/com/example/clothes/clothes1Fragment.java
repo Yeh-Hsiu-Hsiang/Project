@@ -127,6 +127,8 @@ public class clothes1Fragment extends Fragment {
 
         //點擊進入修改
         //無法完整顯示?
+
+
     }
 
     //RecyclerView的分隔線
