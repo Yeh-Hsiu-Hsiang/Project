@@ -49,6 +49,7 @@ public class editclothes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editclothes);
+
         //完成後選項
         final Button Leave = (Button)findViewById(R.id.leave);
         final Button backAdd = (Button)findViewById(R.id.keepadd);
@@ -95,7 +96,7 @@ public class editclothes extends AppCompatActivity {
         });
 
 
-        //建立選擇器資料
+        //建立選擇器資料(溫度區間)
         initOptionData();
         //建立選擇器
         pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
