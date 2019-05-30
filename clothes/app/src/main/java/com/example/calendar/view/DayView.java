@@ -24,9 +24,9 @@ public abstract class DayView extends RelativeLayout implements IDayRenderer {
     protected int layoutResource;
 
     /**
-     * 构造器 传入资源文件创建DayView
+     *構造器 傳入資源文件創建DayView
      *
-     * @param layoutResource 资源文件
+     * @param layoutResource 資源文件
      * @param context 上下文
      */
     public DayView(Context context, int layoutResource) {
@@ -37,10 +37,10 @@ public abstract class DayView extends RelativeLayout implements IDayRenderer {
     }
 
     /**
-     * 为自定义的DayView设置资源文件
+     * 為自定義的DayView設置資源文件
      *
-     * @param layoutResource 资源文件
-     * @return CalendarDate 修改后的日期
+     * @param layoutResource 資源文件
+     * @return CalendarDate 修改後的日期
      */
     private void setupLayoutResource(int layoutResource) {
         View inflated = LayoutInflater.from(getContext()).inflate(layoutResource, this);

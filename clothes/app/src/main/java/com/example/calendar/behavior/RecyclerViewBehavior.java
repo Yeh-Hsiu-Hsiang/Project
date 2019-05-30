@@ -77,10 +77,10 @@ public class RecyclerViewBehavior extends CoordinatorLayout.Behavior<RecyclerVie
             return;
         }
 
-        // 上滑，正在隐藏顶部的日历
+        // 上滑，正在隐藏頂部的日曆
         hidingTop = dy > 0 && child.getTop() <= initOffset
                 && child.getTop() > getMonthPager(coordinatorLayout).getCellHeight();
-        // 下滑，正在展示顶部的日历
+        // 下滑，正在展示頂部的日曆
         showingTop = dy < 0 && !ViewCompat.canScrollVertically(target, -1);
 
         if (hidingTop || showingTop) {
@@ -114,13 +114,13 @@ public class RecyclerViewBehavior extends CoordinatorLayout.Behavior<RecyclerVie
 
     @Override
     public boolean onNestedFling(CoordinatorLayout coordinatorLayout, RecyclerView child, View target, float velocityX, float velocityY, boolean consumed) {
-        Log.d("ldf", "onNestedFling: velocityY: " + velocityY);
+        Log.d("example", "onNestedFling: velocityY: " + velocityY);
         return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
     }
 
     @Override
     public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, RecyclerView child, View target, float velocityX, float velocityY) {
-        // 日历隐藏和展示过程，不允许RecyclerView进行fling
+        // 日曆隱藏和展示過程，不允许RecyclerView進行fling
         if (hidingTop || showingTop) {
             return true;
         } else {

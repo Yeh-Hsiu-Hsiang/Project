@@ -6,12 +6,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+
+import org.json.JSONObject;
+
+import static com.example.clothes.json_test.loadJson;
 
 public class Weekweather extends AppCompatActivity {
 
     private Button btn1; //宣告Button
     private EditText txt1; //宣告EditText
+    private TextView tv1; //宣告TextView
+
+    public void main(String[] args) {
+        String url = "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0003-001?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON";
+        String json = loadJson(url);
+        System.out.println(json);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +33,7 @@ public class Weekweather extends AppCompatActivity {
 
         btn1 = (Button) findViewById(R.id.enter);  //取得Button
         txt1 = (EditText) findViewById(R.id.CityName); //取得EditText
+        tv1 = (TextView) findViewById(R.id.json_test);
 
         btn1.setOnClickListener(new View.OnClickListener() {
 
@@ -31,6 +45,7 @@ public class Weekweather extends AppCompatActivity {
                 Log.d("debug", "button click");
                 //使用Toast顯示在螢幕上
                 Toast.makeText(Weekweather.this, content, Toast.LENGTH_SHORT).show();
+//                tv1.setText(json.get("CITY"));
             }
         });
 

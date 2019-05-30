@@ -18,13 +18,13 @@ import com.example.calendar.Utils;
 @SuppressLint("ViewConstructor")
 public class Calendar extends View {
     /**
-     * 日历列数
+     * 日曆列數
      */
     private CalendarAttr.CalendarType calendarType;
-    private int cellHeight; // 单元格高度
-    private int cellWidth; // 单元格宽度
+    private int cellHeight; // 格高度
+    private int cellWidth; // 格寬度
 
-    private OnSelectDateListener onSelectDateListener;    // 单元格点击回调事件
+    private OnSelectDateListener onSelectDateListener;    // 格點擊事件
     private Context context;
     private CalendarAttr calendarAttr;
     private CalendarRenderer renderer;
@@ -72,7 +72,7 @@ public class Calendar extends View {
     private float posY = 0;
 
     /*
-     * 触摸事件为了确定点击的位置日期
+     * 接觸事件為了确定點擊的位置日期
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
