@@ -19,9 +19,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import org.json.JSONObject;
+
 public class WeatherUtil {
 
-
+        /*** 現在天氣*/
+        public static final String NOW_URL = "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0003-001?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON";
         /*** 省份页面（省）*/
         public static final String PROVINCE_URL = "http://m.weathercn.com/common/province.jsp";
         /*** 城市頁面<br/>* pid=%s中%s表示城市編號 例：http://m.weathercn.com/common/dis.do?pid=010101*/

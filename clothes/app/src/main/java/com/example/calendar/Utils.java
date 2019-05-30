@@ -32,11 +32,11 @@ public final class Utils {
     }
 
     /**
-     * 得到某一个月的具体天数
+     * 得到某一个月的具體天數
      *
-     * @param year  参数月所在年
-     * @param month 参数月
-     * @return int 参数月所包含的天数
+     * @param year  年
+     * @param month 月
+     * @return int 月所包含的天數
      */
     public static int getMonthDays(int year, int month) {
         if (month > 12) {
@@ -48,7 +48,7 @@ public final class Utils {
         }
         int[] monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         int days = 0;
-        // 闰年2月29天
+        // 閏年2月29天
         if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
             monthDays[1] = 29;
         }
@@ -75,9 +75,9 @@ public final class Utils {
     /**
      * 得到当前月第一天在其周的位置
      *
-     * @param year  当前年
-     * @param month 当前月
-     * @param type  周排列方式 0代表周一作为本周的第一天， 2代表周日作为本周的第一天
+     * @param year  當前年
+     * @param month 當前月
+     * @param type  周排列方式 0代表周一作為本周的第一天， 2代表周日作為本周的第一天
      * @return int 本月第一天在其周的位置
      */
     public static int getFirstDayWeekPosition(int year, int month, CalendarAttr.WeekArrayType type) {
@@ -96,11 +96,11 @@ public final class Utils {
     }
 
     /**
-     * 将yyyy-MM-dd类型的字符串转化为对应的Date对象
+     * 将yyyy-MM-dd類型的字串轉化為對應的Date對象
      *
-     * @param year  当前年
-     * @param month 当前月
-     * @return Date  对应的Date对象
+     * @param year  當前年
+     * @param month 當前月
+     * @return Date  對應的Date對象
      */
     @SuppressLint("SimpleDateFormat")
     public static Date getDateFromString(int year, int month) {
@@ -116,12 +116,12 @@ public final class Utils {
     }
 
     /**
-     * 计算参数日期月与当前月相差的月份数
+     * 計算日期月與當前月相差的月份數
      *
-     * @param year        参数日期所在年
-     * @param month       参数日期所在月
-     * @param currentDate 当前月
-     * @return int offset 相差月份数
+     * @param year        日期所在年
+     * @param month       日期所在月
+     * @param currentDate 當前月
+     * @return int offset 相差月份數
      */
     public static int calculateMonthOffset(int year, int month, CalendarDate currentDate) {
         int currentYear = currentDate.getYear();
@@ -131,21 +131,21 @@ public final class Utils {
     }
 
     /**
-     * 删除方法, 这里只会删除某个文件夹下的文件，如果传入的directory是个文件，将不做处理
+     * 删除方法, 這裡只会删除某个文件夹下的文件，如果傳入的directory是个文件，將不做處理
      *
      * @param context 上下文
-     * @param dpi     dp为单位的尺寸
-     * @return int 转化而来的对应像素
+     * @param dpi     dp为單位的尺寸
+     * @return int 轉化而来的對應像素
      */
     public static int dpi2px(Context context, float dpi) {
         return (int) (context.getResources().getDisplayMetrics().density * dpi + 0.5f);
     }
 
     /**
-     * 得到标记日期数据，可以通过该数据得到标记日期的信息，开发者可自定义格式
+     * 得到標記日期數據，可以通過該數據得到標記日期的信息，开发者可自定義格式
      * 目前HashMap<String, String>的组成仅仅是为了DEMO效果
      *
-     * @return HashMap<String, String> 标记日期数据
+     * @return HashMap<String, String> 標記日期數據
      */
     public static HashMap<String, String> loadMarkData() {
         return markData;
@@ -154,7 +154,7 @@ public final class Utils {
     /**
      * 设置标记日期数据
      *
-     * @param data 标记日期数据
+     * @param data 標記日期數據
      * @return void
      */
     public static void setMarkData(HashMap<String, String> data) {
@@ -166,7 +166,7 @@ public final class Utils {
     }
 
     /**
-     * 计算偏移距离
+     * 計算偏移距離
      *
      * @param offset 偏移值
      * @param min    最小偏移值
@@ -184,10 +184,10 @@ public final class Utils {
     }
 
     /**
-     * 删除方法, 这里只会删除某个文件夹下的文件，如果传入的directory是个文件，将不做处理
+     * 刪除方法, 這裡只会刪除某個文件夹下的文件，如果傳入的directory是個文件，將不做處理
      *
-     * @param child     需要移动的View
-     * @param dy        实际偏移量
+     * @param child     需要移動的View
+     * @param dy        時技偏移量
      * @param minOffset 最小偏移量
      * @param maxOffset 最大偏移量
      * @return void
@@ -203,19 +203,19 @@ public final class Utils {
      * 得到TouchSlop
      *
      * @param context 上下文
-     * @return int touchSlop的具体值
+     * @return int touchSlop的具體值
      */
     public static int getTouchSlop(Context context) {
         return ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
     /**
-     * 得到种子日期所在周的周日
+     * 得到目標日期所在周的周日
      *
-     * @param seedDate 种子日期
+     * @param seedDate 目標日期
      * @return CalendarDate 所在周周日
      */
-    public static CalendarDate getSunday(CalendarDate seedDate) {// TODO: 16/12/12 得到一个CustomDate对象
+    public static CalendarDate getSunday(CalendarDate seedDate) {// TODO: 16/12/12 得到一個CustomDate對象
         Calendar c = Calendar.getInstance();
         String dateString = seedDate.toString();
         Date date = new Date();
@@ -235,12 +235,12 @@ public final class Utils {
     }
 
     /**
-     * 得到种子日期所在周的周六
+     * 得到目標日期所在周的周六
      *
-     * @param seedDate 种子日期
+     * @param seedDate 目標日期
      * @return CalendarDate 所在周周六
      */
-    public static CalendarDate getSaturday(CalendarDate seedDate) {// TODO: 16/12/12 得到一个CustomDate对象
+    public static CalendarDate getSaturday(CalendarDate seedDate) {// TODO: 16/12/12 得到一個CustomDate對象
         Calendar c = Calendar.getInstance();
         String dateString = seedDate.toString();
         Date date = null;
@@ -261,16 +261,16 @@ public final class Utils {
     private static boolean customScrollToBottom = false;
 
     /**
-     * 判断上一次滑动改变周月日历是向下滑还是向上滑 向下滑表示切换为月日历模式 向上滑表示切换为周日历模式
+     * 判断上一次滑动改變周月日曆是向下滑還是向上滑 向下滑表示切换為月日曆模式 向上滑表示切换為周日曆模式
      *
-     * @return boolean 是否是在向下滑动。(true: 已经收缩; false: 已经打开）
+     * @return boolean 是否是在向下滑動。(true: 已经收縮; false: 已经打開）
      */
     public static boolean isScrollToBottom() {
         return customScrollToBottom;
     }
 
     /**
-     * 设置上一次滑动改变周月日历是向下滑还是向上滑 向下滑表示切换为月日历模式 向上滑表示切换为周日历模式
+     * 設置上一次滑動改變周月日曆是向下滑還是向上滑 向下滑表示切换為月日曆模式 向上滑表示切换為周日曆模式
      *
      * @return void
      */
@@ -279,22 +279,22 @@ public final class Utils {
     }
 
     /**
-     * 通过scrollTo方法完成协调布局的滑动，其中主要使用了ViewCompat.postOnAnimation
+     * 通過scrollTo方法完成協調布局的滑動，其中主要使用了ViewCompat.postOnAnimation
      *
-     * @param parent   协调布局parent
-     * @param child    协调布局协调滑动的child
-     * @param y        滑动目标位置y轴数值
-     * @param duration 滑动执行时间
+     * @param parent   協調布局parent
+     * @param child    協調布局協調滑動的child
+     * @param y        滑動目標位置y軸數值
+     * @param duration 滑動執行時間
      * @return void
      */
     public static void scrollTo(final CoordinatorLayout parent, final RecyclerView child, final int y, int duration) {
         final Scroller scroller = new Scroller(parent.getContext());
-        scroller.startScroll(0, top, 0, y - top, duration);   //设置scroller的滚动偏移量
+        scroller.startScroll(0, top, 0, y - top, duration);   //設置scroller的滾動偏移量
         ViewCompat.postOnAnimation(child, new Runnable() {
             @Override
             public void run() {
-                //返回值为boolean，true说明滚动尚未完成，false说明滚动已经完成。
-                // 这是一个很重要的方法，通常放在View.computeScroll()中，用来判断是否滚动是否结束。
+                //返回值為boolean，true說明滾動尚未完成，false說明滾動已經完成。
+                // 這是一個很重要的方法，通常放在View.computeScroll()中，用来判斷是否滾動是否结束。
                 if (scroller.computeScrollOffset()) {
                     int delta = scroller.getCurrY() - child.getTop();
                     child.offsetTopAndBottom(delta);

@@ -33,9 +33,9 @@ public class CalendarDate implements Serializable {
     }
 
     /**
-     * 通过修改当前Date对象的天数返回一个修改后的Date
+     * 通過修改當前Date對象的天數返回一个修改後的Date
      *
-     * @return CalendarDate 修改后的日期
+     * @return CalendarDate 修改後的日期
      */
     public CalendarDate modifyDay(int day) {
         int lastMonthDays = Utils.getMonthDays(this.year, this.month - 1);
@@ -44,22 +44,22 @@ public class CalendarDate implements Serializable {
         CalendarDate modifyDate;
         if (day > currentMonthDays) {
             modifyDate = new CalendarDate(this.year, this.month, this.day);
-            Log.e("ldf", "移动天数过大");
+            Log.e("weather", "移動天數過大");
         } else if (day > 0) {
             modifyDate = new CalendarDate(this.year, this.month, day);
         } else if (day > 0 - lastMonthDays) {
             modifyDate = new CalendarDate(this.year, this.month - 1, lastMonthDays + day);
         } else {
             modifyDate = new CalendarDate(this.year, this.month, this.day);
-            Log.e("ldf", "移动天数过大");
+            Log.e("weather", "移動天數過大");
         }
         return modifyDate;
     }
 
     /**
-     * 通过修改当前Date对象的所在周返回一个修改后的Date
+     * 通過修改當前Date對象的所在周返回一个修改後的Date
      *
-     * @return CalendarDate 修改后的日期
+     * @return CalendarDate 修改後的日期
      */
     public CalendarDate modifyWeek(int offset) {
         CalendarDate result = new CalendarDate();
@@ -75,9 +75,9 @@ public class CalendarDate implements Serializable {
     }
 
     /**
-     * 通过修改当前Date对象的所在月返回一个修改后的Date
+     * 通過修改當前Date對象的所在月返回一个修改後的Date
      *
-     * @return CalendarDate 修改后的日期
+     * @return CalendarDate 修改後的日期
      */
     public CalendarDate modifyMonth(int offset) {
         CalendarDate result = new CalendarDate();

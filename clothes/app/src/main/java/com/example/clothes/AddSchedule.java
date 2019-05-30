@@ -72,13 +72,14 @@ public class AddSchedule extends AppCompatActivity {
         initCurrentDate();
         initCalendarView();
         initToolbarClickListener();
-        Log.e("ldf","OnCreated");
+        Log.e("example","OnCreated");
     }
 
     /**
      * @return void
      */
     @Override
+    //選擇月份
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && !initiated) {
@@ -92,12 +93,8 @@ public class AddSchedule extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
-
-    /**
-     * ???笆摨??賜?listener
-     *
-     * @return void
      */
+    //監聽日期按鍵
     private void initToolbarClickListener() {
         backToday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,19 +134,14 @@ public class AddSchedule extends AppCompatActivity {
         });
     }
 
-    /**
-     * ???urrentDate
-     *
-     * @return void
-     */
+   //現在日期
     private void initCurrentDate() {
         currentDate = new CalendarDate();
         tvYear.setText(currentDate.getYear() + "年");
                 tvMonth.setText(currentDate.getMonth() + "");
     }
 
-    /**
-     * ???ustomDayView嚗僎雿蛹CalendarViewAdapter???唬???     */
+    //使用者自選定日期
     private void initCalendarView() {
         initListener();
         CustomDayView customDayView = new CustomDayView(context, R.layout.custom_day);
@@ -167,7 +159,7 @@ public class AddSchedule extends AppCompatActivity {
         initMarkData();
         initMonthPager();
     }
-
+//設定數據
     private void initMarkData() {
         HashMap<String, String> markData = new HashMap<>();
         markData.put("2017-8-9", "1");
@@ -191,7 +183,7 @@ public class AddSchedule extends AppCompatActivity {
         };
     }
 
-
+//年份設定
     private void refreshClickDate(CalendarDate date) {
         currentDate = date;
         tvYear.setText(date.getYear() + "年");
@@ -199,7 +191,6 @@ public class AddSchedule extends AppCompatActivity {
     }
 
     /**
-     * ???onthPager嚗onthPager蝏扳?杼iewPager
      *
      * @return void
      */

@@ -54,14 +54,14 @@ public class MonthPagerBehavior extends CoordinatorLayout.Behavior<MonthPager> {
                     }
 
                     if (lastTop < child.getViewHeight() / 2 + child.getCellHeight() / 2) {
-                        //这里表示本来是收缩状态
+                        //本是收縮狀態
                         if (ev.getY() - downY <= 0 || Utils.loadTop() >= child.getViewHeight()) {
-                            //向上滑或者已展开了
+                            //向上滑或者已展開了
                             lastY = ev.getY();
                             return true;
                         }
                         if (ev.getY() - downY + child.getCellHeight() >= child.getViewHeight()) {
-                            //将要滑过头了
+                            //'將要滑過頭了
                             saveTop(child.getViewHeight());
                             Utils.scrollTo(parent, (RecyclerView) parent.getChildAt(1), child.getViewHeight(), 10);
                             isVerticalScroll = false;
@@ -78,7 +78,7 @@ public class MonthPagerBehavior extends CoordinatorLayout.Behavior<MonthPager> {
                         }
 
                         if (ev.getY() - downY + child.getViewHeight() <= child.getCellHeight()) {
-                            //将要滑过头了
+                            //將要滑過頭了
                             saveTop(child.getCellHeight());
                             Utils.scrollTo(parent, (RecyclerView) parent.getChildAt(1), child.getCellHeight(), 10);
                             isVerticalScroll = false;
@@ -159,7 +159,7 @@ public class MonthPagerBehavior extends CoordinatorLayout.Behavior<MonthPager> {
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, MonthPager child, View dependency) {
         CalendarViewAdapter calendarViewAdapter = (CalendarViewAdapter) child.getAdapter();
-        //dependency对其依赖的view(本例依赖的view是RecycleView)
+        //dependency對其依賴的view(本例依赖的view是RecycleView)
         if (dependentViewTop != -1) {
             int dy = dependency.getTop() - dependentViewTop;
             int top = child.getTop();
@@ -178,7 +178,7 @@ public class MonthPagerBehavior extends CoordinatorLayout.Behavior<MonthPager> {
             }
 
             child.offsetTopAndBottom(dy);
-            Log.e("ldf", "onDependentViewChanged = " + dy);
+            Log.e("example", "onDependentViewChanged = " + dy);
 
         }
 
@@ -210,6 +210,6 @@ public class MonthPagerBehavior extends CoordinatorLayout.Behavior<MonthPager> {
         }
 
         return true;
-        // TODO: 16/12/8 dy为负时表示向上滑动，dy为正时表示向下滑动，dy为零时表示滑动停止
+        // TODO: 16/12/8 dy為負時表示向上滑動，dy為正時表示向下滑動，dy為0时表示滑動停止
     }
 }

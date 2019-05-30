@@ -19,14 +19,14 @@ import com.example.calendar.view.Week;
  */
 
 public class CalendarRenderer {
-    private Week weeks[] = new Week[Const.TOTAL_ROW];    // 行数组，每个元素代表一行
+    private Week weeks[] = new Week[Const.TOTAL_ROW];    // 行數，每个元素代表一行
     private Calendar calendar;
     private CalendarAttr attr;
     private IDayRenderer dayRenderer;
     private Context context;
-    private OnSelectDateListener onSelectDateListener;    // 单元格点击回调事件
-    private CalendarDate seedDate; //种子日期
-    private CalendarDate selectedDate; //被选中的日期
+    private OnSelectDateListener onSelectDateListener;    // 單元格點擊回調事件
+    private CalendarDate seedDate; //日期
+    private CalendarDate selectedDate; //被選中的日期
     private int selectedRowIndex = 0;
 
     public CalendarRenderer(Calendar calendar, CalendarAttr attr, Context context) {
@@ -36,7 +36,7 @@ public class CalendarRenderer {
     }
 
     /**
-     * 使用dayRenderer绘制每一天
+     * 使用dayRenderer繪製每一天
      *
      * @return void
      */
@@ -53,7 +53,7 @@ public class CalendarRenderer {
     }
 
     /**
-     * 点击某一天时刷新这一天的状态
+     * 點擊某一天時刷新這一天的狀態
      *
      * @return void
      */
@@ -90,9 +90,9 @@ public class CalendarRenderer {
     }
 
     /**
-     * 刷新指定行的周数据
+     * 刷新指定行的周數據
      *
-     * @param rowIndex  参数月所在年
+     * @param rowIndex  參數月所在年
      * @return void
      */
     public void updateWeek(int rowIndex) {
@@ -128,18 +128,18 @@ public class CalendarRenderer {
     }
 
     /**
-     * 填充月数据
+     * 填充月數據
      *
      * @return void
      */
     private void instantiateMonth() {
-        int lastMonthDays = Utils.getMonthDays(seedDate.year, seedDate.month - 1);    // 上个月的天数
-        int currentMonthDays = Utils.getMonthDays(seedDate.year, seedDate.month);    // 当前月的天数
+        int lastMonthDays = Utils.getMonthDays(seedDate.year, seedDate.month - 1);    // 上個月的天數
+        int currentMonthDays = Utils.getMonthDays(seedDate.year, seedDate.month);    // 當前月的天數
         int firstDayPosition = Utils.getFirstDayWeekPosition(
                 seedDate.year,
                 seedDate.month,
                 attr.getWeekArrayType());
-        Log.e("ldf","firstDayPosition = " + firstDayPosition);
+        Log.e("example","firstDayPosition = " + firstDayPosition);
 
         int day = 0;
         for (int row = 0; row < Const.TOTAL_ROW; row++) {
@@ -160,7 +160,7 @@ public class CalendarRenderer {
     }
 
     /**
-     * 填充月中周数据
+     * 填充月中周數據
      *
      * @return void
      */
@@ -170,7 +170,7 @@ public class CalendarRenderer {
                          int day,
                          int row) {
         for (int col = 0; col < Const.TOTAL_COL; col++) {
-            int position = col + row * Const.TOTAL_COL;// 单元格位置
+            int position = col + row * Const.TOTAL_COL;// 單元格位置
             if (position >= firstDayWeek && position < firstDayWeek + currentMonthDays) {
                 day++;
                 fillCurrentMonthDate(day, row, col);
@@ -226,8 +226,8 @@ public class CalendarRenderer {
         } else {
             weeks[row].days[col] = new Day(State.NEXT_MONTH, date, row, col);
         }
-        // TODO: 17/6/27  当下一个月的天数大于七时，说明该月有六周
-//        if(position - firstDayWeek - currentMonthDays + 1 >= 7) { //当下一个月的天数大于七时，说明该月有六周
+        // TODO: 17/6/27  當下一個月的天數大於七時，說明該月有六周
+//        if(position - firstDayWeek - currentMonthDays + 1 >= 7) { //當下一個月的天數大於七時，說明該月有六周
 //        }
     }
 

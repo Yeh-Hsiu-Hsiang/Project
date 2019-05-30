@@ -12,8 +12,8 @@ public class CalendarAttr {
     private WeekArrayType weekArrayType;
 
     /**
-     * 日历周布局或者月布局:<br/>
-     * {@link CalendarType} 布局类型<br/>
+     * 日曆周布局或者月布局:<br/>
+     * {@link CalendarType} 布局類型<br/>
      */
     private CalendarType calendarType;
 
@@ -23,7 +23,7 @@ public class CalendarAttr {
     private int cellHeight;
 
     /**
-     * 日期格子宽度
+     * 日期格子寬度
      */
     private int cellWidth;
 
@@ -60,8 +60,8 @@ public class CalendarAttr {
     }
 
     public enum WeekArrayType {
-        /*周日作为本周的第一天*/Sunday,
-        /*周一作为本周的第一天*/Monday
+        /*周日作為本周的第一天*/Sunday,
+        /*周一作為本周的第一天*/Monday
     }
 
     public enum CalendarType {

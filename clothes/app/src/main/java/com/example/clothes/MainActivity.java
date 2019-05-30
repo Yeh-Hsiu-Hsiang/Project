@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //去衣服管理(頁面)
+        //去管理衣服(頁面)
         Button manageclothes = (Button)findViewById(R.id.Manageclothes);
         manageclothes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+//        //去新增衣服(頁面)
+//        Button addclothes = (Button)findViewById(R.id.Addclothes);
+//        addclothes.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setClass(MainActivity.this  , AddClothes.class);
+//                startActivity(intent);
+//            }
+//        });
 
         //去個人設定(頁面)
         Button mysetting = (Button)findViewById(R.id.Mysetting);
@@ -69,17 +79,18 @@ public class MainActivity extends AppCompatActivity {
         final Button button1 = (Button) findViewById(R.id.AddSchedule);
         final Button button2 = (Button) findViewById(R.id.Weekweather);
         final Button button3 = (Button) findViewById(R.id.Manageclothes);
-        final Button button4 = (Button) findViewById(R.id.View_wearing);
-        final Button button5 = (Button) findViewById(R.id.Mysetting);
+        //final Button button4 = (Button) findViewById(R.id.Addclothes);
+        final Button button5 = (Button) findViewById(R.id.View_wearing);
+        final Button button6 = (Button) findViewById(R.id.Mysetting);
 
         if (openlist) {
             //出現(動畫)
-            final TranslateAnimation am1 = new TranslateAnimation(0, -250, 0, -500);
+            final TranslateAnimation am1 = new TranslateAnimation(0, -450, 0, -500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
             button1.startAnimation(am1);
 
-            final TranslateAnimation am2 = new TranslateAnimation(0, -150, 0, -600);
+            final TranslateAnimation am2 = new TranslateAnimation(0, -225, 0, -600);
             am2.setDuration(1000);
             button2.setAnimation(am2);
             button2.startAnimation(am2);
@@ -89,15 +100,20 @@ public class MainActivity extends AppCompatActivity {
             button3.setAnimation(am3);
             button3.startAnimation(am3);
 
-            final TranslateAnimation am4 = new TranslateAnimation(0, 150, 0, -600);
-            am4.setDuration(1000);
-            button4.setAnimation(am4);
-            button4.startAnimation(am4);
+//            final TranslateAnimation am4 = new TranslateAnimation(0, 90, 0, -700);
+//            am4.setDuration(1000);
+//            button4.setAnimation(am4);
+//            button4.startAnimation(am4);
 
-            final TranslateAnimation am5 = new TranslateAnimation(0, 250, 0, -500);
+            final TranslateAnimation am5 = new TranslateAnimation(0, 225, 0, -600);
             am5.setDuration(1000);
             button5.setAnimation(am5);
             button5.startAnimation(am5);
+
+            final TranslateAnimation am6 = new TranslateAnimation(0, 450, 0, -500);
+            am6.setDuration(1000);
+            button6.setAnimation(am6);
+            button6.startAnimation(am6);
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -105,33 +121,36 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     //出現(移動)
                     //過1秒後要做的事情
-                    button1.setTranslationX(-250);
+                    button1.setTranslationX(-450);
                     button1.setTranslationY(-500);
                     am1.cancel();
-                    button2.setTranslationX(-150);
+                    button2.setTranslationX(-225);
                     button2.setTranslationY(-600);
                     am2.cancel();
-                    button3.setTranslationX( 0);
+                    button3.setTranslationX(0);
                     button3.setTranslationY(-700);
                     am3.cancel();
-                    button4.setTranslationX( 150);
-                    button4.setTranslationY(-600);
-                    am4.cancel();
-                    button5.setTranslationX( 250);
-                    button5.setTranslationY(-500);
+//                    button4.setTranslationX(90);
+//                    button4.setTranslationY(-700);
+//                    am4.cancel();
+                    button5.setTranslationX(225);
+                    button5.setTranslationY(-600);
                     am5.cancel();
+                    button6.setTranslationX(450);
+                    button6.setTranslationY(-500);
+                    am6.cancel();
                     //Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
                 }
             }, 1000);
             openlist = false;
         }else{
             //歸位(動畫)
-            final TranslateAnimation am1 = new TranslateAnimation(0, 250, 0, 500);
+            final TranslateAnimation am1 = new TranslateAnimation(0, 450, 0, 500);
             am1.setDuration(1000);
             button1.setAnimation(am1);
             button1.startAnimation(am1);
 
-            final TranslateAnimation am2 = new TranslateAnimation(0, 150, 0, 600);
+            final TranslateAnimation am2 = new TranslateAnimation(0, 225, 0, 600);
             am2.setDuration(1000);
             button2.setAnimation(am2);
             button2.startAnimation(am2);
@@ -141,15 +160,20 @@ public class MainActivity extends AppCompatActivity {
             button3.setAnimation(am3);
             button3.startAnimation(am3);
 
-            final TranslateAnimation am4 = new TranslateAnimation(0, -150, 0, 600);
-            am4.setDuration(1000);
-            button4.setAnimation(am4);
-            button4.startAnimation(am4);
+//            final TranslateAnimation am4 = new TranslateAnimation(0, -90, 0, 700);
+//            am4.setDuration(1000);
+//            button4.setAnimation(am4);
+//            button4.startAnimation(am4);
 
-            final TranslateAnimation am5 = new TranslateAnimation(0, -250, 0, 500);
+            final TranslateAnimation am5 = new TranslateAnimation(0, -225, 0, 600);
             am5.setDuration(1000);
             button5.setAnimation(am5);
             button5.startAnimation(am5);
+
+            final TranslateAnimation am6 = new TranslateAnimation(0, -450, 0, 500);
+            am6.setDuration(1000);
+            button6.setAnimation(am6);
+            button6.startAnimation(am6);
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -167,23 +191,21 @@ public class MainActivity extends AppCompatActivity {
                     button3.setTranslationX(0);
                     button3.setTranslationY(0);
                     am3.cancel();
-                    button4.setTranslationX(0);
-                    button4.setTranslationY(0);
-                    am4.cancel();
-                    button4.setTranslationX(0);
-                    button4.setTranslationY(0);
-                    am4.cancel();
+//                    button4.setTranslationX(0);
+//                    button4.setTranslationY(0);
+//                    am4.cancel();
                     button5.setTranslationX(0);
                     button5.setTranslationY(0);
                     am5.cancel();
+                    button6.setTranslationX(0);
+                    button6.setTranslationY(0);
+                    am6.cancel();
                     //Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_SHORT).show();
                 }
             }, 1000);
             openlist = true;
         }
     }
-
-
 }
 
 
