@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -128,12 +130,53 @@ public class editclothes extends AppCompatActivity {
         OpenDB();
     }
 
+    private void paletteBitmap(Bitmap bitmap) {
+        final ImageView pcolor = (ImageView)findViewById(R.id.imageView3);
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                //Palette.Swatch swatch = palette.getMutedSwatch();
+                Palette.Swatch swatch = palette.getVibrantSwatch();
+                //Palette.Swatch swatch = palette.getDarkMutedSwatch();
+                //Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+                //Palette.Swatch swatch = palette.getLightMutedSwatch();
+                //Palette.Swatch swatch = palette.getLightVibrantSwatch();
+                if (swatch != null) {
+                    pcolor.setBackgroundColor(swatch.getRgb());
+                    //pcolor.setBackgroundColor(Color.parseColor("#F90F3D"));
+                } else {
+                    Log.e("smallsoho", "swatch为空");
+                }
+            }
+        });
+    }
+
     public void showPic(String picpath){
         ImageView imv = (ImageView)findViewById(R.id.clothesPic);
         Bitmap bitmap = BitmapFactory.decodeFile(picpath);
-
+        paletteBitmap(pathToBitmap(picpath, 800, 800));
         imv.setImageBitmap(bitmap);
     }
+
+    public Bitmap pathToBitmap(String path, int wantWidth, int wantHeight) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; // 设置为ture只获取图片大小
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        BitmapFactory.decodeFile(path, options); // 返回为空
+        int realWidth = options.outWidth;
+        int readlHeight = options.outHeight;
+        float scaleWidth = 0.f, scaleHeight = 0.f;
+        if (realWidth > wantWidth || readlHeight > wantHeight) { // 缩放
+            scaleWidth = ((float) realWidth) / wantWidth;
+            scaleHeight = ((float) readlHeight) / wantHeight;
+        }
+        options.inJustDecodeBounds = false;
+        float scale = Math.max(scaleWidth, scaleHeight);
+        options.inSampleSize = (int) scale;
+        WeakReference<Bitmap> weak = new WeakReference<>(BitmapFactory.decodeFile(path, options));
+        return Bitmap.createScaledBitmap(weak.get(), wantWidth, wantHeight, true);
+    }
+
 
     private View.OnClickListener LeaveOrAdd = new View.OnClickListener() {
         Intent intent = new Intent();
