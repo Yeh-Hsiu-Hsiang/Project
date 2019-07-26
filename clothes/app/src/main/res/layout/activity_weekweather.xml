@@ -1,140 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Weekweather">
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="408dp"
-        android:layout_height="110dp"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="45.0dip"
+        android:background="#00caca"
+        android:gravity="center_vertical">
 
-        <EditText
-            android:id="@+id/CityName"
-            android:layout_width="254dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:inputType="textPersonName"
-            android:text="城市"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/title_home_btn"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="45.0dip"
+            android:layout_height="45.0dip"
+            android:background="@null"
+            android:onClick="toHome"
+            android:visibility="visible"
+            android:src="@drawable/home" />
 
-        <Button
-            android:id="@+id/enter"
-            android:layout_width="149dp"
-            android:layout_height="103dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:text="確定"
-            app:layout_constraintStart_toEndOf="@+id/CityName"
-            app:layout_constraintTop_toTopOf="parent" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="408dp"
-        android:layout_height="110dp"
-        android:layout_marginBottom="500dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
 
         <ImageView
-            android:id="@+id/TemperatureImage"
-            android:layout_width="129dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:id="@+id/city_seperator"
+            android:layout_width="1.0dip"
+            android:layout_height="40dip"
+            android:layout_marginTop="2.0dip"
+            android:layout_toRightOf="@id/title_home_btn"
+            android:background="#A71717" />
 
         <TextView
-            android:id="@+id/temperature"
-            android:layout_width="287dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:text="C" />
-    </RelativeLayout>
+            android:id="@+id/title_city_name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@id/city_seperator"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dip"
+            android:text="天氣預測"
+            android:textColor="#ffffffff"
+            android:textSize="22.0sp" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout3"
-        android:layout_width="408dp"
-        android:layout_height="110dp"
-        android:layout_marginBottom="380dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
         <ImageView
-            android:id="@+id/TemperatureImage2"
-            android:layout_width="129dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            app:srcCompat="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/temperature2"
-            android:layout_width="287dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="2dp"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:text="C" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout4"
-        android:layout_width="408dp"
-        android:layout_height="110dp"
-        android:layout_marginBottom="260dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3">
+            android:id="@+id/title_local_btn"
+            android:layout_width="45.0dip"
+            android:layout_height="45.0dip"
+            android:layout_toLeftOf="@id/title_update_btn"
+            android:src="@drawable/local" />
 
         <ImageView
-            android:id="@+id/TemperatureImage3"
-            android:layout_width="129dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:id="@+id/title_location"
+            android:layout_width="45.0dip"
+            android:layout_height="45.0dip"
+            android:layout_toLeftOf="@id/title_local_btn"
+            android:src="@drawable/addclothes" />
 
-        <TextView
-            android:id="@+id/temperature3"
-            android:layout_width="287dp"
-            android:layout_height="match_parent"
+        <ImageButton
+            android:id="@+id/title_update_btn"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="45.0dip"
+            android:layout_height="45.0dip"
             android:layout_alignParentRight="true"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:text="C" />
+            android:layout_gravity="center"
+            android:background="@null"
+            android:onClick="reLoad"
+            android:visibility="visible"
+            android:src="@drawable/reload" />
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/title_local_btn"-->
+            <!--style="@style/Widget.AppCompat.ImageButton"-->
+            <!--android:layout_width="45.0dip"-->
+            <!--android:layout_height="45.0dip"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_toLeftOf="@id/title_update_btn"-->
+            <!--android:background="@null"-->
+            <!--android:onClick="location"-->
+            <!--android:visibility="visible"-->
+            <!--android:src="@drawable/local" />-->
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/title_location"-->
+            <!--style="@style/Widget.AppCompat.ImageButton"-->
+            <!--android:layout_width="45.0dip"-->
+            <!--android:layout_height="45.0dip"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_toLeftOf="@id/title_local_btn"-->
+            <!--android:background="@null"-->
+            <!--android:onClick="test"-->
+            <!--android:visibility="visible"-->
+            <!--android:src="@drawable/addclothes" />-->
+
+
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout5"
-        android:layout_width="408dp"
-        android:layout_height="110dp"
-        android:layout_marginBottom="260dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout4">
+    <EditText
+        android:id="@+id/CityName"
+        android:layout_width="274dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:layout_alignParentBottom="true"
+        android:inputType="textPersonName"
+        android:text="城市" />
 
-        <TextView
-            android:id="@+id/json_test"
-            android:layout_width="285dp"
-            android:layout_height="98dp"
-            android:text="json"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="371dp" />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="3dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:onClick="Click"
+        android:text="確定" />
 
+    <TextView
+        android:id="@+id/json"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="500dp"
+        android:layout_centerHorizontal="true"
+        android:text="json" />
 
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
