@@ -1,5 +1,6 @@
 package com.example.clothes;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -91,19 +92,34 @@ public class Weekweather extends AppCompatActivity {
                     String locationName = file.getString ( "locationName" );
                     // 天氣因子:Wx, PoP, CI, MinT, MaxT
                     String elementName = file.getString ( "elementName" );
-                    String time = file.getString ( "time" );
-                    if (elementName == "PoP" && time == "parameter") {
-                        // 降雨機率
-                        String parameterName = file.getString ( "parameterName" );
+                    // 降雨機率
+                    String parameter = file.getString ( "parameter" );
+                    if (elementName == "PoP") {
                         String info = file.getString ( "info" );
-                        Log.d ( "TAG", "降雨機率：" + parameterName + "%" );
+                        Log.d ( "TAG", "降雨機率：" + parameter + "%" );
                         Log.d ( "info", "otherInfo" + info );
-                        Log.d ( "TAG", "縣市名稱：" + locationName + "elementName:" + elementName + "降雨機率：" + parameterName + "%");
+                        Log.d ( "TAG", "縣市名稱：" + locationName + "elementName:" + elementName + "降雨機率：" + parameter + "%");
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace ();
             }
         }
+    }
+
+    // 回到主頁按鈕
+    public void toHome(View view) {
+                Intent intent = new Intent();
+                intent.setClass(Weekweather.this  , MainActivity.class);
+                startActivity(intent);
+                Weekweather.this.finish();
+    }
+
+    // 重新整理按鈕
+    public void reLoad(View view) {
+        Intent intent=new Intent(this, Weekweather.class);
+        startActivity(intent);
+        finish(); // 關閉此檔案
+        overridePendingTransition(0, 0);
     }
 }
