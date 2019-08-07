@@ -23,33 +23,29 @@ import java.net.URL;
 public class Weekweather extends AppCompatActivity {
 
     public Button ReadCity;
-    public TextView Json; // 用于展示读取xml的内容
+    public TextView Json; // 展示讀取 json 內容
     public TextView City; // 查詢城市
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        Log.d ( "after", "onCreate");
         setContentView( R.layout.activity_weekweather );
-        Log.d ( "ok", "setContentView");
 
-        // 城市按鈕
+        // 讀取城市按鈕
         ReadCity = (Button) findViewById(R.id.enter);
+        // 輸入城市
         City = (TextView) findViewById(R.id.CityName);
+        // 顯示結果
         Json = (TextView) findViewById(R.id.json);
 
-        // 讀取一般天氣預報-今明36小時天氣預報
-        new TransTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-003?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+        // 讀取今明36小時天氣預報
+        new TodayTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-003?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+        // 讀取各縣市一週天氣預報
+        //new WeekTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
     }
 
-    // 點擊按鈕顯示文字
-    public void Click(View view) {
-        String input = City.getText().toString();
-        Json.setText(input);
-    }
-
-    class TransTask extends AsyncTask<String, Void, String> {
-
+    //  取得伺服端傳來回應
+    class TodayTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             StringBuilder sb = new StringBuilder ();
@@ -94,12 +90,9 @@ public class Weekweather extends AppCompatActivity {
                     String elementName = file.getString ( "elementName" );
                     // 降雨機率
                     String parameter = file.getString ( "parameter" );
-                    if (elementName == "PoP") {
-                        String info = file.getString ( "info" );
-                        Log.d ( "TAG", "降雨機率：" + parameter + "%" );
-                        Log.d ( "info", "otherInfo" + info );
-                        Log.d ( "TAG", "縣市名稱：" + locationName + "elementName:" + elementName + "降雨機率：" + parameter + "%");
-                    }
+                    // 顯示數值
+                    Json.append("locationName"+"="+locationName+"\n");
+                    Json.append("---------------"+"\n");
                 }
             } catch (JSONException e) {
                 e.printStackTrace ();
@@ -121,5 +114,11 @@ public class Weekweather extends AppCompatActivity {
         startActivity(intent);
         finish(); // 關閉此檔案
         overridePendingTransition(0, 0);
+    }
+
+    // 點擊按鈕顯示文字
+    public void Click(View view) {
+        String input = City.getText().toString();
+        Json.setText(input);
     }
 }
