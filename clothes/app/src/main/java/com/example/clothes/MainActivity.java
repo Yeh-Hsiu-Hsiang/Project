@@ -8,8 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+
+import com.example.calendar.AddSchedule;
+import com.example.weather.weather;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this  , Weekweather.class);
+                intent.setClass(MainActivity.this  , weather.class);
                 startActivity(intent);
             }
         });
@@ -205,6 +206,22 @@ public class MainActivity extends AppCompatActivity {
             }, 1000);
             openlist = true;
         }
+    }
+
+    // 回到主頁按鈕
+    public void toHome(View view) {
+        Intent intent = new Intent();
+        intent.setClass( MainActivity.this  , MainActivity.class);
+        startActivity(intent);
+        MainActivity.this.finish();
+    }
+
+    // 重新整理按鈕
+    public void reLoad(View view) {
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish(); // 關閉此檔案
+        overridePendingTransition(0, 0);
     }
 }
 

@@ -1,6 +1,5 @@
 package com.example.clothes;
 
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentUris;
@@ -11,12 +10,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,10 +26,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class AddClothes extends AppCompatActivity {
@@ -47,25 +44,25 @@ public class AddClothes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_clothes);
+        setContentView( R.layout.activity_add_clothes);
         bmp = null;
         init();
         finishself = this;
 
         //去新增衣服(頁面)
-        Button updata = (Button) findViewById(R.id.updata);
+        Button updata = (Button) findViewById( R.id.updata);
         updata.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (bmp != null) {
                     editclothes.PicPath = mPublicPhotoPath;
-                    Intent intent = new Intent();
-                    intent.setClass(AddClothes.this, editclothes.class);
+                    Intent intent = new Intent ();
+                    intent.setClass( AddClothes.this, editclothes.class);
                     startActivity(intent);
 
                 } else {
-                    Toast.makeText(AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
+                    Toast.makeText( AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -76,14 +73,14 @@ public class AddClothes extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
         }
-        imv = (ImageView) findViewById(R.id.imageView);
-        mAddGallery = (ImageButton) findViewById(R.id.camera);
+        imv = (ImageView) findViewById( R.id.imageView);
+        mAddGallery = (ImageButton) findViewById( R.id.camera);
 
         mAddGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent takePictureIntent = new Intent ( MediaStore.ACTION_IMAGE_CAPTURE);
                 // Ensure that there's a camera activity to handle the intent
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {//判断是否有相機應用
                     // Create the File where the photo should go
@@ -95,10 +92,10 @@ public class AddClothes extends AppCompatActivity {
                     }
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(AddClothes.this,
+                        Uri photoURI = FileProvider.getUriForFile( AddClothes.this,
                                 "com.example.clothes.provider",
                                 photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        takePictureIntent.putExtra( MediaStore.EXTRA_OUTPUT, photoURI);
                         startActivityForResult(takePictureIntent, takepic);
                     }
                 }
@@ -114,14 +111,14 @@ public class AddClothes extends AppCompatActivity {
 
     private File createPublicImageFile() throws IOException {
         //自訂資料夾
-        File path = new File(Environment.getExternalStoragePublicDirectory(
+        File path = new File ( Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM) + "/clothes");
         if (!path.exists()) {
             //如果沒有就建立一個
             path.mkdir();
         }
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat ("yyyyMMdd_HHmmss").format(new Date ());
         String imageFileName = "clothesJPG_" + timeStamp;
         File image = File.createTempFile(
                 imageFileName,  /* 前缀 */
@@ -137,15 +134,15 @@ public class AddClothes extends AppCompatActivity {
     }
 
     private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mPublicPhotoPath);
+        Intent mediaScanIntent = new Intent ( Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File (mPublicPhotoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         sendBroadcast(mediaScanIntent);
     }
 
     public void onPick(View v) {
-        Intent it = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent it = new Intent ( Intent.ACTION_GET_CONTENT);
         it.setType("image/*");
         startActivityForResult(it, filepic);
     }
@@ -186,7 +183,7 @@ public class AddClothes extends AppCompatActivity {
                     imguri = data.getData();
 
                     //uri轉path 傳送路徑到editclothes整合sqlite
-                    String path = getPath(AddClothes.this, imguri);
+                    String path = getPath( AddClothes.this, imguri);
                     mPublicPhotoPath = path;
                     //=========如何將其他路徑的照片另存新檔至本app的指定路徑??============
 
