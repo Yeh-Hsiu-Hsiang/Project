@@ -6,14 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.calendar.component.CalendarAttr;
-import com.example.calendar.interf.OnAdapterSelectListener;
-import com.example.calendar.interf.IDayRenderer;
-import com.example.calendar.interf.OnSelectDateListener;
 import com.example.calendar.Utils;
-import com.example.calendar.view.MonthPager;
+import com.example.calendar.interf.IDayRenderer;
+import com.example.calendar.interf.OnAdapterSelectListener;
+import com.example.calendar.interf.OnSelectDateListener;
 import com.example.calendar.model.CalendarDate;
 import com.example.calendar.view.Calendar;
+import com.example.calendar.view.MonthPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -290,7 +289,7 @@ public class CalendarViewAdapter extends PagerAdapter {
     }
 
     /**
-     * 为每一个Calendar实例设置renderer对象
+     * 為每一个Calendar實例设置renderer对象
      *
      * @return void
      */

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
@@ -36,7 +37,7 @@ public class clothes1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_clothes1, container, false);
+        view = inflater.inflate( R.layout.fragment_clothes1, container, false);
         //對recycleview進行重製
 //        initData();
 //        initRecyclerView();
@@ -51,7 +52,7 @@ public class clothes1Fragment extends Fragment {
         if (clothesList != null)
             clothesList = null;
 
-        clothesList = new ArrayList<>();
+        clothesList = new ArrayList<> ();
         initData();
         initRecyclerView();
         //建立數據
@@ -77,7 +78,7 @@ public class clothes1Fragment extends Fragment {
         if (c.getCount()>0){
             c.moveToFirst();    // 移到第 1 筆資料
             do{        // 逐筆讀出資料
-                getClothesMember getclothesmember = new getClothesMember();
+                getClothesMember getclothesmember = new getClothesMember ();
                 String clothesID = c.getString(0);
                 String clothesPIC = c.getString(1);
                 String clothesName = c.getString(2);
@@ -88,7 +89,7 @@ public class clothes1Fragment extends Fragment {
                     getclothesmember.setId(clothesID) ;
                     getclothesmember.setImgPath(clothesPIC);
                     getclothesmember.setName(clothesName);
-                    clothesList.add(new getClothesMember(clothesID,
+                    clothesList.add(new getClothesMember (clothesID,
                             clothesPIC,
                             clothesName));
                     count++;
@@ -97,23 +98,23 @@ public class clothes1Fragment extends Fragment {
         }
 
         db.close();
-        Log.e("count","fragmant"+Integer.toString(count));
+        Log.e("count","fragmant"+ Integer.toString(count));
         count = 0;
     }
     private void initRecyclerView(){
-        mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
-        memberAdapter = new MemberAdapter(getActivity(), clothesList);
+        mCollectRecyclerView = (RecyclerView)view.findViewById( R.id.collect_recyclerView);
+        memberAdapter = new MemberAdapter (getActivity(), clothesList);
         mCollectRecyclerView.setAdapter(memberAdapter);
-        mCollectRecyclerView.setLayoutManager(new GridLayoutManager(getActivity() ,2,GridLayoutManager.VERTICAL,false));
+        mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));
        //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
         //點擊進入修改
         memberAdapter.setOnItemLongClickListener(new MemberAdapter.OnItemLongClickListener() {
             @Override
-            public void OnItemLongClick(View view ,getClothesMember data) {
+            public void OnItemLongClick(View view , getClothesMember data) {
                 //此處進行監聽事件的動作處理
-                Toast.makeText(getActivity(),data.id,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),data.id, Toast.LENGTH_SHORT).show();
 
                 //next----
             }

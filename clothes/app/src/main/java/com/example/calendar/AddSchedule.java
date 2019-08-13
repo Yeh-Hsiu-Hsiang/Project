@@ -1,7 +1,8 @@
-package com.example.clothes;
+package com.example.calendar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,15 +13,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.calendar.Utils;
 import com.example.calendar.component.CalendarAttr;
-import com.example.calendar.view.MonthPager;
-import com.example.calendar.interf.OnSelectDateListener;
 import com.example.calendar.component.CalendarViewAdapter;
+import com.example.calendar.interf.OnSelectDateListener;
 import com.example.calendar.model.CalendarDate;
 import com.example.calendar.view.Calendar;
+import com.example.calendar.view.MonthPager;
+import com.example.clothes.ExampleAdapter;
+import com.example.clothes.MainActivity;
+import com.example.clothes.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +55,7 @@ public class AddSchedule extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_schedule);
+        setContentView( R.layout.activity_add_schedule);
         context = this;
         content = (CoordinatorLayout) findViewById(R.id.content);
         monthPager = (MonthPager) findViewById(R.id.calendar_view);
@@ -159,13 +161,13 @@ public class AddSchedule extends AppCompatActivity {
         initMarkData();
         initMonthPager();
     }
-//設定數據
+////設定數據
     private void initMarkData() {
         HashMap<String, String> markData = new HashMap<>();
-        markData.put("2017-8-9", "1");
-        markData.put("2017-7-9", "0");
-        markData.put("2017-6-9", "1");
-        markData.put("2017-6-10", "0");
+        markData.put("2018-8-9", "1");
+        markData.put("2018-7-9", "0");
+        markData.put("2018-6-9", "1");
+        markData.put("2018-6-10", "0");
         calendarAdapter.setMarkData(markData);
     }
 
@@ -239,10 +241,26 @@ public class AddSchedule extends AppCompatActivity {
     }
 
     private void refreshSelectBackground() {
-        ThemeDayView themeDayView = new ThemeDayView(context, R.layout.custom_day_focus);
-        calendarAdapter.setCustomDayRenderer(themeDayView);
+        //ThemeDayView themeDayView = new ThemeDayView(context, R.layout.custom_day_focus);
+        //calendarAdapter.setCustomDayRenderer(themeDayView);
         calendarAdapter.notifyDataSetChanged();
         calendarAdapter.notifyDataChanged(new CalendarDate());
+    }
+
+    // 回到主頁按鈕
+    public void toHome(View view) {
+        Intent intent = new Intent();
+        intent.setClass( AddSchedule.this  , MainActivity.class);
+        startActivity(intent);
+        AddSchedule.this.finish();
+    }
+
+    // 重新整理按鈕
+    public void reLoad(View view) {
+        Intent intent=new Intent(this, AddSchedule.class);
+        startActivity(intent);
+        finish(); // 關閉此檔案
+        overridePendingTransition(0, 0);
     }
 }
 
