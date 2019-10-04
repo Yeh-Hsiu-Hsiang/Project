@@ -1,10 +1,7 @@
 package com.example.clothes;
 
 import android.app.Activity;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,8 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.github.gabrielbb.cutout.CutOut;
+
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -33,20 +34,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddClothes extends AppCompatActivity {
-
-    private static final int takepic = 111;
-    private static final int filepic = 222;
-
-    Uri imguri;
-    ImageView imv;
-    ImageButton mAddGallery;
-    Bitmap bmp;
-    //在別的activity中關閉自己的方法
-    public static AddClothes finishself = null;
+    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
+<<<<<<< Updated upstream
         bmp = null;
         init();
         finishself = this;
@@ -77,6 +70,16 @@ public class AddClothes extends AppCompatActivity {
         }
         imv = (ImageView) findViewById(R.id.imageView);
         mAddGallery = (ImageButton) findViewById(R.id.camera);
+=======
+        Button b = findViewById(R.id.button);
+        imageView = findViewById(R.id.imageView);
+        b.setOnClickListener(view -> {
+            CutOut.activity()
+                    .bordered()
+                    .noCrop()
+                    .start(this);
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -114,16 +117,23 @@ public class AddClothes extends AppCompatActivity {
         }
     }
 
+<<<<<<< Updated upstream
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // Ensure that there's a camera activity to handle the intent
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {//判断是否有相機應用
                     // Create the File where the photo should go
                     File photoFile = null;
+=======
+                    //0.Uri轉成Bitmap
+>>>>>>> Stashed changes
                     try {
-                        photoFile = createPublicImageFile();//创建临时图片文件
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                        Bitmap bitmap = getBitmapFromUri(Uri);
+                        imageView.setImageBitmap(bitmap);
+                        saveToLocal(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+<<<<<<< Updated upstream
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
                         Uri photoURI = FileProvider.getUriForFile(AddClothes.this,
@@ -133,24 +143,47 @@ public class AddClothes extends AppCompatActivity {
                         startActivityForResult(takePictureIntent, takepic);
                     }
                 }
+=======
+>>>>>>> Stashed changes
 
-                galleryAddPic();
+
+                    //------------------------------------------------------------------------------------
+
+                    break;
+                case CutOut.CUTOUT_ACTIVITY_RESULT_ERROR_CODE:
+                    Exception ex = CutOut.getError(data);
+                    break;
+                default:
+                    System.out.print("User cancelled the CutOut screen");
             }
-        });
-
-
+        }
     }
 
-    String mPublicPhotoPath;
+    //Uri轉成Bitmap
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
+    }
 
+<<<<<<< Updated upstream
     private File createPublicImageFile() throws IOException {
         //自訂資料夾
         File path = new File(Environment.getExternalStoragePublicDirectory(
+=======
+    private void saveToLocal(Bitmap bitmap) throws IOException {
+        String timeStamp = new SimpleDateFormat ("yyyyMMdd_HHmmss").format(new Date ());
+        String imageFileName = "clothesPNG_" + timeStamp;
+        File path = new File ( Environment.getExternalStoragePublicDirectory(
+>>>>>>> Stashed changes
                 Environment.DIRECTORY_DCIM) + "/clothes");
         if (!path.exists()) {
-            //如果沒有就建立一個
             path.mkdir();
         }
+<<<<<<< Updated upstream
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "clothesJPG_" + timeStamp;

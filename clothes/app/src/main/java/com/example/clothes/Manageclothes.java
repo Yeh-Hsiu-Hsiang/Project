@@ -94,3 +94,4 @@ public class Manageclothes extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 }
+>>>>>>> Stashed changes

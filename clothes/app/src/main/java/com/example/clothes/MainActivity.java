@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< Updated upstream
         //去新增活動(頁面)
         Button addschedule = (Button)findViewById(R.id.AddSchedule);
         addschedule.setOnClickListener(new View.OnClickListener() {
