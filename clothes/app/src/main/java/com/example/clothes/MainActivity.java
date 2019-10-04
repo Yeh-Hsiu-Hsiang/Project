@@ -1,6 +1,5 @@
 package com.example.clothes;
 
-
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+<<<<<<< Updated upstream
 import android.widget.ImageButton;
 import android.widget.Toast;
+=======
+
+
+>>>>>>> Stashed changes
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< Updated upstream
         //去新增活動(頁面)
         Button addschedule = (Button)findViewById(R.id.AddSchedule);
         addschedule.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+=======
+>>>>>>> Stashed changes
         //去管理衣服(頁面)
         Button manageclothes = (Button)findViewById(R.id.Manageclothes);
         manageclothes.setOnClickListener(new View.OnClickListener() {
@@ -60,28 +67,22 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        //去個人設定(頁面)
-        Button mysetting = (Button)findViewById(R.id.Mysetting);
-        mysetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this  , setting.class);
-                startActivity(intent);
-            }
-        });
+
 
     }
 
     Boolean openlist = true;
     public void dowhat(View view) {
         //出現清單
+
         final Button button1 = (Button) findViewById(R.id.AddSchedule);
         final Button button2 = (Button) findViewById(R.id.Weekweather);
         final Button button3 = (Button) findViewById(R.id.Manageclothes);
         //final Button button4 = (Button) findViewById(R.id.Addclothes);
         final Button button5 = (Button) findViewById(R.id.View_wearing);
         final Button button6 = (Button) findViewById(R.id.Mysetting);
+
+
 
         if (openlist) {
             //出現(動畫)

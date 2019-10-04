@@ -1,5 +1,4 @@
 package com.example.clothes;
-
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -80,4 +79,24 @@ public class Manageclothes extends AppCompatActivity {
         PagerAdapter myFragmentAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList);
         myViewPager.setAdapter(myFragmentAdapter);
     }
+<<<<<<< Updated upstream
 }
+=======
+
+    // 回到主頁按鈕
+    public void toHome(View view) {
+        Intent intent = new Intent();
+        intent.setClass( Manageclothes.this  , MainActivity.class);
+        startActivity(intent);
+        Manageclothes.this.finish();
+    }
+
+    // 重新整理按鈕
+    public void reLoad(View view) {
+        Intent intent=new Intent(this, Manageclothes.class);
+        startActivity(intent);
+        finish(); // 關閉此檔案
+        overridePendingTransition(0, 0);
+    }
+}
+>>>>>>> Stashed changes
