@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">clothes</string>
-<<<<<<< Updated upstream
     <string name="title_activity_settings">Settings</string>
 
     <string name="action_search">Search</string>
@@ -236,6 +235,4 @@
         <item>外套</item>
         <item>圍巾</item>
     </string-array>
-=======
->>>>>>> Stashed changes
 </resources>

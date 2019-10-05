@@ -20,10 +20,8 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -39,38 +37,6 @@ public class AddClothes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
-<<<<<<< Updated upstream
-        bmp = null;
-        init();
-        finishself = this;
-
-        //去新增衣服(頁面)
-        Button updata = (Button) findViewById(R.id.updata);
-        updata.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (bmp != null) {
-                    editclothes.PicPath = mPublicPhotoPath;
-                    Intent intent = new Intent();
-                    intent.setClass(AddClothes.this, editclothes.class);
-                    startActivity(intent);
-
-                } else {
-                    Toast.makeText(AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    private void init() {
-        //取得權限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
-        }
-        imv = (ImageView) findViewById(R.id.imageView);
-        mAddGallery = (ImageButton) findViewById(R.id.camera);
-=======
         Button b = findViewById(R.id.button);
         imageView = findViewById(R.id.imageView);
         b.setOnClickListener(view -> {
@@ -133,20 +99,6 @@ public class AddClothes extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-<<<<<<< Updated upstream
-                    // Continue only if the File was successfully created
-                    if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(AddClothes.this,
-                                "com.example.clothes.provider",
-                                photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(takePictureIntent, takepic);
-                    }
-                }
-=======
->>>>>>> Stashed changes
-
-
                     //------------------------------------------------------------------------------------
 
                     break;
@@ -159,7 +111,7 @@ public class AddClothes extends AppCompatActivity {
         }
     }
 
-    //Uri轉成Bitmap
+    //1.Uri轉成Bitmap
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor =
                 getContentResolver().openFileDescriptor(uri, "r");
@@ -168,17 +120,11 @@ public class AddClothes extends AppCompatActivity {
         parcelFileDescriptor.close();
         return image;
     }
-
-<<<<<<< Updated upstream
-    private File createPublicImageFile() throws IOException {
-        //自訂資料夾
-        File path = new File(Environment.getExternalStoragePublicDirectory(
-=======
+    //2.儲存到指定資料夾
     private void saveToLocal(Bitmap bitmap) throws IOException {
         String timeStamp = new SimpleDateFormat ("yyyyMMdd_HHmmss").format(new Date ());
         String imageFileName = "clothesPNG_" + timeStamp;
         File path = new File ( Environment.getExternalStoragePublicDirectory(
->>>>>>> Stashed changes
                 Environment.DIRECTORY_DCIM) + "/clothes");
         if (!path.exists()) {
             path.mkdir();

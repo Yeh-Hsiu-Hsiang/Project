@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< Updated upstream
         //去新增活動(頁面)
         Button addschedule = (Button)findViewById(R.id.AddSchedule);
         addschedule.setOnClickListener(new View.OnClickListener() {
