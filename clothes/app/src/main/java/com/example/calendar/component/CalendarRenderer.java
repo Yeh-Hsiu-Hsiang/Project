@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import com.example.calendar.component.CalendarAttr;
 import com.example.calendar.Const;
 import com.example.calendar.Utils;
 import com.example.calendar.interf.IDayRenderer;
@@ -226,7 +225,6 @@ public class CalendarRenderer {
         } else {
             weeks[row].days[col] = new Day(State.NEXT_MONTH, date, row, col);
         }
-        // TODO: 17/6/27  當下一個月的天數大於七時，說明該月有六周
 //        if(position - firstDayWeek - currentMonthDays + 1 >= 7) { //當下一個月的天數大於七時，說明該月有六周
 //        }
     }

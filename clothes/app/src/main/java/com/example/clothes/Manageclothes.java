@@ -1,12 +1,10 @@
 package com.example.clothes;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,23 +15,23 @@ public class Manageclothes extends AppCompatActivity {
 
     private ViewPager myViewPager;
     private TabLayout tabLayout;
-    private int[] IconResID = {R.drawable.selector_one,R.drawable.selector_two,R.drawable.selector_three,
-            R.drawable.selector_four,R.drawable.selector_five,R.drawable.selector_six,
-            R.drawable.selector_seven,R.drawable.selector_eight,R.drawable.selector_nine};
+    private int[] IconResID = {R.drawable.selector_one, R.drawable.selector_two, R.drawable.selector_three,
+            R.drawable.selector_four, R.drawable.selector_five, R.drawable.selector_six,
+            R.drawable.selector_seven, R.drawable.selector_eight};
     //在別的activity中關閉自己的方法
     public static Manageclothes finishself = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manageclothes);
+        setContentView( R.layout.activity_manageclothes);
         finishself = this;
         //去新增衣服
-        Button addclothes = (Button)findViewById(R.id.Addclothes);
+        Button addclothes = (Button)findViewById( R.id.Addclothes);
         addclothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(Manageclothes.this  , AddClothes.class);
+                Intent intent = new Intent ();
+                intent.setClass( Manageclothes.this  , AddClothes.class);
                 startActivity(intent);
 
             }
@@ -42,8 +40,8 @@ public class Manageclothes extends AppCompatActivity {
         processView();
     }
     public void processView(){
-        myViewPager = (ViewPager) findViewById(R.id.myViewPager);
-        tabLayout = (TabLayout) findViewById(R.id.TabLayout);
+        myViewPager = (ViewPager) findViewById( R.id.myViewPager);
+        tabLayout = (TabLayout) findViewById( R.id.TabLayout);
         setViewPager();
         tabLayout.setupWithViewPager(myViewPager);
         setTabLayoutIcon();
@@ -65,8 +63,7 @@ public class Manageclothes extends AppCompatActivity {
         clothes6Fragment myFragment6 = new clothes6Fragment();
         clothes7Fragment myFragment7 = new clothes7Fragment();
         clothes8Fragment myFragment8 = new clothes8Fragment();
-        clothes9Fragment myFragment9 = new clothes9Fragment();
-        List<Fragment> fragmentList = new ArrayList<Fragment>();
+        List<Fragment> fragmentList = new ArrayList<Fragment> ();
         fragmentList.add(myFragment1);
         fragmentList.add(myFragment2);
         fragmentList.add(myFragment3);
@@ -75,13 +72,9 @@ public class Manageclothes extends AppCompatActivity {
         fragmentList.add(myFragment6);
         fragmentList.add(myFragment7);
         fragmentList.add(myFragment8);
-        fragmentList.add(myFragment9);
         PagerAdapter myFragmentAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList);
         myViewPager.setAdapter(myFragmentAdapter);
     }
-<<<<<<< Updated upstream
-}
-=======
 
     // 回到主頁按鈕
     public void toHome(View view) {
@@ -99,4 +92,3 @@ public class Manageclothes extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 }
->>>>>>> Stashed changes

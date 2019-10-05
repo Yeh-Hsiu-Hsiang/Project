@@ -42,9 +42,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 7:
                 clothes8Fragment tab8=new clothes8Fragment();
                 return tab8;
-            case 8:
-                clothes9Fragment tab9=new clothes9Fragment();
-                return tab9;
         }
         return null;
     }

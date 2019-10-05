@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
@@ -36,7 +37,7 @@ public class clothes1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_clothes1, container, false);
+        view = inflater.inflate( R.layout.fragment_clothes1, container, false);
         //對recycleview進行重製
 //        initData();
 //        initRecyclerView();
@@ -97,23 +98,23 @@ public class clothes1Fragment extends Fragment {
         }
 
         db.close();
-        Log.e("count","fragmant"+Integer.toString(count));
+        Log.e("count","fragmant"+ Integer.toString(count));
         count = 0;
     }
     private void initRecyclerView(){
-        mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
+        mCollectRecyclerView = (RecyclerView)view.findViewById( R.id.collect_recyclerView);
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
         mCollectRecyclerView.setAdapter(memberAdapter);
-        mCollectRecyclerView.setLayoutManager(new GridLayoutManager(getActivity() ,2,GridLayoutManager.VERTICAL,false));
+        mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));
        //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
         //點擊進入修改
         memberAdapter.setOnItemLongClickListener(new MemberAdapter.OnItemLongClickListener() {
             @Override
-            public void OnItemLongClick(View view ,getClothesMember data) {
+            public void OnItemLongClick(View view , getClothesMember data) {
                 //此處進行監聽事件的動作處理
-                Toast.makeText(getActivity(),data.id,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),data.id, Toast.LENGTH_SHORT).show();
 
                 //next----
             }

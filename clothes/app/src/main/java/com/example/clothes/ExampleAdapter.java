@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.clothes.R;
 
 /**
  * Created by ldf on 17/6/14.
@@ -21,14 +20,14 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ViewHold
     private String[] titles;
 
     public ExampleAdapter(Context context) {
-        titles = context.getResources().getStringArray(R.array.titles);
+        titles = context.getResources().getStringArray( R.array.titles);
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public ExampleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(layoutInflater.inflate(R.layout.item, parent, false));
+        return new ViewHolder(layoutInflater.inflate( R.layout.item, parent, false));
     }
 
     @Override
@@ -46,7 +45,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ViewHold
 
         ViewHolder(View view) {
             super(view);
-            textView = (TextView) view.findViewById(R.id.text_view);
+            textView = (TextView) view.findViewById( R.id.text_view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
