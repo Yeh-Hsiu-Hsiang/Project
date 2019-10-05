@@ -19,31 +19,31 @@ public class PagerAdapter extends FragmentPagerAdapter {
         switch(position)
         {
             case 0:
-                clothes1Fragment tab1=new clothes1Fragment ();
+                clothes1Fragment tab1=new clothes1Fragment();
                 return tab1;
             case 1:
-                clothes2Fragment tab2=new clothes2Fragment ();
+                clothes2Fragment tab2=new clothes2Fragment();
                 return tab2;
             case 2:
-                clothes3Fragment tab3=new clothes3Fragment ();
+                clothes3Fragment tab3=new clothes3Fragment();
                 return tab3;
             case 3:
-                clothes4Fragment tab4=new clothes4Fragment ();
+                clothes4Fragment tab4=new clothes4Fragment();
                 return tab4;
             case 4:
-                clothes5Fragment tab5=new clothes5Fragment ();
+                clothes5Fragment tab5=new clothes5Fragment();
                 return tab5;
             case 5:
-                clothes6Fragment tab6=new clothes6Fragment ();
+                clothes6Fragment tab6=new clothes6Fragment();
                 return tab6;
             case 6:
-                clothes7Fragment tab7=new clothes7Fragment ();
+                clothes7Fragment tab7=new clothes7Fragment();
                 return tab7;
             case 7:
-                clothes8Fragment tab8=new clothes8Fragment ();
+                clothes8Fragment tab8=new clothes8Fragment();
                 return tab8;
             case 8:
-                clothes9Fragment tab9=new clothes9Fragment ();
+                clothes9Fragment tab9=new clothes9Fragment();
                 return tab9;
         }
         return null;

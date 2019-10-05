@@ -35,7 +35,7 @@ public class weather extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_weekweather );
+        setContentView( R.layout.activity_weekweather);
 
         View v = findViewById(R.id.today_relative);//設透明背景的layout 的id
         v.getBackground().setAlpha(200);//0~255透明度值
@@ -78,15 +78,14 @@ public class weather extends AppCompatActivity {
     class WeekTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            StringBuilder result = new StringBuilder ();
+            StringBuilder sb = new StringBuilder ();
             try {
                 URL url = new URL ( params[0] );
-                BufferedReader in = new BufferedReader (
-                        new InputStreamReader ( url.openStream () ) );
+                BufferedReader in = new BufferedReader (new InputStreamReader ( url.openStream () ) );
                 String line = in.readLine ();
                 while (line != null) {
                     Log.d ( "HTTP", line );
-                    result.append ( line );
+                    sb.append ( line );
                     line = in.readLine ();
                 }
             } catch (MalformedURLException e) {
@@ -94,7 +93,7 @@ public class weather extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace ();
             }
-            return result.toString ();
+            return sb.toString ();
         }
 
         protected void onPostExecute(String data) {
@@ -104,13 +103,17 @@ public class weather extends AppCompatActivity {
         }
 
         private void parseJSON(String data)  {
-
+            Log.d("data","data = " + data);
+            JSONObject Ob;
+            JSONObject Ob_two;
             try{
-                //建立一個JSONObject並帶入JSON格式文字，getString(String key)取出欄位的數值
-                JSONObject Object = new JSONObject(data);
-                Log.d("object","Obj = " + Object);
-                JSONArray array = Object.getJSONArray ("location");
-                Log.d("array", "Array = " + array);
+                Ob = new JSONObject(data);
+                Object jsonOb = Ob.getJSONObject("cwbopendata").get("dataset");
+                Log.d("dataset","Object = " + jsonOb);
+
+                JSONArray array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
+                Log.d("array", "array = " + array);
+
                 for (int i = 0; i < array .length (); i++) {
                     JSONObject JsonObject = array.getJSONObject(i);
                     Log.d("jsonObject", "json = " + JsonObject);
@@ -118,19 +121,6 @@ public class weather extends AppCompatActivity {
                     Log.d("TAG", "城市：:" + locationName);
                 }
 
-//                JSONArray JsonArray  = new JSONArray (data);
-//                Log.d("Array", "array = " + JsonArray);
-//                JSONObject jsonObject = new JSONObject(data);
-//                Log.d("object", "object = " + jsonObject);
-//                // 縣市
-//                String locationName = jsonObject.getString("location");
-//                Log.d("City", "City ：" + locationName);
-//                // 天氣因子:Wx, PoP, CI, MinT, MaxT
-//                String elementName = jsonObject.getString("elementName");
-//                Log.d("elementName", "天氣因子 ：" + elementName);
-//                // 降雨機率
-//                String parameter = jsonObject.getString("parameter");
-//                Log.d("parameter", "降雨機率 ：" + parameter);
             }
             catch(JSONException e) {
                 e.printStackTrace();
