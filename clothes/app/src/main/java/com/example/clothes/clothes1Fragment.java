@@ -52,7 +52,7 @@ public class clothes1Fragment extends Fragment {
         if (clothesList != null)
             clothesList = null;
 
-        clothesList = new ArrayList<> ();
+        clothesList = new ArrayList<>();
         initData();
         initRecyclerView();
         //建立數據
@@ -78,7 +78,7 @@ public class clothes1Fragment extends Fragment {
         if (c.getCount()>0){
             c.moveToFirst();    // 移到第 1 筆資料
             do{        // 逐筆讀出資料
-                getClothesMember getclothesmember = new getClothesMember ();
+                getClothesMember getclothesmember = new getClothesMember();
                 String clothesID = c.getString(0);
                 String clothesPIC = c.getString(1);
                 String clothesName = c.getString(2);
@@ -89,7 +89,7 @@ public class clothes1Fragment extends Fragment {
                     getclothesmember.setId(clothesID) ;
                     getclothesmember.setImgPath(clothesPIC);
                     getclothesmember.setName(clothesName);
-                    clothesList.add(new getClothesMember (clothesID,
+                    clothesList.add(new getClothesMember(clothesID,
                             clothesPIC,
                             clothesName));
                     count++;
@@ -103,7 +103,7 @@ public class clothes1Fragment extends Fragment {
     }
     private void initRecyclerView(){
         mCollectRecyclerView = (RecyclerView)view.findViewById( R.id.collect_recyclerView);
-        memberAdapter = new MemberAdapter (getActivity(), clothesList);
+        memberAdapter = new MemberAdapter(getActivity(), clothesList);
         mCollectRecyclerView.setAdapter(memberAdapter);
         mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));
        //解決留白問題 用分隔線
