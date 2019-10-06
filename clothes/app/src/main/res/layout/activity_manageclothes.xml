@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EDECE7"
     tools:context=".Manageclothes">
 
     <RelativeLayout
@@ -104,28 +105,16 @@
 
     </android.support.v4.view.ViewPager>
 
-    <Button
+    <ImageButton
         android:id="@+id/Addclothes"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
-        android:stateListAnimator="@null"
-        android:text="新增衣服"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="24dp"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Addclothes"
-        app:srcCompat="@drawable/addclothes" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/add" />
 
 </android.support.constraint.ConstraintLayout>
