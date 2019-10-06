@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Manageclothes extends AppCompatActivity {
         setContentView( R.layout.activity_manageclothes);
         finishself = this;
         //去新增衣服
-        Button addclothes = (Button)findViewById( R.id.Addclothes);
+        ImageButton addclothes = (ImageButton)findViewById( R.id.Addclothes);
         addclothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
