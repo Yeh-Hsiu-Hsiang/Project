@@ -3,7 +3,7 @@
     package="com.example.clothes">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".editclothes"></activity>
         <activity
             android:name="com.example.weather.weather"
             android:label="@string/天氣詳細" />
@@ -21,8 +22,8 @@
         <activity
             android:name=".setting"
             android:label="@string/其他設定" />
-        <activity android:name=".AddClothes"/>
-        <activity android:name=".Manageclothes"/>
+        <activity android:name=".AddClothes" />
+        <activity android:name=".Manageclothes" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

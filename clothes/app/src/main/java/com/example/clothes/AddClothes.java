@@ -10,8 +10,11 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.gabrielbb.cutout.CutOut;
 
@@ -25,10 +28,18 @@ import java.util.Date;
 
 public class AddClothes extends AppCompatActivity {
     private ImageView imageView;
+
+    Bitmap bitmap = null;
+    String filepath;
+
+    //在別的activity中關閉自己的方法
+    public static AddClothes finishself = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
+        finishself = this;
         Button b = findViewById(R.id.button);
         imageView = findViewById(R.id.imageView);
         b.setOnClickListener(view -> {
@@ -36,6 +47,20 @@ public class AddClothes extends AppCompatActivity {
                     .bordered()
                     .noCrop()
                     .start(this);
+        });
+
+        //去新增衣服(頁面)
+        Button updata = (Button) findViewById( R.id.updata);
+        updata.setOnClickListener(v -> {
+            if (bitmap != null) {
+                editclothes.PicPath = filepath;
+                Intent intent = new Intent ();
+                intent.setClass( AddClothes.this, editclothes.class);
+                startActivity(intent);
+
+            } else {
+                Toast.makeText( AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
+            }
         });
     }
 
@@ -49,7 +74,7 @@ public class AddClothes extends AppCompatActivity {
 
                     //存圖到 指定資料夾-----------------------------------------------------------
                     try {
-                        Bitmap bitmap = getBitmapFromUri(Uri);
+                        bitmap = getBitmapFromUri(Uri);
                         imageView.setImageBitmap(bitmap);
                         saveToLocal(bitmap);
                     } catch (IOException e) {
@@ -93,7 +118,8 @@ public class AddClothes extends AppCompatActivity {
         if (file.exists()) {
             file.delete();
         }
-
+        filepath = file.toString();
+        Log.e( "123 ", filepath);
         FileOutputStream out;
         try {
             out = new FileOutputStream(file);
