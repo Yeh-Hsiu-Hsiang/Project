@@ -36,6 +36,7 @@
             android:label="@string/其他設定" />
         <activity android:name=".AddClothes"/>
         <activity android:name=".Manageclothes"/>
+        <activity android:name=".newclothes"/>
     </application>
 
 </manifest>
