@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -25,10 +27,18 @@ import java.util.Date;
 
 public class AddClothes extends AppCompatActivity {
     private ImageView imageView;
+
+    Bitmap bitmap = null;
+    String filepath;
+
+    //在別的activity中關閉自己的方法
+    public static AddClothes finishself = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
+        finishself = this;
         Button b = findViewById(R.id.button);
         imageView = findViewById(R.id.imageView);
         b.setOnClickListener(view -> {
@@ -36,6 +46,20 @@ public class AddClothes extends AppCompatActivity {
                     .bordered()
                     .noCrop()
                     .start(this);
+        });
+
+        //去新增衣服(頁面)
+        Button updata = (Button) findViewById( R.id.updata);
+        updata.setOnClickListener(v -> {
+            if (bitmap != null) {
+                editclothes.PicPath = filepath;
+                Intent intent = new Intent ();
+                intent.setClass( AddClothes.this, editclothes.class);
+                startActivity(intent);
+
+            } else {
+                Toast.makeText( AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
+            }
         });
     }
 
@@ -46,23 +70,15 @@ public class AddClothes extends AppCompatActivity {
             switch (resultCode) {
                 case Activity.RESULT_OK:
                     Uri Uri = CutOut.getUri(data);
-                    // Save the image using the returned Uri here
-                    //imageView.setImageURI(imageUri);
-                    //Log.e("123",imageUri.toString());
-                    //Uri>>path
 
                     //存圖到 指定資料夾-----------------------------------------------------------
-
-                    //0.Uri轉成Bitmap
                     try {
-                        Bitmap bitmap = getBitmapFromUri(Uri);
+                        bitmap = getBitmapFromUri(Uri);
                         imageView.setImageBitmap(bitmap);
                         saveToLocal(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                     //------------------------------------------------------------------------------------
 
                     break;
@@ -75,7 +91,7 @@ public class AddClothes extends AppCompatActivity {
         }
     }
 
-    //Uri轉成Bitmap
+    //1.Uri轉成Bitmap
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor =
                 getContentResolver().openFileDescriptor(uri, "r");
@@ -84,7 +100,7 @@ public class AddClothes extends AppCompatActivity {
         parcelFileDescriptor.close();
         return image;
     }
-
+    //2.儲存到指定資料夾
     private void saveToLocal(Bitmap bitmap) throws IOException {
         String timeStamp = new SimpleDateFormat ("yyyyMMdd_HHmmss").format(new Date ());
         String imageFileName = "clothesPNG_" + timeStamp;
@@ -101,7 +117,8 @@ public class AddClothes extends AppCompatActivity {
         if (file.exists()) {
             file.delete();
         }
-
+        filepath = file.toString();
+        Log.e( "123 ", filepath);
         FileOutputStream out;
         try {
             out = new FileOutputStream(file);
@@ -109,8 +126,6 @@ public class AddClothes extends AppCompatActivity {
                 out.flush();
                 out.close();
                 //保存图片后发送广播通知更新数据库
-                // Uri uri = Uri.fromFile(file);
-                // sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri uri = Uri.fromFile(file);
                 intent.setData(uri);

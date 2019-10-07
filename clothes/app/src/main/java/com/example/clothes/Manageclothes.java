@@ -7,6 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +21,7 @@ public class Manageclothes extends AppCompatActivity {
     private TabLayout tabLayout;
     private int[] IconResID = {R.drawable.selector_one, R.drawable.selector_two, R.drawable.selector_three,
             R.drawable.selector_four, R.drawable.selector_five, R.drawable.selector_six,
-            R.drawable.selector_seven, R.drawable.selector_eight, R.drawable.selector_nine};
+            R.drawable.selector_seven, R.drawable.selector_eight};
     //在別的activity中關閉自己的方法
     public static Manageclothes finishself = null;
     @Override
@@ -26,7 +30,7 @@ public class Manageclothes extends AppCompatActivity {
         setContentView( R.layout.activity_manageclothes);
         finishself = this;
         //去新增衣服
-        Button addclothes = (Button)findViewById( R.id.Addclothes);
+        ImageButton addclothes = (ImageButton)findViewById( R.id.Addclothes);
         addclothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +67,6 @@ public class Manageclothes extends AppCompatActivity {
         clothes6Fragment myFragment6 = new clothes6Fragment();
         clothes7Fragment myFragment7 = new clothes7Fragment();
         clothes8Fragment myFragment8 = new clothes8Fragment();
-        clothes9Fragment myFragment9 = new clothes9Fragment();
         List<Fragment> fragmentList = new ArrayList<Fragment> ();
         fragmentList.add(myFragment1);
         fragmentList.add(myFragment2);
@@ -73,7 +76,6 @@ public class Manageclothes extends AppCompatActivity {
         fragmentList.add(myFragment6);
         fragmentList.add(myFragment7);
         fragmentList.add(myFragment8);
-        fragmentList.add(myFragment9);
         PagerAdapter myFragmentAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList);
         myViewPager.setAdapter(myFragmentAdapter);
     }

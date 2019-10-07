@@ -84,7 +84,7 @@ public class clothes1Fragment extends Fragment {
                 String clothesName = c.getString(2);
                 String clothesType = c.getString(3);
 
-                if(clothesType.equals("長袖上衣")){
+                if(clothesType.equals("短袖上衣")){
                     Log.e("getData",clothesType);
                     getclothesmember.setId(clothesID) ;
                     getclothesmember.setImgPath(clothesPIC);
