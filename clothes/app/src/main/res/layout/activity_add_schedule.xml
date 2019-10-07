@@ -28,8 +28,7 @@
             android:layout_width="1.0dip"
             android:layout_height="40dip"
             android:layout_marginTop="2.0dip"
-            android:layout_toRightOf="@id/title_home_btn"
-            android:background="#A71717" />
+            android:layout_toRightOf="@id/title_home_btn" />
 
         <TextView
             android:id="@+id/title_city_name"
