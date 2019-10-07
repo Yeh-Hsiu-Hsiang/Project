@@ -20,7 +20,6 @@ import com.example.calendar.interf.OnSelectDateListener;
 import com.example.calendar.model.CalendarDate;
 import com.example.calendar.view.Calendar;
 import com.example.calendar.view.MonthPager;
-import com.example.clothes.ExampleAdapter;
 import com.example.clothes.MainActivity;
 import com.example.clothes.R;
 
