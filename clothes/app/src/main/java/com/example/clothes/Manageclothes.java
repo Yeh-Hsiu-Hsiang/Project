@@ -12,6 +12,9 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Manageclothes extends AppCompatActivity {
 
     private ViewPager myViewPager;
