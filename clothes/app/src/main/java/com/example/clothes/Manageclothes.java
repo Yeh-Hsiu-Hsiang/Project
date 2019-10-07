@@ -6,11 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +25,14 @@ public class Manageclothes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_manageclothes);
         finishself = this;
+
         //去新增衣服
         ImageButton addclothes = (ImageButton)findViewById( R.id.Addclothes);
         addclothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent ();
-                intent.setClass( Manageclothes.this  , AddClothes.class);
+                intent.setClass( Manageclothes.this  , newclothes.class);
                 startActivity(intent);
 
             }

@@ -38,10 +38,6 @@ public class clothes1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate( R.layout.fragment_clothes1, container, false);
-        //對recycleview進行重製
-//        initData();
-//        initRecyclerView();
-//        //建立數據
 
         return view;
     }
@@ -98,7 +94,6 @@ public class clothes1Fragment extends Fragment {
         }
 
         db.close();
-        Log.e("count","fragmant"+ Integer.toString(count));
         count = 0;
     }
     private void initRecyclerView(){
@@ -109,18 +104,15 @@ public class clothes1Fragment extends Fragment {
        //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
-        //點擊進入修改
+        //點擊(長按)進入修改
         memberAdapter.setOnItemLongClickListener(new MemberAdapter.OnItemLongClickListener() {
             @Override
             public void OnItemLongClick(View view , getClothesMember data) {
-                //此處進行監聽事件的動作處理
                 Toast.makeText(getActivity(),data.id, Toast.LENGTH_SHORT).show();
 
                 //next----
             }
         });
-
-        //無法完整顯示?
 
 
     }
@@ -130,7 +122,7 @@ public class clothes1Fragment extends Fragment {
         private int divider;
         public MyPaddingDecoration() {
             //  設置分隔線寬度
-            divider = 10;
+            divider = 50;
         }
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

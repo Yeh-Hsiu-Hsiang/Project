@@ -11,10 +11,8 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.github.gabrielbb.cutout.CutOut;
 
@@ -52,15 +50,14 @@ public class AddClothes extends AppCompatActivity {
         //去新增衣服(頁面)
         Button updata = (Button) findViewById( R.id.updata);
         updata.setOnClickListener(v -> {
-            if (bitmap != null) {
-                editclothes.PicPath = filepath;
-                Intent intent = new Intent ();
-                intent.setClass( AddClothes.this, editclothes.class);
-                startActivity(intent);
-
-            } else {
-                Toast.makeText( AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
-            }
+//            if (bitmap != null) {
+            newclothes.PicPath = filepath;
+            Intent intent = new Intent ();
+            intent.setClass( AddClothes.this, newclothes.class);
+            startActivity(intent);
+//            } else {
+//                Toast.makeText( AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
+//            }
         });
     }
 
