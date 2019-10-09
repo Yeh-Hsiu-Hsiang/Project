@@ -78,76 +78,146 @@
             android:onClick="test"
             android:visibility="visible"
             android:src="@drawable/addclothes" />
-
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/Manageclothes"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:background="@null"
-        android:onClick="Manageclothes"
-        android:scaleType="fitCenter"
-        android:src="@drawable/wear"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="150dp" />
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/title">
 
-    <ImageButton
-        android:id="@+id/View_wearing"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_below="@+id/Manageclothes"
-        android:layout_toRightOf="@+id/Manageclothes"
-        android:background="@null"
-        android:onClick="View_wearing"
-        android:scaleType="fitCenter"
-        android:src="@drawable/browse"
-        android:layout_marginTop="10dp"/>
+        <ImageView
+            android:id="@+id/circle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-230dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/circle" />
 
-    <ImageButton
-        android:id="@+id/AddSchedule"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_below="@+id/View_wearing"
-        android:layout_toRightOf="@+id/View_wearing"
-        android:background="@null"
-        android:onClick="AddSchedule"
-        android:scaleType="fitCenter"
-        android:src="@drawable/calendar"
-        android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/text_Manageclothes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="衣服管理"
+            android:layout_toRightOf="@+id/Manageclothes"
+            android:layout_marginTop="135dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
 
-    <ImageButton
-        android:id="@+id/Weekweather"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_below="@+id/AddSchedule"
-        android:layout_toLeftOf="@+id/AddSchedule"
-        android:background="@null"
-        android:onClick="Weekweather"
-        android:scaleType="fitCenter"
-        android:src="@drawable/weather"
-        android:layout_marginTop="10dp"/>
+        <ImageButton
+            android:id="@+id/Manageclothes"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@null"
+            android:onClick="Manageclothes"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wear"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="100dp" />
 
-    <ImageButton
-        android:id="@+id/Mysetting"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_below="@+id/Weekweather"
-        android:layout_toLeftOf="@+id/Weekweather"
-        android:background="@null"
-        android:onClick="Mysetting"
-        android:scaleType="fitCenter"
-        android:src="@drawable/tool"
-        android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/text_View_wearing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="預覽穿衣"
+            android:layout_toRightOf="@+id/View_wearing"
+            android:layout_marginTop="210dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/View_wearing"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/Manageclothes"
+            android:layout_toRightOf="@+id/Manageclothes"
+            android:background="@null"
+            android:onClick="View_wearing"
+            android:scaleType="centerCrop"
+            android:src="@drawable/browse"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:id="@+id/text_AddSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新增活動"
+            android:layout_toRightOf="@+id/AddSchedule"
+            android:layout_marginTop="305dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/AddSchedule"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/View_wearing"
+            android:layout_toRightOf="@+id/View_wearing"
+            android:background="@null"
+            android:onClick="AddSchedule"
+            android:scaleType="centerCrop"
+            android:src="@drawable/calendar"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="-15dp"/>
+
+        <TextView
+            android:id="@+id/text_Weekweather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一周天氣"
+            android:layout_toRightOf="@+id/Weekweather"
+            android:layout_marginTop="400dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/Weekweather"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/AddSchedule"
+            android:layout_toRightOf="@+id/AddSchedule"
+            android:background="@null"
+            android:onClick="Weekweather"
+            android:scaleType="centerCrop"
+            android:src="@drawable/weather"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="-55dp"/>
+
+        <TextView
+            android:id="@+id/text_Mysetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="其他設定"
+            android:textFontWeight=""
+            android:layout_toRightOf="@+id/Mysetting"
+            android:layout_marginTop="496dp"
+            android:layout_marginLeft="-40dp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/Mysetting"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/Weekweather"
+            android:layout_toLeftOf="@+id/Weekweather"
+            android:background="@null"
+            android:onClick="Mysetting"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tool"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="50dp"/>
+
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="600dp"
+        android:layout_marginLeft="300dp"
         android:textIsSelectable="true"
         android:text="Test"/>
 
@@ -157,10 +227,7 @@
         android:layout_height="wrap_content"
         android:text="Button"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginLeft="300dp"
         android:layout_below="@+id/textView"/>
-
-
 </RelativeLayout>
 
