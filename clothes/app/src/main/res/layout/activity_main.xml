@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background=" #EEECE6"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -90,7 +91,7 @@
         android:src="@drawable/wear"
         android:layout_below="@+id/title"
         android:layout_marginTop="100dp"
-        android:layout_marginLeft="200dp"/>
+        android:layout_marginLeft="150dp" />
 
     <ImageButton
         android:id="@+id/View_wearing"
@@ -110,11 +111,11 @@
         android:layout_height="55dp"
         android:layout_below="@+id/View_wearing"
         android:layout_toRightOf="@+id/View_wearing"
-        android:layout_centerInParent="true"
         android:background="@null"
         android:onClick="AddSchedule"
         android:scaleType="fitCenter"
-        android:src="@drawable/calendar" />
+        android:src="@drawable/calendar"
+        android:layout_marginTop="10dp"/>
 
     <ImageButton
         android:id="@+id/Weekweather"
@@ -125,7 +126,8 @@
         android:background="@null"
         android:onClick="Weekweather"
         android:scaleType="fitCenter"
-        android:src="@drawable/weather" />
+        android:src="@drawable/weather"
+        android:layout_marginTop="10dp"/>
 
     <ImageButton
         android:id="@+id/Mysetting"
@@ -136,7 +138,29 @@
         android:background="@null"
         android:onClick="Mysetting"
         android:scaleType="fitCenter"
-        android:src="@drawable/tool" />
+        android:src="@drawable/tool"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textIsSelectable="true"
+        android:text="Test"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@+id/textView"/>
+
 
 </RelativeLayout>
 
