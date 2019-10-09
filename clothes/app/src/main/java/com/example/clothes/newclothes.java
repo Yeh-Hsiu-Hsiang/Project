@@ -32,9 +32,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class editclothes extends AppCompatActivity {
+public class newclothes extends AppCompatActivity {
     //傳入照片
-    protected static String PicPath;
+    protected static String PicPath ;
+
     //資料庫
     static final String db_name = "clothes.db";
     static final String tb_name = "ManageClothes";
@@ -46,11 +47,12 @@ public class editclothes extends AppCompatActivity {
     int flag ;
 
     String clothesType;
+    String clothesSeason = "";
     boolean spring, summer, autumn, winter = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_editclothes);
+        setContentView( R.layout.activity_newclothes);
 
         //完成後選項
         final Button Leave = (Button)findViewById( R.id.leave);
@@ -79,21 +81,35 @@ public class editclothes extends AppCompatActivity {
         Winter.setOnCheckedChangeListener(seasonCheckedChangeListener);
 
         //顯示照片
-        showPic(PicPath);
+        if(PicPath !=null){
+            //如果有則顯示圖片
+            showPic(PicPath);
+        }else{
+            //如果沒有則新增圖片(addclothes)
+            ImageView clothesPic = (ImageView)findViewById( R.id.clothesPic);
+            clothesPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent ();
+                    intent.setClass( newclothes.this  , AddClothes.class);
+                    startActivity(intent);
+
+                }
+            });
+        }
 
         //衣服種類選單
         final Spinner spinner = (Spinner)findViewById( R.id.spinner);
-        final ArrayAdapter<CharSequence> clothesList = ArrayAdapter.createFromResource( editclothes.this,
+        final ArrayAdapter<CharSequence> clothesList = ArrayAdapter.createFromResource( newclothes.this,
                 R.array.clothesclass, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(clothesList);
         //衣服類型監聽事件
         spinner.setOnItemSelectedListener(new OnItemSelectedListener (){
             public void onItemSelected(AdapterView adapterView, View view, int position, long id){
                 clothesType = adapterView.getSelectedItem().toString();
-                //Toast.makeText(editclothes.this, "您選擇"+adapterView.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
             }
             public void onNothingSelected(AdapterView arg0) {
-                Toast.makeText( editclothes.this, "您沒有選擇任何項目", Toast.LENGTH_LONG).show();
+                Toast.makeText( newclothes.this, "您沒有選擇任何項目", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -182,26 +198,33 @@ public class editclothes extends AppCompatActivity {
         Intent intent = new Intent ();
         @Override
         public void onClick(View v) {
-            CompleteAdd();
-            switch (v.getId()){
-                case R.id.leave:
-                    //回到管理頁面
-                    AddClothes.finishself.finish();
-                    Manageclothes.finishself.finish();
-                    intent.setClass( editclothes.this  , Manageclothes.class);
-                    startActivity(intent);
-                    editclothes.this.finish();
+            if(PicPath !=null) {
+                CompleteAdd();
+                if(clothesSeason != ""){
+                    switch (v.getId()) {
+                        case R.id.leave:
+                            //回到管理頁面
+                            AddClothes.finishself.finish();
+                            Manageclothes.finishself.finish();
+                            intent.setClass(newclothes.this, Manageclothes.class);
+                            startActivity(intent);
+                            newclothes.this.finish();
 
-                    break;
-                case R.id.keepadd:
-                    //回到新增衣服頁面
-                    AddClothes.finishself.finish();
-                    //Manageclothes.finishself.finish();
-                    intent.setClass( editclothes.this  , AddClothes.class);
-                    startActivity(intent);
-                    editclothes.this.finish();
+                            break;
+                        case R.id.keepadd:
+                            //回到新增衣服頁面
+                            AddClothes.finishself.finish();
+                            //Manageclothes.finishself.finish();
+                            intent.setClass(newclothes.this, AddClothes.class);
+                            startActivity(intent);
+                            newclothes.this.finish();
 
-                    break;
+                            break;
+                    }
+                }
+            }else {
+                Toast.makeText( newclothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
+
             }
         }
     };
@@ -266,7 +289,8 @@ public class editclothes extends AppCompatActivity {
 
 
     };
-    //整理
+
+    //整理進入DB
     public void CompleteAdd(){
 
         //1衣服編號
@@ -292,19 +316,24 @@ public class editclothes extends AppCompatActivity {
         Log.e("CompleteAdd",tempUpper.toString());
 
         //7衣服季節<<clothesSeason>>
-        String clothesSeason = "";
-        if (spring) clothesSeason =clothesSeason + "春";
-        if (summer) clothesSeason =clothesSeason + "夏";
-        if (autumn) clothesSeason =clothesSeason + "秋";
-        if (winter) clothesSeason =clothesSeason + "冬";
+        clothesSeason = "";
+        if (spring) clothesSeason = clothesSeason + "春";
+        if (summer) clothesSeason = clothesSeason + "夏";
+        if (autumn) clothesSeason = clothesSeason + "秋";
+        if (winter) clothesSeason = clothesSeason + "冬";
         Log.e("CompleteAdd",clothesSeason);
 
         //8建立日期<<timeStamp>>
         String timeStamp = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date ());
         Log.e("CompleteAdd",timeStamp);
+        if(clothesSeason == ""){
+            Toast.makeText( newclothes.this, "請至少選擇一個季節" , Toast.LENGTH_LONG).show();
+        }else{
+            addData(PicPath, clothesName, clothesType, tempLower, tempUpper, clothesSeason, timeStamp);
+            PicPath = null;
+            db.close();
+        }
 
-        addData(PicPath, clothesName, clothesType, tempLower, tempUpper, clothesSeason, timeStamp);
-        db.close();
     }
 
 
