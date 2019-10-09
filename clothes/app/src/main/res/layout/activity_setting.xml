@@ -38,7 +38,7 @@
             android:layout_toRightOf="@id/city_seperator"
             android:gravity="center_vertical"
             android:paddingLeft="5dip"
-            android:text="天氣預測"
+            android:text="個人設定"
             android:textColor="#ffffffff"
             android:textSize="22.0sp" />
 
