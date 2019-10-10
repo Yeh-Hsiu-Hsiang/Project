@@ -1,10 +1,12 @@
-package com.example.clothes;
+package com.example.clothes.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.clothes.R;
 
 
 public class clothes3Fragment extends Fragment {

@@ -1,29 +1,27 @@
-package com.example.clothes;
+package com.example.clothes.fragment;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import com.example.clothes.MemberAdapter;
+import com.example.clothes.R;
+import com.example.clothes.database.clothesDAO;
+import com.example.clothes.database.getClothesMember;
 
 import java.util.ArrayList;
 
 
 public class clothes1Fragment extends Fragment {
-    //資料庫
-    static final String db_name = "clothes.db";
-    static final String tb_name = "ManageClothes";
-    static int count = 0;
-    SQLiteDatabase db;
+
+    // 宣告資料庫功能類別欄位變數
+    private clothesDAO dao;
 
     private View view;//定義view用來設置fragment的layout
     public RecyclerView mCollectRecyclerView;//定義RecyclerView
@@ -45,6 +43,7 @@ public class clothes1Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        dao = new clothesDAO(getContext());
         if (clothesList != null)
             clothesList = null;
 
@@ -56,65 +55,37 @@ public class clothes1Fragment extends Fragment {
     }
 
     private void initData(){
+        clothesList = dao.getoneType("\"短袖上衣\"");
+        dao.close();
 
-        //開啟或建立資料庫
-        db = getActivity().openOrCreateDatabase(db_name, Context.MODE_PRIVATE , null);
-        String createTable = "CREATE TABLE IF NOT EXISTS "+
-                tb_name +
-                "(衣服編號  INTEGER primary key autoincrement , " +
-                "衣服照片 TEXT NOT NULL , " +
-                "衣服名稱 TEXT , "+
-                "衣服類型  TEXT NOT NULL , " +
-                "穿衣溫度_下限 INTEGER NOT NULL , " +
-                "穿衣溫度_上限 INTEGER NOT NULL , " +
-                "季節 TEXT , "+
-                "建立日期 INTEGER NOT NULL ) " ;
-        db.execSQL(createTable);
-        Cursor c=db.rawQuery("SELECT * FROM "+tb_name, null);
-        if (c.getCount()>0){
-            c.moveToFirst();    // 移到第 1 筆資料
-            do{        // 逐筆讀出資料
-                getClothesMember getclothesmember = new getClothesMember();
-                String clothesID = c.getString(0);
-                String clothesPIC = c.getString(1);
-                String clothesName = c.getString(2);
-                String clothesType = c.getString(3);
-
-                if(clothesType.equals("短袖上衣")){
-                    Log.e("getData",clothesType);
-                    getclothesmember.setId(clothesID) ;
-                    getclothesmember.setImgPath(clothesPIC);
-                    getclothesmember.setName(clothesName);
-                    clothesList.add(new getClothesMember(clothesID,
-                            clothesPIC,
-                            clothesName));
-                    count++;
-                }
-            } while(c.moveToNext());    // 有一下筆就繼續迴圈
-        }
-
-        db.close();
-        count = 0;
     }
     private void initRecyclerView(){
-        mCollectRecyclerView = (RecyclerView)view.findViewById( R.id.collect_recyclerView);
+        mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
         mCollectRecyclerView.setAdapter(memberAdapter);
         mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));
-       //解決留白問題 用分隔線
+        //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
-        //點擊(長按)進入修改
+        //點擊(長按)進入多選刪除
         memberAdapter.setOnItemLongClickListener(new MemberAdapter.OnItemLongClickListener() {
             @Override
             public void OnItemLongClick(View view , getClothesMember data) {
-                Toast.makeText(getActivity(),data.id, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),data.id.toString(), Toast.LENGTH_SHORT).show();
 
                 //next----
             }
         });
 
+        //點擊(短按)進入修改
+        memberAdapter.setOnItemClickListener(new MemberAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view , getClothesMember data) {
+                //Toast.makeText(getActivity(),data.id.toString(), Toast.LENGTH_SHORT).show();
 
+                //next----
+            }
+        });
     }
 
     //RecyclerView的分隔線

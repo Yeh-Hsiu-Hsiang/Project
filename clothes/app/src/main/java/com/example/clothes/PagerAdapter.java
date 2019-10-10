@@ -4,6 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.clothes.fragment.clothes1Fragment;
+import com.example.clothes.fragment.clothes2Fragment;
+import com.example.clothes.fragment.clothes3Fragment;
+import com.example.clothes.fragment.clothes4Fragment;
+import com.example.clothes.fragment.clothes5Fragment;
+import com.example.clothes.fragment.clothes6Fragment;
+import com.example.clothes.fragment.clothes7Fragment;
+import com.example.clothes.fragment.clothes8Fragment;
+
 import java.util.List;
 
 public class PagerAdapter extends FragmentPagerAdapter {

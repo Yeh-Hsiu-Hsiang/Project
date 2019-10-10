@@ -8,6 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.example.clothes.fragment.clothes1Fragment;
+import com.example.clothes.fragment.clothes2Fragment;
+import com.example.clothes.fragment.clothes3Fragment;
+import com.example.clothes.fragment.clothes4Fragment;
+import com.example.clothes.fragment.clothes5Fragment;
+import com.example.clothes.fragment.clothes6Fragment;
+import com.example.clothes.fragment.clothes7Fragment;
+import com.example.clothes.fragment.clothes8Fragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
