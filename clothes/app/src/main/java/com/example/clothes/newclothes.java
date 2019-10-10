@@ -1,8 +1,6 @@
 package com.example.clothes;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -25,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
+import com.example.clothes.database.clothesDAO;
+import com.example.clothes.database.getClothesMember;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -36,10 +36,8 @@ public class newclothes extends AppCompatActivity {
     //傳入照片
     protected static String PicPath ;
 
-    //資料庫
-    static final String db_name = "clothes.db";
-    static final String tb_name = "ManageClothes";
-    SQLiteDatabase db;
+    // 宣告資料庫功能類別欄位變數
+    private clothesDAO dao;
 
     //溫度區間_宣告
     private ArrayList<String> options1Items = new ArrayList<> ();
@@ -143,7 +141,8 @@ public class newclothes extends AppCompatActivity {
                 .build();
         pvOptions.setPicker(options1Items);
 
-        OpenDB();
+
+        dao = new clothesDAO(getApplicationContext());
     }
 
     private void paletteBitmap(Bitmap bitmap) {
@@ -292,28 +291,29 @@ public class newclothes extends AppCompatActivity {
 
     //整理進入DB
     public void CompleteAdd(){
+        getClothesMember getclothesmember = new getClothesMember();
 
         //1衣服編號
 
         //2衣服照片(路徑)<<PicPath>>
-        Log.e("CompleteAdd",PicPath);
+        getclothesmember.setImgPath(PicPath);
 
         //3衣服名稱<<clothesName>>
         String clothesName = ((EditText)findViewById( R.id.editText)).getText().toString();
-        Log.e("CompleteAdd",clothesName);
+        getclothesmember.setName(clothesName);
 
         //4衣服類型<<clothesType>>
-        Log.e("CompleteAdd",clothesType);
+        getclothesmember.setType(clothesType);
 
         //5溫度下限<<tempLower>>
         String tempL = ((TextView)findViewById( R.id.TempRange_Lower)).getText().toString();
-        Integer tempLower = Integer.parseInt(tempL.substring(0,tempL.indexOf("℃")));
-        Log.e("CompleteAdd",tempLower.toString());
+        Long tempLower = Long.parseLong(tempL.substring(0,tempL.indexOf("℃")));
+        getclothesmember.setTempLower(tempLower);
 
         //6溫度上限<<tempUpper>>
         String tempU = ((TextView)findViewById( R.id.TempRange_Upper)).getText().toString();
-        Integer tempUpper = Integer.parseInt(tempU.substring(0,tempU.indexOf("℃")));
-        Log.e("CompleteAdd",tempUpper.toString());
+        Long tempUpper = Long.parseLong(tempU.substring(0,tempU.indexOf("℃")));
+        getclothesmember.setTempUpper(tempUpper);
 
         //7衣服季節<<clothesSeason>>
         clothesSeason = "";
@@ -321,53 +321,20 @@ public class newclothes extends AppCompatActivity {
         if (summer) clothesSeason = clothesSeason + "夏";
         if (autumn) clothesSeason = clothesSeason + "秋";
         if (winter) clothesSeason = clothesSeason + "冬";
-        Log.e("CompleteAdd",clothesSeason);
+        getclothesmember.setSeasen(clothesSeason);
 
         //8建立日期<<timeStamp>>
         String timeStamp = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date ());
-        Log.e("CompleteAdd",timeStamp);
+        getclothesmember.setUpdateTime(timeStamp);
+
+
         if(clothesSeason == ""){
             Toast.makeText( newclothes.this, "請至少選擇一個季節" , Toast.LENGTH_LONG).show();
         }else{
-            addData(PicPath, clothesName, clothesType, tempLower, tempUpper, clothesSeason, timeStamp);
+            dao.insert(getclothesmember);
             PicPath = null;
-            db.close();
+            dao.close();
         }
-
-    }
-
-
-
-    public void OpenDB(){
-        //開啟或建立資料庫
-        db = openOrCreateDatabase(db_name, MODE_PRIVATE , null);
-        String createTable = "CREATE TABLE IF NOT EXISTS "+
-                tb_name +
-                "(衣服編號  INTEGER primary key autoincrement , " +
-                "衣服照片 TEXT NOT NULL , " +
-                "衣服名稱 TEXT , "+
-                "衣服類型  TEXT NOT NULL , " +
-                "穿衣溫度_下限 INTEGER NOT NULL , " +
-                "穿衣溫度_上限 INTEGER NOT NULL , " +
-                "季節 TEXT , "+
-                "建立日期 INTEGER NOT NULL ) " ;
-        db.execSQL(createTable);
-    }
-
-    //加入db資料
-    private void addData(String picPath, String clothesName, String clothesType, Integer tempLower, Integer tempUpper,
-                         String clothesSeason, String timeStamp){
-        ContentValues values = new ContentValues ();
-        //values.put("衣服編號",);
-        values.put("衣服照片", picPath);
-        values.put("衣服名稱", clothesName);
-        values.put("衣服類型", clothesType);
-        values.put("穿衣溫度_下限", tempLower);
-        values.put("穿衣溫度_上限", tempUpper);
-        values.put("季節", clothesSeason);
-        values.put("建立日期", timeStamp);
-
-        db.insert(tb_name,null,values);
 
     }
 

@@ -2,18 +2,10 @@ package com.example.clothes;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.example.calendar.AddSchedule;
 import com.example.weather.weather;
@@ -65,5 +57,6 @@ public class MainActivity extends AppCompatActivity {
         intent.setClass( MainActivity.this  , setting.class);
         startActivity(intent);
     }
+
 }
 
