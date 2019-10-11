@@ -286,7 +286,6 @@ public class newclothes extends AppCompatActivity {
             }
         }
 
-
     };
 
     //整理進入DB
@@ -299,7 +298,7 @@ public class newclothes extends AppCompatActivity {
         getclothesmember.setImgPath(PicPath);
 
         //3衣服名稱<<clothesName>>
-        String clothesName = ((EditText)findViewById( R.id.editText)).getText().toString();
+        String clothesName = ((EditText)findViewById( R.id.clothesname)).getText().toString();
         getclothesmember.setName(clothesName);
 
         //4衣服類型<<clothesType>>

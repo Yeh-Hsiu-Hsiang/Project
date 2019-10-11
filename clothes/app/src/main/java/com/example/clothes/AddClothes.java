@@ -167,14 +167,18 @@ public class AddClothes extends AppCompatActivity {
         if (file.exists()) {
             file.delete();
         }
-    }
-    private void savePhoto(){
-        imgurl = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
-        Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
-        it.putExtra(MediaStore.EXTRA_OUTPUT,imgurl);
-
-        startActivityForResult(it,takepic);
-    }
+        filepath = file.toString();
+        FileOutputStream out;
+        try {
+            out = new FileOutputStream(file);
+            if (bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)) {
+                out.flush();
+                out.close();
+                //保存图片后发送广播通知更新数据库
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri = Uri.fromFile(file);
+                intent.setData(uri);
+                this.sendBroadcast(intent);
 
     //取得相片後返回
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
