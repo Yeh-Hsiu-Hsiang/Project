@@ -1,5 +1,6 @@
 package com.example.clothes.fragment;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,11 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.clothes.MemberAdapter;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
+import com.example.clothes.editclothes;
 
 import java.util.ArrayList;
 
@@ -81,9 +82,12 @@ public class clothes1Fragment extends Fragment {
         memberAdapter.setOnItemClickListener(new MemberAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view , getClothesMember data) {
-                //Toast.makeText(getActivity(),data.id.toString(), Toast.LENGTH_SHORT).show();
 
-                //next----
+                editclothes.clothesID = data.getId();
+                Intent intent = new Intent();
+                intent.setClass( getActivity() , editclothes.class);
+                startActivity(intent);
+
             }
         });
     }

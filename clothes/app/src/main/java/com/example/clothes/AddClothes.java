@@ -116,7 +116,6 @@ public class AddClothes extends AppCompatActivity {
             file.delete();
         }
         filepath = file.toString();
-        Log.e( "123 ", filepath);
         FileOutputStream out;
         try {
             out = new FileOutputStream(file);
