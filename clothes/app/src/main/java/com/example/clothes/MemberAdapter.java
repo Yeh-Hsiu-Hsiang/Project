@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.clothes.database.getClothesMember;
+
 import java.util.ArrayList;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>{
@@ -33,7 +35,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         getClothesMember member = ClothesList.get(position);
         //holder.imageId.setImageResource(member.getImage());
         holder.imageId.setImageBitmap( BitmapFactory.decodeFile(member.getImgPath()));
-        holder.textId.setText(member.getId());
+        holder.textId.setText(member.getId().toString());
         holder.textName.setText(member.getName());
 
     }
@@ -50,17 +52,16 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         private TextView textId, textName;
         public ViewHolder(View itemView) {
             super(itemView);
-            imageId = (ImageView) itemView.findViewById( R.id.imageId);
-            textId = (TextView) itemView.findViewById( R.id.textId);
-            textName = (TextView) itemView.findViewById( R.id.textName);
+            imageId = (ImageView) itemView.findViewById(R.id.imageId);
+            textId = (TextView) itemView.findViewById(R.id.textId);
+            textName = (TextView) itemView.findViewById(R.id.textName);
 
 
-            //方法一：在adapter中设置点击事件
+            //在adapter中设置点击事件(長按)
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     //可以选择直接在本位置直接写业务处理
-                    //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     //此处回传点击监听事件
                     if(onItemLongClickListener!=null){
                         onItemLongClickListener.OnItemLongClick(v, ClothesList.get(getLayoutPosition()));
@@ -68,11 +69,24 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                     return false;
                 }
             });
+
+            //在adapter中设置点击事件(短按)
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //可以选择直接在本位置直接写业务处理
+                    //此处回传点击监听事件
+                    if(onItemClickListener!=null){
+                        onItemClickListener.OnItemClick(v, ClothesList.get(getLayoutPosition()));
+                    }
+                    return;
+                }
+            });
         }
     }
 
     /**
-     * 设置item的监听事件的接口
+     * 设置item的监听事件的接口(長)
      */
     public interface OnItemLongClickListener {
 
@@ -87,5 +101,20 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
+    /**
+     * 设置item的监听事件的接口(短)
+     */
+    public interface OnItemClickListener {
+
+        public void OnItemClick(View view, getClothesMember data);
+
+    }
+
+    //需要外部访问，所以需要设置set方法，方便调用
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
 }

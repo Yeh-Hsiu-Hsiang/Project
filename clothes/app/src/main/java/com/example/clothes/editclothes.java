@@ -5,13 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,15 +28,21 @@ import com.example.clothes.database.getClothesMember;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
-public class newclothes extends AppCompatActivity {
+public class editclothes extends AppCompatActivity {
+    //傳入衣服id
+    public static Long clothesID ;
+
     //傳入照片
     protected static String PicPath ;
 
     // 宣告資料庫功能類別欄位變數
     private clothesDAO dao;
+    public static boolean load = true;
+    String tempDBpic;
 
     //溫度區間_宣告
     private ArrayList<String> options1Items = new ArrayList<> ();
@@ -46,18 +51,40 @@ public class newclothes extends AppCompatActivity {
 
     String clothesType;
     String clothesSeason = "";
+    String[] season = new String[] {"春", "夏", "秋", "冬"};
     boolean spring, summer, autumn, winter = false;
+    String[] mClothes;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_newclothes);
+        setContentView(R.layout.activity_editclothes);
+        dao = new clothesDAO(getApplicationContext());
+        initData();
 
         //完成後選項
-        final Button Leave = (Button)findViewById( R.id.leave);
-        final Button backAdd = (Button)findViewById( R.id.keepadd);
-        Leave.setOnClickListener(LeaveOrAdd);
-        backAdd.setOnClickListener(LeaveOrAdd);
+        final Button editok = (Button)findViewById( R.id.editok);
+        final Button delclothes = (Button)findViewById( R.id.delclothes);
+        editok.setOnClickListener(EditOrDel);
+        delclothes.setOnClickListener(EditOrDel);
 
+        //新增圖片(addclothes)
+        ImageView clothesPic = (ImageView)findViewById( R.id.clothesPic);
+        clothesPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddClothes.clothesID = clothesID;
+                Intent intent = new Intent ();
+                intent.setClass( editclothes.this  , AddClothes.class);
+                startActivity(intent);
+
+            }
+        });
+        Log.e("PIC",PicPath+" "+load);
+        showPic(PicPath);
+        if(PicPath != tempDBpic) AddClothes.finishself.finish();
         //溫度區間--定義資料
         final TextView temp_range_upper = (TextView)findViewById( R.id.TempRange_Upper);
         final TextView temp_range_lower = (TextView)findViewById( R.id.TempRange_Lower);
@@ -78,40 +105,20 @@ public class newclothes extends AppCompatActivity {
         Autumn.setOnCheckedChangeListener(seasonCheckedChangeListener);
         Winter.setOnCheckedChangeListener(seasonCheckedChangeListener);
 
-        //顯示照片
-        if(PicPath !=null){
-            //如果有則顯示圖片
-            showPic(PicPath);
-            AddClothes.finishself.finish();
-        }
-        //新增圖片(addclothes)
-        ImageView clothesPic = (ImageView)findViewById( R.id.clothesPic);
-        clothesPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddClothes.clothesID = null;
-                Intent intent = new Intent ();
-                intent.setClass( newclothes.this  , AddClothes.class);
-                startActivity(intent);
-
-            }
-        });
-
         //衣服種類選單
         final Spinner spinner = (Spinner)findViewById( R.id.spinner);
-        final ArrayAdapter<CharSequence> clothesList = ArrayAdapter.createFromResource( newclothes.this,
+        final ArrayAdapter<CharSequence> clothesList = ArrayAdapter.createFromResource( editclothes.this,
                 R.array.clothesclass, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(clothesList);
         //衣服類型監聽事件
-        spinner.setOnItemSelectedListener(new OnItemSelectedListener (){
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView adapterView, View view, int position, long id){
                 clothesType = adapterView.getSelectedItem().toString();
             }
             public void onNothingSelected(AdapterView arg0) {
-                Toast.makeText( newclothes.this, "您沒有選擇任何項目", Toast.LENGTH_LONG).show();
+                Toast.makeText( editclothes.this, "您沒有選擇任何項目", Toast.LENGTH_LONG).show();
             }
         });
-
 
         //建立選擇器資料(溫度區間)
         initOptionData();
@@ -143,9 +150,35 @@ public class newclothes extends AppCompatActivity {
         pvOptions.setPicker(options1Items);
 
 
-        dao = new clothesDAO(getApplicationContext());
     }
 
+    //顯示圖片
+    public void showPic(String picpath){
+        ImageView imv = (ImageView)findViewById( R.id.clothesPic);
+        Bitmap bitmap = BitmapFactory.decodeFile(picpath);
+        paletteBitmap(pathToBitmap(picpath, 800, 800)); //抓取顏色
+        imv.setImageBitmap(bitmap);
+    }
+
+    //抓取顏色
+    public Bitmap pathToBitmap(String path, int wantWidth, int wantHeight) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; // 设置为ture只获取图片大小
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        BitmapFactory.decodeFile(path, options); // 返回为空
+        int realWidth = options.outWidth;
+        int readlHeight = options.outHeight;
+        float scaleWidth = 0.f, scaleHeight = 0.f;
+        if (realWidth > wantWidth || readlHeight > wantHeight) { // 缩放
+            scaleWidth = ((float) realWidth) / wantWidth;
+            scaleHeight = ((float) readlHeight) / wantHeight;
+        }
+        options.inJustDecodeBounds = false;
+        float scale = Math.max(scaleWidth, scaleHeight);
+        options.inSampleSize = (int) scale;
+        WeakReference<Bitmap> weak = new WeakReference<> ( BitmapFactory.decodeFile(path, options));
+        return Bitmap.createScaledBitmap(weak.get(), wantWidth, wantHeight, true);
+    }
     private void paletteBitmap(Bitmap bitmap) {
         final ImageView pcolor = (ImageView)findViewById( R.id.imageView3);
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
@@ -167,65 +200,6 @@ public class newclothes extends AppCompatActivity {
         });
     }
 
-    public void showPic(String picpath){
-        ImageView imv = (ImageView)findViewById( R.id.clothesPic);
-        Bitmap bitmap = BitmapFactory.decodeFile(picpath);
-        paletteBitmap(pathToBitmap(picpath, 800, 800));
-        imv.setImageBitmap(bitmap);
-    }
-
-    public Bitmap pathToBitmap(String path, int wantWidth, int wantHeight) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true; // 设置为ture只获取图片大小
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        BitmapFactory.decodeFile(path, options); // 返回为空
-        int realWidth = options.outWidth;
-        int readlHeight = options.outHeight;
-        float scaleWidth = 0.f, scaleHeight = 0.f;
-        if (realWidth > wantWidth || readlHeight > wantHeight) { // 缩放
-            scaleWidth = ((float) realWidth) / wantWidth;
-            scaleHeight = ((float) readlHeight) / wantHeight;
-        }
-        options.inJustDecodeBounds = false;
-        float scale = Math.max(scaleWidth, scaleHeight);
-        options.inSampleSize = (int) scale;
-        WeakReference<Bitmap> weak = new WeakReference<> ( BitmapFactory.decodeFile(path, options));
-        return Bitmap.createScaledBitmap(weak.get(), wantWidth, wantHeight, true);
-    }
-
-
-    private View.OnClickListener LeaveOrAdd = new View.OnClickListener() {
-        Intent intent = new Intent ();
-        @Override
-        public void onClick(View v) {
-            if(PicPath !=null) {
-                CompleteAdd();
-                if(clothesSeason != ""){
-                    switch (v.getId()) {
-                        case R.id.leave:
-                            //回到管理頁面
-                            Manageclothes.finishself.finish();
-                            intent.setClass(newclothes.this, Manageclothes.class);
-                            startActivity(intent);
-                            newclothes.this.finish();
-
-                            break;
-                        case R.id.keepadd:
-                            //回到新增衣服頁面
-                            //Manageclothes.finishself.finish();
-                            intent.setClass(newclothes.this, newclothes.class);
-                            startActivity(intent);
-                            newclothes.this.finish();
-
-                            break;
-                    }
-                }
-            }else {
-                Toast.makeText( newclothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
-
-            }
-        }
-    };
     //溫度區間監聽事件
     private View.OnClickListener tempChangeListener = new View.OnClickListener() {
         @Override
@@ -284,15 +258,96 @@ public class newclothes extends AppCompatActivity {
                     break;
             }
         }
-
     };
 
+    private void initData(){
+        getClothesMember member = dao.getoneID(clothesID);
+        //layout的物件宣告
+        TextView clothesname = (TextView)findViewById( R.id.clothesname);
+        TextView temp_range_upper = (TextView)findViewById( R.id.TempRange_Upper);
+        TextView temp_range_lower = (TextView)findViewById( R.id.TempRange_Lower);
+        Spinner spinner = (Spinner)findViewById( R.id.spinner);
+        CheckBox Spring = (CheckBox) findViewById( R.id.spring);
+        CheckBox Summer = (CheckBox) findViewById( R.id.summer);
+        CheckBox Autumn = (CheckBox) findViewById( R.id.autumn);
+        CheckBox Winter = (CheckBox) findViewById( R.id.winter);
+
+        //showPic(member.getImgPath());
+        if(load) PicPath = member.getImgPath();
+        tempDBpic = member.getImgPath();
+
+        clothesname.setText(member.getName());
+        temp_range_lower.setText(member.getTempLower().toString() + "℃");
+        temp_range_upper.setText(member.getTempUpper().toString() + "℃");
+        //Spinner修改預設值成db內容
+        mClothes =  getResources().getStringArray(R.array.clothesclass);
+        spinner.setSelection(Arrays.asList(mClothes).indexOf(member.getType()), true);
+
+        //season預設內容
+        clothesSeason = member.getSeasen();
+        for (int i = 1; i<=clothesSeason.length() ; i++){
+            for (int j = 0; j<4 ; j++){
+                if(season[j].equals(String.valueOf(clothesSeason.charAt(i-1)))){
+                    switch (j){
+                        case 0:
+                            spring = true;
+                            Spring.setChecked(true);
+                            break;
+                        case 1:
+                            summer = true;
+                            Summer.setChecked(true);
+                            break;
+                        case 2:
+                            autumn = true;
+                            Autumn.setChecked(true);
+                            break;
+                        case 3:
+                            winter = true;
+                            Winter.setChecked(true);
+                            break;
+                    }
+                }
+            }
+        }
+
+        //dao.close();
+        load = false;
+    }
+    //完成選項
+    private View.OnClickListener EditOrDel = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.delclothes:
+                    LeaveEdit();
+                    dao.delete(clothesID);
+                    dao.close();
+                    break;
+                case R.id.editok:
+                    CompleteEDIT();
+                    if(clothesSeason != "") LeaveEdit();
+                    break;
+            }
+
+        }
+    };
+
+    //離開編輯畫面
+    public void LeaveEdit(){
+        Intent intent = new Intent ();
+        //回到管理頁面
+        Manageclothes.finishself.finish();
+        intent.setClass(editclothes.this, Manageclothes.class);
+        startActivity(intent);
+        finish();
+    }
+
     //整理進入DB
-    public void CompleteAdd(){
+    public void CompleteEDIT(){
         getClothesMember getclothesmember = new getClothesMember();
-
         //1衣服編號
-
+        getclothesmember.setId(clothesID);
         //2衣服照片(路徑)<<PicPath>>
         getclothesmember.setImgPath(PicPath);
 
@@ -322,18 +377,17 @@ public class newclothes extends AppCompatActivity {
         getclothesmember.setSeasen(clothesSeason);
 
         //8建立日期<<timeStamp>>
-        String timeStamp = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date ());
+        String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date());
         getclothesmember.setUpdateTime(timeStamp);
 
 
         if(clothesSeason == ""){
-            Toast.makeText( newclothes.this, "請至少選擇一個季節" , Toast.LENGTH_LONG).show();
+            Toast.makeText( editclothes.this, "請至少選擇一個季節" , Toast.LENGTH_LONG).show();
         }else{
-            dao.insert(getclothesmember);
+            dao.update(getclothesmember);
             PicPath = null;
+            load = true;
             dao.close();
         }
-
     }
-
 }
