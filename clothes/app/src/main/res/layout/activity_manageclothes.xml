@@ -7,7 +7,6 @@
     android:background="@color/background"
     tools:context=".Manageclothes">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +16,7 @@
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="45.0dip"
-            android:background="#2d383f"
+            android:background="@color/bar_background"
             android:gravity="center_vertical">
 
             <ImageButton

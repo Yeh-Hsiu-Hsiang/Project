@@ -98,7 +98,7 @@ public class weather extends AppCompatActivity {
         android.location.Location location = locationManager.getLastKnownLocation(commadStr);
         if (location != null)
             Location.setText("位於：" + getAddressByLocation(location));
-        // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
+            // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
         else
             Location.setText("定位中");
 
@@ -204,10 +204,10 @@ public class weather extends AppCompatActivity {
 
     // 回到主頁按鈕
     public void toHome(View view) {
-                Intent intent = new Intent();
-                intent.setClass( weather.this  , MainActivity.class);
-                startActivity(intent);
-                weather.this.finish();
+        Intent intent = new Intent();
+        intent.setClass( weather.this  , MainActivity.class);
+        startActivity(intent);
+        weather.this.finish();
     }
 
     // 重新整理按鈕
