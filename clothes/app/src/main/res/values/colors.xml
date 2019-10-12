@@ -42,6 +42,8 @@
 
     <color name="text_light">#ffffff</color>
     <color name="text_dark">#000000</color>
-    <color name="tab_indicator">#ffffff</color>
-    <color name="bar_background">#000000</color>
+    <color name="bar_background">#2D383F</color>
+    <color name="background">#EEECE6</color>
+    <color name="icon">#EEA12F</color>
+    <color name="list"> #51626F</color>
 </resources>

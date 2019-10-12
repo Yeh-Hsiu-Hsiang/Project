@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".setting">
+    tools:context=".setting"
+    android:background="@color/background">
 
     <RelativeLayout
         android:id="@+id/title"
@@ -78,7 +79,7 @@
             android:background="@null"
             android:onClick="test"
             android:visibility="visible"
-            android:src="@drawable/addclothes" />
+            android:src="@drawable/add" />
 
     </RelativeLayout>
 
