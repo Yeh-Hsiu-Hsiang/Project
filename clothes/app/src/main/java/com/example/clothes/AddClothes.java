@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddClothes extends AppCompatActivity {
+    //傳入衣服id
+    public static Long clothesID ;
     private ImageView imageView;
 
     Bitmap bitmap = null;
@@ -47,18 +49,26 @@ public class AddClothes extends AppCompatActivity {
                     .start(this);
         });
 
-        //去新增衣服(頁面)
-        Button updata = (Button) findViewById( R.id.updata);
-        updata.setOnClickListener(v -> {
-//            if (bitmap != null) {
-            newclothes.PicPath = filepath;
-            Intent intent = new Intent ();
-            intent.setClass( AddClothes.this, newclothes.class);
-            startActivity(intent);
-//            } else {
-//                Toast.makeText( AddClothes.this, "請拍照或選擇圖片", Toast.LENGTH_LONG).show();
-//            }
-        });
+        if(clothesID == null){
+             //去新增衣服(頁面)
+            Button updata = (Button) findViewById( R.id.updata);
+            updata.setOnClickListener(v -> {
+                newclothes.PicPath = filepath;
+                Intent intent = new Intent ();
+                intent.setClass( AddClothes.this, newclothes.class);
+                startActivity(intent);
+            });
+        }else{
+            //去修改衣服(頁面)
+            Button updata = (Button) findViewById( R.id.updata);
+            updata.setOnClickListener(v -> {
+                editclothes.PicPath = filepath;
+                editclothes.load = false;
+                Intent intent = new Intent ();
+                intent.setClass( AddClothes.this, editclothes.class);
+                startActivity(intent);
+            });
+        }
     }
 
     @Override

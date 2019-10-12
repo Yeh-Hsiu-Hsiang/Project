@@ -82,19 +82,20 @@ public class newclothes extends AppCompatActivity {
         if(PicPath !=null){
             //如果有則顯示圖片
             showPic(PicPath);
-        }else{
-            //如果沒有則新增圖片(addclothes)
-            ImageView clothesPic = (ImageView)findViewById( R.id.clothesPic);
-            clothesPic.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent ();
-                    intent.setClass( newclothes.this  , AddClothes.class);
-                    startActivity(intent);
-
-                }
-            });
+            AddClothes.finishself.finish();
         }
+        //新增圖片(addclothes)
+        ImageView clothesPic = (ImageView)findViewById( R.id.clothesPic);
+        clothesPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddClothes.clothesID = null;
+                Intent intent = new Intent ();
+                intent.setClass( newclothes.this  , AddClothes.class);
+                startActivity(intent);
+
+            }
+        });
 
         //衣服種類選單
         final Spinner spinner = (Spinner)findViewById( R.id.spinner);
@@ -203,7 +204,6 @@ public class newclothes extends AppCompatActivity {
                     switch (v.getId()) {
                         case R.id.leave:
                             //回到管理頁面
-                            AddClothes.finishself.finish();
                             Manageclothes.finishself.finish();
                             intent.setClass(newclothes.this, Manageclothes.class);
                             startActivity(intent);
@@ -212,9 +212,8 @@ public class newclothes extends AppCompatActivity {
                             break;
                         case R.id.keepadd:
                             //回到新增衣服頁面
-                            AddClothes.finishself.finish();
                             //Manageclothes.finishself.finish();
-                            intent.setClass(newclothes.this, AddClothes.class);
+                            intent.setClass(newclothes.this, newclothes.class);
                             startActivity(intent);
                             newclothes.this.finish();
 
