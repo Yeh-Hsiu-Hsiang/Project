@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EDECE7"
+    android:background="@color/background"
     tools:context=".Manageclothes">
 
 
@@ -82,7 +82,7 @@
                 android:background="@null"
                 android:onClick="test"
                 android:scaleType="fitCenter"
-                android:src="@drawable/addclothes"
+                android:src="@drawable/add"
                 android:visibility="visible" />
         </RelativeLayout>
 
