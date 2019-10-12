@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddClothes extends AppCompatActivity {
+    //傳入衣服id
+    public static Long clothesID ;
     private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

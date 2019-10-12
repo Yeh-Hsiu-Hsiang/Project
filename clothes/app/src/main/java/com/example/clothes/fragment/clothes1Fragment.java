@@ -84,6 +84,7 @@ public class clothes1Fragment extends Fragment {
             public void OnItemClick(View view , getClothesMember data) {
 
                 editclothes.clothesID = data.getId();
+                editclothes.load = true;
                 Intent intent = new Intent();
                 intent.setClass( getActivity() , editclothes.class);
                 startActivity(intent);
