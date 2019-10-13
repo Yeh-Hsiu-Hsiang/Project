@@ -50,6 +50,10 @@ public class weather extends AppCompatActivity {
     private LocationManager locationManager;
     private int GPS_REQUEST_CODE = 10;
 
+    public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
+    private String commadStr;
+    private LocationManager locationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
