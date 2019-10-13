@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
+import com.goyourfly.multiple.adapter.MultipleSelect;
 
 import java.util.ArrayList;
 
@@ -20,9 +22,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private ArrayList<getClothesMember> ClothesList;
     private LayoutInflater inflater;
 
+    // 宣告資料庫功能類別欄位變數
+    private clothesDAO dao;
+
     public MemberAdapter(Context context, ArrayList<getClothesMember> ClothesList) {
         this.context = context;
         this.ClothesList = ClothesList;
+        dao = new clothesDAO(context);
         inflater = LayoutInflater.from(context);
     }
 
@@ -42,6 +48,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         holder.imageId.setImageBitmap( BitmapFactory.decodeFile(member.getImgPath()));
         holder.textId.setText(member.getId().toString());
         holder.textName.setText(member.getName());
+
+    }
+
+
+    public void getMultipleSelect(int position){
+        getClothesMember member = ClothesList.get(position);
+        dao.delete(member.getId());
 
     }
 
