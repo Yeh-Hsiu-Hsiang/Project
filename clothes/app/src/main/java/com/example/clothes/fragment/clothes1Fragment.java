@@ -20,7 +20,10 @@ import com.example.clothes.database.getClothesMember;
 import com.example.clothes.editclothes;
 import com.goyourfly.multiple.adapter.MultipleAdapter;
 import com.goyourfly.multiple.adapter.MultipleSelect;
+import com.goyourfly.multiple.adapter.StateChangeListener;
+import com.goyourfly.multiple.adapter.menu.SimpleDeleteMenuBar;
 
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -68,9 +71,24 @@ public class clothes1Fragment extends Fragment {
     private void initRecyclerView(){
         mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
+
+        //長按進入選擇
         MultipleAdapter adapter = MultipleSelect
                 .with(getActivity())
                 .adapter(memberAdapter)
+                .stateChangeListener(new StateChangeListener() {
+                    public void onCancel() {}
+                    public void onSelectMode() {}
+                    public void onSelect(int i, int i1) {}
+                    public void onUnSelect(int i, int i1) {}
+                    public void onDone(@NotNull ArrayList<Integer> arrayList) {}
+                    @Override
+                    public void onDelete(@NotNull ArrayList<Integer> arrayList) {
+                        for(int i=0 ; i< arrayList.size() ;i++)
+                            memberAdapter.getMultipleSelect(arrayList.get(i));
+                    }
+                })
+                .customMenu(new SimpleDeleteMenuBar(getActivity(),getResources().getColor(R.color.Primary),Gravity.TOP))
                 .build();
         mCollectRecyclerView.setAdapter(adapter);
         mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));

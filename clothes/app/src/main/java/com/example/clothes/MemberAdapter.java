@@ -22,9 +22,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private ArrayList<getClothesMember> ClothesList;
     private LayoutInflater inflater;
 
+    // 宣告資料庫功能類別欄位變數
+    private clothesDAO dao;
+
     public MemberAdapter(Context context, ArrayList<getClothesMember> ClothesList) {
         this.context = context;
         this.ClothesList = ClothesList;
+        dao = new clothesDAO(context);
         inflater = LayoutInflater.from(context);
     }
 
