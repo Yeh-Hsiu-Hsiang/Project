@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,16 +18,20 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     private Context context;
     private ArrayList<getClothesMember> ClothesList;
+    private LayoutInflater inflater;
 
     public MemberAdapter(Context context, ArrayList<getClothesMember> ClothesList) {
         this.context = context;
         this.ClothesList = ClothesList;
+        inflater = LayoutInflater.from(context);
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = View.inflate(context, R.layout.cardviewlayout, null);
+        //View itemView = View.inflate(context, R.layout.cardviewlayout,null);
+        View itemView = inflater.inflate( R.layout.cardviewlayout,parent,false);
+
         return new ViewHolder(itemView);
     }
 

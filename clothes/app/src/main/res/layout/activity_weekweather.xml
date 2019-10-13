@@ -2,95 +2,92 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/background">
 
-        <RelativeLayout
-            android:id="@+id/title"
-            android:layout_width="fill_parent"
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="45.0dip"
+        android:background="@color/bar_background"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/title_home_btn"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="45.0dip"
             android:layout_height="45.0dip"
-            android:background="@color/bar_background"
-            android:gravity="center_vertical">
-
-                <ImageButton
-                    android:id="@+id/title_home_btn"
-                    style="@style/Widget.AppCompat.ImageButton"
-                    android:layout_width="45.0dip"
-                    android:layout_height="45.0dip"
-                    android:scaleType="fitCenter"
-                    android:background="@null"
-                    android:onClick="toHome"
-                    android:visibility="visible"
-                    android:src="@drawable/home" />
-
-                <ImageView
-                    android:id="@+id/city_seperator"
-                    android:layout_width="1.0dip"
-                    android:layout_height="40dip"
-                    android:layout_marginTop="2.0dip"
-                    android:layout_toRightOf="@id/title_home_btn" />
-
-                <TextView
-                    android:id="@+id/title_city_name"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_toRightOf="@id/city_seperator"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dip"
-                    android:text="天氣預測"
-                    android:textColor="#ffffffff"
-                    android:textSize="22.0sp" />
-
-                <ImageButton
-                    android:id="@+id/title_update_btn"
-                    style="@style/Widget.AppCompat.ImageButton"
-                    android:layout_width="45.0dip"
-                    android:layout_height="45.0dip"
-                    android:scaleType="fitCenter"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="center"
-                    android:background="@null"
-                    android:onClick="reLoad"
-                    android:visibility="visible"
-                    android:src="@drawable/reload" />
-
-                <ImageButton
-                    android:id="@+id/title_local_btn"
-                    style="@style/Widget.AppCompat.ImageButton"
-                    android:layout_width="45.0dip"
-                    android:layout_height="45.0dip"
-                    android:scaleType="fitCenter"
-                    android:layout_toLeftOf="@id/title_update_btn"
-                    android:background="@null"
-                    android:onClick="location"
-                    android:visibility="visible"
-                    android:src="@drawable/local" />
-
-                <ImageButton
-                    android:id="@+id/title_location"
-                    style="@style/Widget.AppCompat.ImageButton"
-                    android:layout_width="45.0dip"
-                    android:layout_height="45.0dip"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center"
-                    android:layout_toLeftOf="@id/title_local_btn"
-                    android:background="@null"
-                    android:onClick="test"
-                    android:visibility="visible"
-                    android:src="@drawable/addclothes" />
-
-        </RelativeLayout>
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="30dp"
-            android:spinnerMode="dialog"
+            android:scaleType="fitCenter"
             android:background="@null"
-            android:textColor="#ffffffff"
-            android:textSize="22.0sp"/>
+            android:onClick="toHome"
+            android:visibility="visible"
+            android:src="@drawable/home" />
+
+        <ImageView
+            android:id="@+id/city_seperator"
+            android:layout_width="1.0dip"
+            android:layout_height="40dip"
+            android:layout_marginTop="2.0dip"
+            android:layout_toRightOf="@id/title_home_btn" />
+
+        <ImageView
+            android:id="@+id/title_city_name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@id/city_seperator"
+            android:gravity="center_vertical"
+            android:paddingLeft="-100dp"
+            android:src="@drawable/titleweather"/>
+
+        <ImageButton
+            android:id="@+id/title_update_btn"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="45.0dip"
+            android:layout_height="45.0dip"
+            android:scaleType="fitCenter"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:onClick="reLoad"
+            android:visibility="visible"
+            android:src="@drawable/reload" />
+
+        <ImageButton
+            android:id="@+id/title_local_btn"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="45.0dip"
+            android:layout_height="45.0dip"
+            android:scaleType="fitCenter"
+            android:layout_toLeftOf="@id/title_update_btn"
+            android:background="@null"
+            android:onClick="location"
+            android:visibility="visible"
+            android:src="@drawable/local" />
+
+        <ImageButton
+            android:id="@+id/title_location"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="45.0dip"
+            android:layout_height="45.0dip"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@id/title_local_btn"
+            android:background="@null"
+            android:onClick="test"
+            android:visibility="visible"
+            android:src="@drawable/add" />
+    </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="30dp"
+        android:spinnerMode="dialog"
+        android:background="@null"
+        android:textColor="#ffffffff"
+        android:textSize="22.0sp"/>
 
     <TextView
         android:id="@+id/City"
@@ -102,168 +99,15 @@
         android:textSize="22.0sp" />
 
     <TextView
-        android:id="@+id/weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
+        android:id="@+id/location"
+        android:layout_width="390dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:text="weather"
+        android:textSize="22.0sp"
         android:textColor="@color/colorPrimary"
-        android:textSize="22.0sp" />
-
-
-
-    <RelativeLayout
-        android:id="@+id/today_relative"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_below="@id/title"
-        android:background="@drawable/test">
-
-        <RelativeLayout
-            android:id="@+id/todayinfo1_relative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/todayinfo1_linear1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/todayinfo1_cityName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="新北市"
-                    android:textColor="#FFFFFF"
-                    android:textSize="47.0sp"/>
-                <TextView
-                    android:id="@+id/todayinfo1_updateTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="發布時間18:25"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20.0sp"/>
-                <TextView
-                    android:id="@+id/todayinfo1_humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="溫度：57％"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20.0sp"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/todayinfo1_linear2"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-
-                android:layout_toLeftOf="@+id/todayinfo1_linear3">
-
-                <ImageView
-                    android:id="@+id/todayinfo1_pm25img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:src="@drawable/reload">
-                </ImageView>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/todayinfo1_linear3"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-
-                android:layout_alignParentRight="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PM2.5"
-                    android:textColor="#FFFFFF"
-                    android:textSize="27.0sp"/>
-                <TextView
-                    android:id="@+id/todayinfo1_pm25"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="220"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20.0sp"/>
-                <TextView
-                    android:id="@+id/todayinfo1_pm25status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="重度汙染"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20.0sp"/>
-            </LinearLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/todayinfo2_relative"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-
-            android:layout_below="@id/todayinfo1_relative">
-            <LinearLayout
-                android:id="@+id/todayinfo2_linear1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/todayinfo2_weatherStatusImg"
-                    android:layout_width="155dp"
-                    android:layout_height="128dp"
-
-                    android:src="@drawable/addclothes"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/todayinfo2_linear2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-
-                android:layout_toRightOf="@id/todayinfo2_linear1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="今天 星期三"
-                    android:textColor="#FFFFFF"
-                    android:textSize="27.0sp">
-                </TextView>
-                <TextView
-                    android:id="@+id/todayinfo2_temperature"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-
-                    android:text="2摄氏度～7摄氏度"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20.0sp">
-                </TextView>
-                <TextView
-                    android:id="@+id/todayinfo2_weatherState"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-
-                    android:text="晴"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20.0sp">
-                </TextView>
-                <TextView
-                    android:id="@+id/todayinfo2_wind"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-
-                    android:text="微風"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20.0sp">
-                </TextView>
-            </LinearLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+        android:textIsSelectable="true" />
 
 </RelativeLayout>

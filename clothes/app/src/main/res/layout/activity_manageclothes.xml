@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EDECE7"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
     tools:context=".Manageclothes">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +16,7 @@
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="45.0dip"
-            android:background="#2d383f"
+            android:background="@color/bar_background"
             android:gravity="center_vertical">
 
             <ImageButton
@@ -36,19 +35,16 @@
                 android:layout_width="1.0dip"
                 android:layout_height="40dip"
                 android:layout_marginTop="2.0dip"
-                android:layout_toRightOf="@id/title_home_btn"
-                android:background="#A71717" />
+                android:layout_toRightOf="@id/title_home_btn" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/title_city_name"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_toRightOf="@id/city_seperator"
                 android:gravity="center_vertical"
-                android:paddingLeft="5dip"
-                android:text="天氣預測"
-                android:textColor="#ffffffff"
-                android:textSize="22.0sp" />
+                android:paddingLeft="-100dp"
+                android:src="@drawable/titlemanageclothes"/>
 
             <ImageButton
                 android:id="@+id/title_update_btn"
@@ -85,7 +81,7 @@
                 android:background="@null"
                 android:onClick="test"
                 android:scaleType="fitCenter"
-                android:src="@drawable/addclothes"
+                android:src="@drawable/add"
                 android:visibility="visible" />
         </RelativeLayout>
 

@@ -15,6 +15,9 @@ import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
 import com.example.clothes.editclothes;
+import com.goyourfly.multiple.adapter.MultipleAdapter;
+import com.goyourfly.multiple.adapter.MultipleSelect;
+
 
 import java.util.ArrayList;
 
@@ -63,7 +66,11 @@ public class clothes1Fragment extends Fragment {
     private void initRecyclerView(){
         mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
-        mCollectRecyclerView.setAdapter(memberAdapter);
+        MultipleAdapter adapter = MultipleSelect
+                .with(getActivity())
+                .adapter(memberAdapter)
+                .build();
+        mCollectRecyclerView.setAdapter(adapter);
         mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));
         //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
@@ -98,7 +105,7 @@ public class clothes1Fragment extends Fragment {
         private int divider;
         public MyPaddingDecoration() {
             //  設置分隔線寬度
-            divider = 50;
+            divider = 40;
         }
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

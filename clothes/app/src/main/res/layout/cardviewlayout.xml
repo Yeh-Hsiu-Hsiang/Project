@@ -4,12 +4,8 @@
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="false"
-    android:layout_marginLeft="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginBottom="8dp"
-    android:padding="15dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
     app:cardBackgroundColor="#fff"
     app:cardCornerRadius="1dp"
     app:cardElevation="1dp">
@@ -17,6 +13,16 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="165dp"
+            android:layout_height="180dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#ffffff" />
 
         <ImageView
             android:id="@+id/imageId"

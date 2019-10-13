@@ -28,8 +28,7 @@ public class WeekWeather {
             StringBuilder sb = new StringBuilder ();
             try {
                 URL url = new URL ( params[0] );
-                BufferedReader in = new BufferedReader (
-                        new InputStreamReader ( url.openStream () ) );
+                BufferedReader in = new BufferedReader (new InputStreamReader ( url.openStream () ) );
                 String line = in.readLine ();
                 while (line != null) {
                     Log.d ( "HTTP", line );
@@ -50,42 +49,28 @@ public class WeekWeather {
             parseJSON ( data );
         }
 
-        private void parseJSON(String data) {
-        }
+        private void parseJSON(String data)  {
+            Log.d("data","data = " + data);
+            JSONObject Ob;
 
-    }
+            try{
+                Ob = new JSONObject(data);
+                Object jsonOb = Ob.getJSONObject("cwbopendata").get("dataset");
+                Log.d("dataset","Object = " + jsonOb);
 
-    public void main(String[] args) {
-        try {
-            //建立一個JSONArray並帶入JSON格式文字，getString(String key)取出欄位的數值
-            String jsonText = null;
-            JSONArray JsonArray  = new JSONArray ( jsonText );
-            // Get all jsonObject from jsonArray
-            for (int i = 0; i < JsonArray .length (); i++) {
-                JSONObject JsonObject = JsonArray .getJSONObject ( i );
-                // 縣市
-                String locationName = JsonObject.getString ( "locationName" );
-                // 天氣因子:Wx, PoP, CI, MinT, MaxT
-                String elementName = JsonObject.getString ( "elementName" );
-                // 降雨機率
-                String parameter = JsonObject.getString ( "parameter" );
+                JSONArray array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
+                Log.d("array", "array = " + array);
+
+                for (int i = 0; i < array .length (); i++) {
+                    JSONObject JsonObject = array.getJSONObject(i);
+                    Log.d("jsonObject", "json = " + JsonObject);
+                    String locationName = JsonObject.getString("locationName");
+                    Log.d("TAG", "城市：:" + locationName);
+                }
             }
-        } catch (JSONException e) {
-            e.printStackTrace ();
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
-
-
-//    String dataset = new JSONObject ( new JSONObject ( data ).getString ( "cwbopendata" ) ).getString ( "dataset" );
-//    Log.d ( "Test_JSON", "dataset" + dataset );
-
-    //JSONArray JsonArray  = new JSONArray ( data );
-    //Log.d("Array", "array = " + JsonArray);
-    //JSONObject JsonObject = JsonArray .getJSONObject ( 0 );
-//            for (int i = 0; i < data .length (); i++) {
-//        String dataset[i] = new JSONObject ( new JSONObject ( data ).getString ( "cwbopendata" ) ).getString ( "dataset" );
-//        Log.d ( "Test_JSON", "dataset" + dataset );
-//        String locationName = new JSONObject ( new JSONObject ( dataset[i] ).getString ( "dataset" ) ).getString ( "locationName" );
-//        Log.d ( "Test_locationName", "城市：" + locationName );
-//    }
 }

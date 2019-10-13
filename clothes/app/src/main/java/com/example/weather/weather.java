@@ -1,8 +1,16 @@
 package com.example.weather;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,25 +31,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 
 
 public class weather extends AppCompatActivity {
 
-    public TextView Json; // 顯示天氣
+    public TextView Location; // 顯示天氣
     public TextView City; // 顯示城市
     public String Where;  // 查詢城市
     private Spinner sp;  // 城市清單
+
+    public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
+    private String commadStr;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_weekweather);
 
-        View v = findViewById(R.id.today_relative);//設透明背景的layout 的id
-        v.getBackground().setAlpha(200);//0~255透明度值
-
         // 顯示 Json
-        Json = (TextView) findViewById(R.id.weather);
+        Location = (TextView) findViewById(R.id.location);
         // 顯示結果
         City = (TextView) findViewById(R.id.City);
         // 城市清單
@@ -72,7 +83,72 @@ public class weather extends AppCompatActivity {
 
         // 讀取各縣市一週天氣預報
         new WeekTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+
+        //使用GPS定位
+        commadStr = LocationManager.GPS_PROVIDER;
+        // LocationManager可以用來獲取當前的位置，追蹤設備的移動路線
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(weather.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(weather.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(weather.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_ACCESS_COARSE_LOCATION);
+            return;
+        }
+
+        locationManager.requestLocationUpdates(commadStr, 1000, 0, locationListener);
+        android.location.Location location = locationManager.getLastKnownLocation(commadStr);
+        if (location != null)
+            Location.setText("位於：" + getAddressByLocation(location));
+            // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
+        else
+            Location.setText("定位中");
+
     }
+
+    public LocationListener locationListener = new LocationListener() {
+        //當地點改變時
+        @Override
+        public void onLocationChanged(Location location) {
+        }
+
+        // 定位狀態改變
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
+
+        // 當GPS或網路定位功能開啟
+        @Override
+        public void onProviderEnabled(String provider) { }
+
+        // 當GPS或網路定位功能關閉時
+        @Override
+        public void onProviderDisabled(String provider) { }
+    };
+
+
+    // 轉成地址
+    public String getAddressByLocation(Location location) {
+        String returnAddress = "";
+        try {
+            if (location != null) {
+                Double longitude = location.getLongitude();        //取得經度
+                Double latitude = location.getLatitude();        //取得緯度
+
+                Geocoder gc = new Geocoder(this, Locale.TRADITIONAL_CHINESE);        //地區:台灣
+                //自經緯度取得地址
+                List<Address> lstAddress = gc.getFromLocation(latitude, longitude, 1);
+                Log.d("lstAddress = ", String.valueOf(lstAddress));
+                if (!Geocoder.isPresent()){ //Since: API Level 9
+                    returnAddress = "Sorry! Geocoder service not Present.";
+                }
+                returnAddress = lstAddress.get(0).getAddressLine(0);
+                Log.d("returnAddress = ",returnAddress);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return returnAddress;
+    }
+
 
     //  取得伺服端傳來回應
     class WeekTask extends AsyncTask<String, Void, String> {
@@ -103,9 +179,7 @@ public class weather extends AppCompatActivity {
         }
 
         private void parseJSON(String data)  {
-            Log.d("data","data = " + data);
             JSONObject Ob;
-            JSONObject Ob_two;
             try{
                 Ob = new JSONObject(data);
                 Object jsonOb = Ob.getJSONObject("cwbopendata").get("dataset");
@@ -130,10 +204,10 @@ public class weather extends AppCompatActivity {
 
     // 回到主頁按鈕
     public void toHome(View view) {
-                Intent intent = new Intent();
-                intent.setClass( weather.this  , MainActivity.class);
-                startActivity(intent);
-                weather.this.finish();
+        Intent intent = new Intent();
+        intent.setClass( weather.this  , MainActivity.class);
+        startActivity(intent);
+        weather.this.finish();
     }
 
     // 重新整理按鈕
