@@ -45,4 +45,5 @@
     <color name="list">#51626F</color>
     <color name="background">#EEECE6</color>
     <color name="bar_background">#2D383F</color>
+    <color name="Primary">#EEA12F</color>
 </resources>

@@ -4,12 +4,15 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
+import com.goyourfly.multiple.adapter.MultipleSelect;
 
 import java.util.ArrayList;
 
@@ -17,16 +20,24 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     private Context context;
     private ArrayList<getClothesMember> ClothesList;
+    private LayoutInflater inflater;
+
+    // 宣告資料庫功能類別欄位變數
+    private clothesDAO dao;
 
     public MemberAdapter(Context context, ArrayList<getClothesMember> ClothesList) {
         this.context = context;
         this.ClothesList = ClothesList;
+        dao = new clothesDAO(context);
+        inflater = LayoutInflater.from(context);
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = View.inflate(context, R.layout.cardviewlayout, null);
+        //View itemView = View.inflate(context, R.layout.cardviewlayout,null);
+        View itemView = inflater.inflate( R.layout.cardviewlayout,parent,false);
+
         return new ViewHolder(itemView);
     }
 
@@ -37,6 +48,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         holder.imageId.setImageBitmap( BitmapFactory.decodeFile(member.getImgPath()));
         holder.textId.setText(member.getId().toString());
         holder.textName.setText(member.getName());
+
+    }
+
+
+    public void getMultipleSelect(int position){
+        getClothesMember member = ClothesList.get(position);
+        dao.delete(member.getId());
 
     }
 
