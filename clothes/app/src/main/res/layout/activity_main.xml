@@ -54,30 +54,6 @@
             android:visibility="visible"
             android:src="@drawable/reload" />
 
-        <ImageButton
-            android:id="@+id/title_local_btn"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="45.0dip"
-            android:layout_height="45.0dip"
-            android:scaleType="fitCenter"
-            android:layout_toLeftOf="@id/title_update_btn"
-            android:background="@null"
-            android:onClick="location"
-            android:visibility="visible"
-            android:src="@drawable/local" />
-
-        <ImageButton
-            android:id="@+id/title_location"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="45.0dip"
-            android:layout_height="45.0dip"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@id/title_local_btn"
-            android:background="@null"
-            android:onClick="test"
-            android:visibility="visible"
-            android:src="@drawable/add" />
     </RelativeLayout>
 
     <RelativeLayout
