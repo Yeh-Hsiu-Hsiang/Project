@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.calendar.AddSchedule;
+import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     // 預覽穿衣
     public void View_wearing(View view) {
         Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , Manageclothes.class);
+        intent.setClass( MainActivity.this  , viewclothes.class);
         startActivity(intent);
     }
 
