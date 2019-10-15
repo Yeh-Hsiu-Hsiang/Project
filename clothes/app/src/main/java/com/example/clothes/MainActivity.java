@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     // 預覽穿衣
     public void View_wearing(View view) {
         Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , Manageclothes.class);
+        intent.setClass( MainActivity.this  , viewclothes.class);
         startActivity(intent);
     }
 
