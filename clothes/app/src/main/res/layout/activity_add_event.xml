@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
+    tools:context="com.example.calendar.AddSchedule">
+
+    <RelativeLayout
+        android:id="@+id/button"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical">
+        <Button
+            android:id="@+id/OK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="680dp"
+            android:text="儲存"
+            android:background="@color/list"
+            android:textColor="@color/text_light"
+            android:textStyle="bold"
+            android:onClick="stockpile"/>
+        <Button
+            android:id="@+id/NO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/list"
+            android:text="取消"
+            android:textColor="@color/text_light"
+            android:textStyle="bold"
+            android:onClick="cancel"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/button">
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="550dp"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:text="輸入標題"/>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
