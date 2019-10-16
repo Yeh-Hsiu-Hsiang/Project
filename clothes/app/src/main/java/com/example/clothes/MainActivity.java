@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.calendar.AddSchedule;
+import com.example.calendar.Calendar;
 import com.example.weather.weather;
 
 
@@ -31,14 +31,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // 去新增活動
-    public void AddSchedule(View view) {
+    // 去行事曆
+    public void Calendar(View view) {
         Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , AddSchedule.class);
+        intent.setClass( MainActivity.this  , Calendar.class);
         startActivity(intent);
     }
 
-    // 去天氣詳細
+    // 去天氣
     public void Weekweather(View view) {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , weather.class);

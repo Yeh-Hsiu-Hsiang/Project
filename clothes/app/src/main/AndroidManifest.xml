@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.clothes">
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 存取權限 -->
@@ -10,6 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 約略位置(WIFI) -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMAND" />
+    <!-- 行事曆更改權限 -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +37,7 @@
             android:name="com.example.weather.weather"
             android:label="@string/天氣詳細" />
         <activity
-            android:name="com.example.calendar.AddSchedule"
+            android:name="com.example.calendar.Calendar"
             android:label="@string/新增活動" />
         <activity
             android:name=".setting"
@@ -43,6 +45,7 @@
         <activity android:name=".AddClothes" />
         <activity android:name=".Manageclothes" />
         <activity android:name=".newclothes" />
+        <activity android:name="com.example.calendar.AddSchedule" />
     </application>
 
 </manifest>
