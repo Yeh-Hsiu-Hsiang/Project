@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
-import com.ortiz.touchview.TouchImageView;
+
 
 public class viewclothes extends AppCompatActivity {
 
@@ -28,11 +28,11 @@ public class viewclothes extends AppCompatActivity {
     }
 
     public void getpicture(){
-        getClothesMember member = dao.getoneID(15);
+        getClothesMember member = dao.getoneID(21);
         TouchImageView imageView = new TouchImageView(getApplicationContext());
         Bitmap bitmap = BitmapFactory.decodeFile( member.getImgPath());
         imageView.setImageBitmap(bitmap);
-        imageView.setMaxZoom(3);
+        //imageView.setMaxZoom(3);
 
 
         RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.relativeLayout);
