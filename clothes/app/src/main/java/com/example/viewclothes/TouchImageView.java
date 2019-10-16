@@ -33,6 +33,10 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     // 存放調整尺寸起始距離
     private float mOldDistance;
 
+    //起始選轉角度
+    private float oldRotation = 0;
+
+
     // 存放調整尺寸的中央座標
     private PointF mMidPoint = new PointF();
 
@@ -81,8 +85,10 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
                         } else if (mMode == ZOOM) {
                             float newDist = culcDistance(event);
                             float scale = newDist / mOldDistance;
+                            float rotation = rotation(event) - oldRotation;
                             mMatrix.set(mSavedMatrix);
-                            mMatrix.postScale(scale, scale, mMidPoint.x, mMidPoint.y);
+                            mMatrix.postScale(scale, scale, mMidPoint.x, mMidPoint.y); //縮放
+                            mMatrix.postRotate(rotation, mMidPoint.x, mMidPoint.y);// 旋轉
                         }
                         break;
 
@@ -95,6 +101,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
                     case MotionEvent.ACTION_POINTER_DOWN:
                         mMode = ZOOM;
                         mOldDistance = culcDistance(event);
+                        oldRotation = rotation(event);
                         culcMidPoint(mMidPoint, event);
                         break;
 
@@ -127,5 +134,13 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         float x = event.getX(0) + event.getX(1);
         float y = event.getY(0) + event.getY(1);
         midPoint.set(x / 2, y / 2);
+    }
+
+    // 取旋转角度
+    private float rotation(MotionEvent event) {
+        double delta_x = (event.getX(0) - event.getX(1));
+        double delta_y = (event.getY(0) - event.getY(1));
+        double radians = Math.atan2(delta_y, delta_x);
+        return (float) Math.toDegrees(radians);
     }
 }
