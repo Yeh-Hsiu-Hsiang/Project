@@ -81,8 +81,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="weather"
-        android:textSize="22.0sp"
         android:textColor="@color/colorPrimary"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:textSize="22.0sp" />
 
 </RelativeLayout>
