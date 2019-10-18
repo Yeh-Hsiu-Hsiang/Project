@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.example.clothes.R;
 
@@ -16,7 +18,7 @@ import com.example.clothes.R;
 public class AddSchedule extends AppCompatActivity {
 
     private Switch swh_status;
-    boolean is_enable = true;
+    private Spinner sp;  // 城市清單
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,14 @@ public class AddSchedule extends AppCompatActivity {
                 }
             }
         });
+
+        // 選擇清單
+        Spinner spinner = (Spinner)findViewById(R.id.reSpinner);
+        final String[] CityArray = {"不重複", "每日", "每周", "每月", "每年"};
+        ArrayAdapter<String> lunchList = new ArrayAdapter<>(AddSchedule.this,
+                android.R.layout.simple_spinner_dropdown_item,
+                CityArray);
+        spinner.setAdapter(lunchList);
     }
 
     // 取消按鈕
