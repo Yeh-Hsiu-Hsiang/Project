@@ -1,28 +1,19 @@
-package com.example.clothes.fragment;
+package com.example.viewclothes.fragment;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.clothes.MemberAdapter;
+import com.example.viewclothes.MemberAdapter;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
-import com.example.clothes.editclothes;
-import com.goyourfly.multiple.adapter.MultipleAdapter;
-import com.goyourfly.multiple.adapter.MultipleSelect;
-import com.goyourfly.multiple.adapter.StateChangeListener;
-import com.goyourfly.multiple.adapter.menu.SimpleDeleteMenuBar;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -45,7 +36,7 @@ public class clothes1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate( R.layout.fragment_clothes, container, false);
+        view = inflater.inflate( R.layout.fragment_viewclothes, container, false);
 
         return view;
     }
@@ -71,42 +62,15 @@ public class clothes1Fragment extends Fragment {
         mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
 
-        //長按進入選擇
-        MultipleAdapter adapter = MultipleSelect
-                .with(getActivity())
-                .adapter(memberAdapter)
-                .stateChangeListener(new StateChangeListener() {
-                    public void onCancel() {}
-                    public void onSelectMode() {}
-                    public void onSelect(int i, int i1) {}
-                    public void onUnSelect(int i, int i1) {}
-                    public void onDone(@NotNull ArrayList<Integer> arrayList) {}
-                    @Override
-                    public void onDelete(@NotNull ArrayList<Integer> arrayList) {
-                        for(int i=0 ; i< arrayList.size() ;i++)
-                            memberAdapter.getMultipleSelect(arrayList.get(i));
-                    }
-                })
-                .customMenu(new SimpleDeleteMenuBar(getActivity(),getResources().getColor(R.color.Primary),Gravity.TOP))
-                .build();
-        mCollectRecyclerView.setAdapter(adapter);
-        mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));
+
+        mCollectRecyclerView.setAdapter(memberAdapter);
+        mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,1, GridLayoutManager.HORIZONTAL,false));
         //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
+        mCollectRecyclerView.setNestedScrollingEnabled(false);
 
-        //點擊(短按)進入修改
-        memberAdapter.setOnItemClickListener(new MemberAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(View view , getClothesMember data) {
 
-                editclothes.clothesID = data.getId();
-                editclothes.load = true;
-                Intent intent = new Intent();
-                intent.setClass( getActivity() , editclothes.class);
-                startActivity(intent);
 
-            }
-        });
     }
 
     //RecyclerView的分隔線
@@ -114,7 +78,7 @@ public class clothes1Fragment extends Fragment {
         private int divider;
         public MyPaddingDecoration() {
             //  設置分隔線寬度
-            divider = 40;
+            divider = 10;
         }
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
