@@ -1,4 +1,4 @@
-package com.example.clothes.fragment;
+package com.example.viewclothes.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import com.example.clothes.R;
 
 
-public class clothes8Fragment extends Fragment {
+public class clothes3Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate( R.layout.fragment_clothes, container, false);
+        View view = inflater.inflate( R.layout.fragment_viewclothes, container, false);
 
 
         return view;
