@@ -67,8 +67,6 @@ public class clothes1Fragment extends Fragment {
         mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,1, GridLayoutManager.HORIZONTAL,false));
         //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
-        mCollectRecyclerView.setNestedScrollingEnabled(false);
-
 
 
     }

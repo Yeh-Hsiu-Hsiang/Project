@@ -55,7 +55,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public void getMultipleSelect(int position){
         getClothesMember member = ClothesList.get(position);
         dao.delete(member.getId());
-
+        notifyItemRemoved(position);
     }
 
     @Override
