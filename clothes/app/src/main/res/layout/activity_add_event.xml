@@ -39,6 +39,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_below="@+id/button">
         <EditText
             android:id="@+id/title"
@@ -65,6 +67,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
+            android:textStyle="bold"
             android:text="全天"
             android:textOff="OFF"
             android:textOn="ON" />
@@ -104,18 +107,26 @@
             android:layout_marginRight="10dp"
             android:background="@null"
             android:text="下午XX時" />
-
         <Spinner
             android:id="@+id/reSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/end_day"
-            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/repeat"
             android:background="@null"
             android:spinnerMode="dialog"
             android:textColor="@color/list"
             android:textSize="22.0sp" />
-
+        <ImageView
+            android:id="@+id/repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/end_day"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/repeat" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

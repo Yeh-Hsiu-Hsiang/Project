@@ -43,7 +43,7 @@ public class weather extends AppCompatActivity {
     public TextView Location; // 顯示天氣
     public TextView City; // 顯示城市
     public String Where;  // 查詢城市
-    private Spinner sp;  // 城市清單
+    private Spinner city_list;  // 城市清單
 
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private String commadStr;
@@ -60,7 +60,7 @@ public class weather extends AppCompatActivity {
         // 顯示結果
         City = (TextView) findViewById(R.id.City);
         // 城市清單
-        sp = (Spinner) findViewById(R.id.spinner);
+        city_list = (Spinner) findViewById(R.id.spinner);
 
         // 城市選擇清單
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
@@ -75,7 +75,7 @@ public class weather extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(weather.this, "你選的是" + lunch[position], Toast.LENGTH_SHORT).show();
                 // 取得選擇地點
-                Where = (String) sp.getSelectedItem();
+                Where = (String) city_list.getSelectedItem();
                 // 顯示選擇地點
                 City.setText(Where);
             }

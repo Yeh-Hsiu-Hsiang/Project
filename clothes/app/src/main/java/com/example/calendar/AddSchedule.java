@@ -1,24 +1,37 @@
 package com.example.calendar;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 import com.example.clothes.R;
-
 
 public class AddSchedule extends AppCompatActivity {
 
     private Switch swh_status;
-    private Spinner sp;  // 城市清單
+    private Button start_day;
+    private Button end_day;
+    private Button start_time;
+    private Button end_time;
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timePickerDialog;
+
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
