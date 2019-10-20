@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.clothes.MemberAdapter;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
@@ -82,8 +83,10 @@ public class clothes2Fragment extends Fragment {
                     public void onDone(@NotNull ArrayList<Integer> arrayList) {}
                     @Override
                     public void onDelete(@NotNull ArrayList<Integer> arrayList) {
-                        for(int i=0 ; i< arrayList.size() ;i++)
-                            memberAdapter.getMultipleSelect(arrayList.get(i));
+                        for(int i=arrayList.size() ; i>0 ;i--) {
+                            memberAdapter.getMultipleSelect(arrayList.get(i-1));
+                            clothesList.remove((int)arrayList.get(i-1));
+                        }
                     }
                 })
                 .customMenu(new SimpleDeleteMenuBar(getActivity(),getResources().getColor(R.color.Primary),Gravity.TOP))
