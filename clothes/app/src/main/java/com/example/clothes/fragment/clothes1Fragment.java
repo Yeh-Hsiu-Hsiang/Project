@@ -83,8 +83,10 @@ public class clothes1Fragment extends Fragment {
                     public void onDone(@NotNull ArrayList<Integer> arrayList) {}
                     @Override
                     public void onDelete(@NotNull ArrayList<Integer> arrayList) {
-                        for(int i=0 ; i< arrayList.size() ;i++)
-                            memberAdapter.getMultipleSelect(arrayList.get(i));
+                        for(int i=arrayList.size() ; i>0 ;i--) {
+                            memberAdapter.getMultipleSelect(arrayList.get(i-1));
+                            clothesList.remove((int)arrayList.get(i-1));
+                        }
                     }
                 })
                 .customMenu(new SimpleDeleteMenuBar(getActivity(),getResources().getColor(R.color.Primary),Gravity.TOP))
