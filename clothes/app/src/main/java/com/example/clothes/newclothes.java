@@ -204,18 +204,14 @@ public class newclothes extends AppCompatActivity {
                     switch (v.getId()) {
                         case R.id.leave:
                             //回到管理頁面
-                            Manageclothes.finishself.finish();
                             intent.setClass(newclothes.this, Manageclothes.class);
                             startActivity(intent);
-                            newclothes.this.finish();
 
                             break;
                         case R.id.keepadd:
                             //回到新增衣服頁面
-                            //Manageclothes.finishself.finish();
                             intent.setClass(newclothes.this, newclothes.class);
                             startActivity(intent);
-                            newclothes.this.finish();
 
                             break;
                     }

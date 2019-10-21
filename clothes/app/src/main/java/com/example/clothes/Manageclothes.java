@@ -91,14 +91,12 @@ public class Manageclothes extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass( Manageclothes.this  , MainActivity.class);
         startActivity(intent);
-        Manageclothes.this.finish();
     }
 
     // 重新整理按鈕
     public void reLoad(View view) {
         Intent intent=new Intent(this, Manageclothes.class);
         startActivity(intent);
-        finish(); // 關閉此檔案
         overridePendingTransition(0, 0);
     }
 }
