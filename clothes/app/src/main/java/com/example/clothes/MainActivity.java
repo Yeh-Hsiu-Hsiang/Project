@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.calendar.Calendar;
+import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
 

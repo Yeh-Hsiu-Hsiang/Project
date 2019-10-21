@@ -83,7 +83,6 @@
         android:text="weather"
         android:textSize="22.0sp"
         android:textColor="@color/colorPrimary"
-        android:textIsSelectable="true"
-        android:textSize="22.0sp" />
+        android:textIsSelectable="true" />
 
 </RelativeLayout>
