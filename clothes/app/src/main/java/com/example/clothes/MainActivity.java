@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.calendar.AddSchedule;
+import com.example.calendar.Calendar;
 import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // 去新增活動
-    public void AddSchedule(View view) {
+    // 去行事曆
+    public void Calendar(View view) {
         Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , AddSchedule.class);
+        intent.setClass( MainActivity.this  , Calendar.class);
         startActivity(intent);
     }
 
-    // 去天氣詳細
+    // 去天氣
     public void Weekweather(View view) {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , weather.class);
@@ -51,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , setting.class);
         startActivity(intent);
+    }
+
+    // 回到主頁按鈕
+    public void toHome(View view) {
+        Intent intent = new Intent();
+        intent.setClass( MainActivity.this  , MainActivity.class);
+        startActivity(intent);
+        MainActivity.this.finish();
+    }
+
+    // 重新整理按鈕
+    public void reLoad(View view) {
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish(); // 關閉此檔案
+        overridePendingTransition(0, 0);
     }
 
 }
