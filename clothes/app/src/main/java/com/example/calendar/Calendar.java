@@ -52,14 +52,14 @@ public class Calendar extends AppCompatActivity {
     // 回到主頁按鈕
     public void toHome(View view) {
         Intent intent = new Intent();
-        intent.setClass(Calendar.this, MainActivity.class);
+        intent.setClass( Calendar.this  , MainActivity.class);
         startActivity(intent);
         Calendar.this.finish();
     }
 
     // 重新整理按鈕
     public void reLoad(View view) {
-        Intent intent = new Intent(this, Calendar.class);
+        Intent intent=new Intent(this, Calendar.class);
         startActivity(intent);
         finish(); // 關閉此檔案
         overridePendingTransition(0, 0);

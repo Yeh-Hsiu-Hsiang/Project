@@ -53,6 +53,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // 回到主頁按鈕
+    public void toHome(View view) {
+        Intent intent = new Intent();
+        intent.setClass( MainActivity.this  , MainActivity.class);
+        startActivity(intent);
+        MainActivity.this.finish();
+    }
+
+    // 重新整理按鈕
+    public void reLoad(View view) {
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish(); // 關閉此檔案
+        overridePendingTransition(0, 0);
+    }
+
 }
 
 

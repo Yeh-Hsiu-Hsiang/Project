@@ -79,7 +79,7 @@
             android:layout_marginLeft="40dp"
             android:layout_below="@+id/swh_status"
             android:background="@null"
-            android:text="XX月XX日星期X" />
+            android:text="開始日期" />
         <Button
             android:id="@+id/start_time"
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:layout_below="@+id/swh_status"
             android:layout_marginRight="10dp"
             android:background="@null"
-            android:text="下午XX時" />
+            android:text="開始時間" />
         <Button
             android:id="@+id/end_day"
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:layout_marginLeft="40dp"
             android:layout_below="@+id/start_day"
             android:background="@null"
-            android:text="XX月XX日星期X" />
+            android:text="結束日期" />
         <Button
             android:id="@+id/end_time"
             android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
             android:layout_below="@+id/start_time"
             android:layout_marginRight="10dp"
             android:background="@null"
-            android:text="下午XX時" />
+            android:text="結束時間" />
         <Spinner
             android:id="@+id/reSpinner"
             android:layout_width="match_parent"
