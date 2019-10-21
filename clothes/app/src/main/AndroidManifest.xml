@@ -34,7 +34,7 @@
             android:name="com.example.weather.weather"
             android:label="@string/天氣詳細" />
         <activity
-            android:name="com.example.calendar.Calendar"
+            android:name="com.example.calendar.CalendarView"
             android:label="@string/新增活動" />
         <activity
             android:name=".setting"

@@ -78,7 +78,7 @@ public class clothes2Fragment extends Fragment {
         private int divider;
         public MyPaddingDecoration() {
             //  設置分隔線寬度
-            divider = 40;
+            divider = 10;
         }
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

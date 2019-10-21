@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context="com.example.calendar.Calendar" >
+    tools:context="com.example.calendar.CalendarView" >
 
     <RelativeLayout
         android:id="@+id/title"
