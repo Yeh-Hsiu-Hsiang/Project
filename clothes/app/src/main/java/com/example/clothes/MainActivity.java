@@ -1,5 +1,6 @@
 package com.example.clothes;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,11 @@ import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
 
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
-
 

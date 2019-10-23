@@ -98,10 +98,10 @@ public class viewclothes extends AppCompatActivity {
         RelativeLayout parentLayout = (RelativeLayout)findViewById(R.id.parentrelativeLayout);
         mVgLp = parentLayout.getLayoutParams();
 
-        FrameLayout frame = (FrameLayout)findViewById(R.id.frameLayout);
+        RelativeLayout relative = (RelativeLayout)findViewById(R.id.relativeLayout);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(mVgLp);
 
-        frame.addView(imageView,params);
+        relative.addView(imageView,params);
 
     }
 }

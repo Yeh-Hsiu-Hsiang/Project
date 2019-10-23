@@ -79,7 +79,7 @@ public class editclothes extends AppCompatActivity {
                 Intent intent = new Intent ();
                 intent.setClass( editclothes.this  , AddClothes.class);
                 startActivity(intent);
-
+                finish();
             }
         });
         Log.e("PIC",PicPath+" "+load);

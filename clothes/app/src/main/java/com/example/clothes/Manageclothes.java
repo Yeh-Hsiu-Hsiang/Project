@@ -20,6 +20,9 @@ import com.example.clothes.fragment.clothes8Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Manageclothes extends AppCompatActivity {
 
     private ViewPager myViewPager;
@@ -102,3 +105,4 @@ public class Manageclothes extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 }
+
