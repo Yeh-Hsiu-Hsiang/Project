@@ -63,7 +63,7 @@ public class AddSchedule extends AppCompatActivity {
     // 取消按鈕
     public void cancel(View view) {
         Intent intent = new Intent();
-        intent.setClass(AddSchedule.this, Calendar.class);
+        intent.setClass(AddSchedule.this, CalendarView.class);
         startActivity(intent);
         AddSchedule.this.finish();
     }
@@ -71,7 +71,7 @@ public class AddSchedule extends AppCompatActivity {
     // 確認按鈕
     public void stockpile(View view) {
         Intent intent = new Intent();
-        intent.setClass(AddSchedule.this, Calendar.class);
+        intent.setClass(AddSchedule.this, CalendarView.class);
         startActivity(intent);
         AddSchedule.this.finish();
     }

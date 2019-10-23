@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -23,22 +24,22 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class AddClothes extends AppCompatActivity {
     //傳入衣服id
     public static Long clothesID ;
     private ImageView imageView;
+
+    Bitmap bitmap = null;
+    String filepath;
+
+    //在別的activity中關閉自己的方法
+    public static AddClothes finishself = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
+        finishself = this;
         Button b = findViewById(R.id.button);
         imageView = findViewById(R.id.imageView);
         b.setOnClickListener(view -> {
@@ -47,6 +48,27 @@ public class AddClothes extends AppCompatActivity {
                     .noCrop()
                     .start(this);
         });
+
+        if(clothesID == null){
+             //去新增衣服(頁面)
+            Button updata = (Button) findViewById( R.id.updata);
+            updata.setOnClickListener(v -> {
+                newclothes.PicPath = filepath;
+                Intent intent = new Intent ();
+                intent.setClass( AddClothes.this, newclothes.class);
+                startActivity(intent);
+            });
+        }else{
+            //去修改衣服(頁面)
+            Button updata = (Button) findViewById( R.id.updata);
+            updata.setOnClickListener(v -> {
+                editclothes.PicPath = filepath;
+                editclothes.load = false;
+                Intent intent = new Intent ();
+                intent.setClass( AddClothes.this, editclothes.class);
+                startActivity(intent);
+            });
+        }
     }
 
     @Override
@@ -56,46 +78,10 @@ public class AddClothes extends AppCompatActivity {
             switch (resultCode) {
                 case Activity.RESULT_OK:
                     Uri Uri = CutOut.getUri(data);
-                    // Save the image using the returned Uri here
-                    //imageView.setImageURI(imageUri);
-                    //Log.e("123",imageUri.toString());
-                    //Uri>>path
 
                     //存圖到 指定資料夾-----------------------------------------------------------
-
-                    //0.Uri轉成Bitmap
                     try {
-                        Bitmap bitmap = getBitmapFromUri(Uri);
-                        imageView.setImageBitmap(bitmap);
-                        saveToLocal(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    //------------------------------------------------------------------------------------
-
-                    break;
-                case CutOut.CUTOUT_ACTIVITY_RESULT_ERROR_CODE:
-                    Exception ex = CutOut.getError(data);
-                    break;
-                default:
-                    System.out.print("User cancelled the CutOut screen");
-            }
-        }
-    }
-
-<<<<<<< Updated upstream
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // Ensure that there's a camera activity to handle the intent
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {//判断是否有相機應用
-                    // Create the File where the photo should go
-                    File photoFile = null;
-=======
-                    //0.Uri轉成Bitmap
->>>>>>> Stashed changes
-                    try {
-                        Bitmap bitmap = getBitmapFromUri(Uri);
+                        bitmap = getBitmapFromUri(Uri);
                         imageView.setImageBitmap(bitmap);
                         saveToLocal(bitmap);
                     } catch (IOException e) {
@@ -131,36 +117,6 @@ public class AddClothes extends AppCompatActivity {
         if (!path.exists()) {
             path.mkdir();
         }
-<<<<<<< Updated upstream
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "clothesJPG_" + timeStamp;
-        File image = File.createTempFile(
-                imageFileName,  /* 前缀 */
-                ".jpg",         /* 后缀 */
-                path      /* 文件夹 */
-        );
-        //照片路徑
-
-        mPublicPhotoPath = image.getAbsolutePath();
-
-        return image;
-
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mPublicPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        sendBroadcast(mediaScanIntent);
-    }
-
-    public void onPick(View v) {
-        Intent it = new Intent(Intent.ACTION_GET_CONTENT);
-        it.setType("image/*");
-        startActivityForResult(it, filepic);
-    }
 
         File file = new File(path +"/"+
                         imageFileName +
@@ -182,52 +138,6 @@ public class AddClothes extends AppCompatActivity {
                 intent.setData(uri);
                 this.sendBroadcast(intent);
 
-    //取得相片後返回
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-
-            switch (requestCode) {
-                case (takepic):
-
-                    // Get the dimensions of the View
-                    int targetW = imv.getWidth();
-                    int targetH = imv.getHeight();
-
-                    // Get the dimensions of the bitmap
-                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    bmOptions.inJustDecodeBounds = true;
-                    BitmapFactory.decodeFile(mPublicPhotoPath, bmOptions);
-                    int photoW = bmOptions.outWidth;
-                    int photoH = bmOptions.outHeight;
-
-
-                    // Determine how much to scale down the image
-                    int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-                    // Decode the image file into a Bitmap sized to fill the View
-                    bmOptions.inJustDecodeBounds = false;
-                    bmOptions.inSampleSize = scaleFactor;
-                    bmOptions.inPurgeable = true;
-
-                    bmp = BitmapFactory.decodeFile(mPublicPhotoPath, bmOptions);
-
-                    break;
-                case (filepic):
-                    imguri = data.getData();
-
-                    //uri轉path 傳送路徑到editclothes整合sqlite
-                    String path = getPath(AddClothes.this, imguri);
-                    mPublicPhotoPath = path;
-                    //=========如何將其他路徑的照片另存新檔至本app的指定路徑??============
-
-                    try {
-                        bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imguri), null, null);
-
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(this, "無法選取圖片", Toast.LENGTH_LONG).show();
-                    }
-                    break;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.Toast;
 
 import com.example.clothes.MainActivity;
@@ -15,17 +14,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class Calendar extends AppCompatActivity {
+public class CalendarView extends AppCompatActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-        CalendarView calendar = (CalendarView) findViewById(R.id.calendar);
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        android.widget.CalendarView calendar = (android.widget.CalendarView) findViewById(R.id.calendar);
+        calendar.setOnDateChangeListener(new android.widget.CalendarView.OnDateChangeListener() {
             // month 預設 0-11
             @Override
-            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayOfMonth) {
-                Toast.makeText(Calendar.this, "您選的日期是" + year + "年" + (month + 1) + "月" + dayOfMonth + "日", Toast.LENGTH_LONG).show();
+            public void onSelectedDayChange(android.widget.CalendarView calendarView, int year, int month, int dayOfMonth) {
+                Toast.makeText(CalendarView.this, "您選的日期是" + year + "年" + (month + 1) + "月" + dayOfMonth + "日", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -52,14 +51,14 @@ public class Calendar extends AppCompatActivity {
     // 回到主頁按鈕
     public void toHome(View view) {
         Intent intent = new Intent();
-        intent.setClass( Calendar.this  , MainActivity.class);
+        intent.setClass( CalendarView.this  , MainActivity.class);
         startActivity(intent);
-        Calendar.this.finish();
+        CalendarView.this.finish();
     }
 
     // 重新整理按鈕
     public void reLoad(View view) {
-        Intent intent=new Intent(this, Calendar.class);
+        Intent intent=new Intent(this, CalendarView.class);
         startActivity(intent);
         finish(); // 關閉此檔案
         overridePendingTransition(0, 0);

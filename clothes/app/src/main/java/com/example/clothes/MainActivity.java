@@ -1,16 +1,21 @@
 package com.example.clothes;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.calendar.Calendar;
+import com.example.calendar.CalendarView;
 import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
 
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     // 去行事曆
     public void Calendar(View view) {
         Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , Calendar.class);
+        intent.setClass( MainActivity.this  , CalendarView.class);
         startActivity(intent);
     }
 
@@ -70,6 +75,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
-
 

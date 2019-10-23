@@ -20,13 +20,16 @@ import com.example.clothes.fragment.clothes8Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Manageclothes extends AppCompatActivity {
 
     private ViewPager myViewPager;
     private TabLayout tabLayout;
     private int[] IconResID = {R.drawable.selector_one, R.drawable.selector_two, R.drawable.selector_three,
             R.drawable.selector_four, R.drawable.selector_five, R.drawable.selector_six,
-            R.drawable.selector_seven, R.drawable.selector_eight, R.drawable.selector_nine};
+            R.drawable.selector_seven, R.drawable.selector_eight};
     //在別的activity中關閉自己的方法
     public static Manageclothes finishself = null;
     @Override
@@ -73,7 +76,6 @@ public class Manageclothes extends AppCompatActivity {
         clothes6Fragment myFragment6 = new clothes6Fragment();
         clothes7Fragment myFragment7 = new clothes7Fragment();
         clothes8Fragment myFragment8 = new clothes8Fragment();
-        clothes9Fragment myFragment9 = new clothes9Fragment();
         List<Fragment> fragmentList = new ArrayList<Fragment> ();
         fragmentList.add(myFragment1);
         fragmentList.add(myFragment2);
@@ -83,7 +85,6 @@ public class Manageclothes extends AppCompatActivity {
         fragmentList.add(myFragment6);
         fragmentList.add(myFragment7);
         fragmentList.add(myFragment8);
-        fragmentList.add(myFragment9);
         PagerAdapter myFragmentAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList);
         myViewPager.setAdapter(myFragmentAdapter);
     }
@@ -104,4 +105,4 @@ public class Manageclothes extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 }
->>>>>>> Stashed changes
+

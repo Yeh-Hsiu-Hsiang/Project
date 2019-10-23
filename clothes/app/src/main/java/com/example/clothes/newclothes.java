@@ -93,7 +93,7 @@ public class newclothes extends AppCompatActivity {
                 Intent intent = new Intent ();
                 intent.setClass( newclothes.this  , AddClothes.class);
                 startActivity(intent);
-
+                finish();
             }
         });
 
