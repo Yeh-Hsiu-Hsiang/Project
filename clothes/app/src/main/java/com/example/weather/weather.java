@@ -40,54 +40,25 @@ import java.util.Locale;
 
 public class weather extends AppCompatActivity {
 
-    public TextView Location; // 顯示天氣
-    public TextView City; // 顯示城市
-    public String Where;  // 查詢城市
-    private Spinner city_list;  // 城市清單
+    public TextView Location; // 顯示城市
+    public TextView HighLowTemperature; // 顯示最高最低溫
 
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private String commadStr;
     private LocationManager locationManager;
     private int GPS_REQUEST_CODE = 10;
 
-    public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
-    private String commadStr;
-    private LocationManager locationManager;
+    public String test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_weekweather);
 
-        // 顯示 Json
-        Location = (TextView) findViewById(R.id.location);
-        // 顯示結果
-        City = (TextView) findViewById(R.id.City);
-        // 城市清單
-        city_list = (Spinner) findViewById(R.id.spinner);
-
-        // 城市選擇清單
-        Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        final String[] CityArray = {"請選擇城市", "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市", "基隆市",
-                "新竹縣", "新竹市", "苗栗縣", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "屏東縣", "宜蘭縣", "花蓮縣", "臺東縣", "澎湖縣", "金門縣", "連江縣"};
-        ArrayAdapter<String> lunchList = new ArrayAdapter<>(weather.this,
-                android.R.layout.simple_spinner_dropdown_item,
-                CityArray);
-        spinner.setAdapter(lunchList);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(weather.this, "你選的是" + lunch[position], Toast.LENGTH_SHORT).show();
-                // 取得選擇地點
-                Where = (String) city_list.getSelectedItem();
-                // 顯示選擇地點
-                City.setText(Where);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        // 顯示所在位置
+        Location = (TextView) findViewById(R.id.City);
+        // 顯示最高最低溫
+        HighLowTemperature = (TextView) findViewById(R.id.HighLowTemperature);
 
         // 讀取各縣市一週天氣預報
         new WeekTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
@@ -175,7 +146,9 @@ public class weather extends AppCompatActivity {
                     returnAddress = "Sorry! Geocoder service not Present.";
                 }
                 returnAddress = lstAddress.get(0).getAddressLine(0);
-                Log.d("returnAddress = ",returnAddress);
+                Log.d("returnAddress = ", returnAddress);
+                returnAddress = returnAddress.substring(5,7);
+                Log.d("city = ", returnAddress);
             }
         }
         catch(Exception e) {
