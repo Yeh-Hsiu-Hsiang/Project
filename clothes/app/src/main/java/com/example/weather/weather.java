@@ -1,6 +1,7 @@
 package com.example.weather;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.clothes.MainActivity;
 import com.example.clothes.R;
@@ -40,7 +43,12 @@ public class weather extends AppCompatActivity {
     public TextView Location; // 顯示天氣
     public TextView City; // 顯示城市
     public String Where;  // 查詢城市
-    private Spinner sp;  // 城市清單
+    private Spinner city_list;  // 城市清單
+
+    public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
+    private String commadStr;
+    private LocationManager locationManager;
+    private int GPS_REQUEST_CODE = 10;
 
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private String commadStr;
@@ -56,7 +64,7 @@ public class weather extends AppCompatActivity {
         // 顯示結果
         City = (TextView) findViewById(R.id.City);
         // 城市清單
-        sp = (Spinner) findViewById(R.id.spinner);
+        city_list = (Spinner) findViewById(R.id.spinner);
 
         // 城市選擇清單
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
@@ -71,7 +79,7 @@ public class weather extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(weather.this, "你選的是" + lunch[position], Toast.LENGTH_SHORT).show();
                 // 取得選擇地點
-                Where = (String) sp.getSelectedItem();
+                Where = (String) city_list.getSelectedItem();
                 // 顯示選擇地點
                 City.setText(Where);
             }
@@ -83,6 +91,10 @@ public class weather extends AppCompatActivity {
 
         // 讀取各縣市一週天氣預報
         new WeekTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+
+        if(!GPSIsOpen()) {
+            return;
+        }
 
         //使用GPS定位
         commadStr = LocationManager.GPS_PROVIDER;
@@ -98,10 +110,34 @@ public class weather extends AppCompatActivity {
         android.location.Location location = locationManager.getLastKnownLocation(commadStr);
         if (location != null)
             Location.setText("位於：" + getAddressByLocation(location));
-        // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
+            // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
         else
             Location.setText("定位中");
+    }
 
+    // 判斷當前是否開啟GPS
+    private boolean GPSIsOpen()
+    {
+        boolean GPS = true;
+        LocationManager alm = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        if(!alm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, "未開啟GPS", Toast.LENGTH_SHORT).show();
+            GPS = false;
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, GPS_REQUEST_CODE);
+        } else {
+            Toast.makeText(this, "GPS已開啟", Toast.LENGTH_SHORT).show();
+        }
+        return GPS;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            // 做需要做的事情，比如再次检测是否打开GPS了 或者定位
+            GPSIsOpen();
+        }
     }
 
     public LocationListener locationListener = new LocationListener() {
@@ -122,7 +158,6 @@ public class weather extends AppCompatActivity {
         @Override
         public void onProviderDisabled(String provider) { }
     };
-
 
     // 轉成地址
     public String getAddressByLocation(Location location) {
@@ -194,7 +229,6 @@ public class weather extends AppCompatActivity {
                     String locationName = JsonObject.getString("locationName");
                     Log.d("TAG", "城市：:" + locationName);
                 }
-
             }
             catch(JSONException e) {
                 e.printStackTrace();
@@ -204,10 +238,10 @@ public class weather extends AppCompatActivity {
 
     // 回到主頁按鈕
     public void toHome(View view) {
-                Intent intent = new Intent();
-                intent.setClass( weather.this  , MainActivity.class);
-                startActivity(intent);
-                weather.this.finish();
+        Intent intent = new Intent();
+        intent.setClass( weather.this  , MainActivity.class);
+        startActivity(intent);
+        weather.this.finish();
     }
 
     // 重新整理按鈕

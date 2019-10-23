@@ -48,8 +48,8 @@ public class viewclothes extends AppCompatActivity {
 
         dao = new clothesDAO(getApplicationContext());
         //測試用
-        getpicture(21);
-        getpicture(23);
+        getpicture(1);
+        getpicture(3);
         processView();
     }
     public void processView(){

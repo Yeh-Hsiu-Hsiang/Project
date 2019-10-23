@@ -53,31 +53,6 @@
             android:onClick="reLoad"
             android:visibility="visible"
             android:src="@drawable/reload" />
-
-        <ImageButton
-            android:id="@+id/title_local_btn"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="45.0dip"
-            android:layout_height="45.0dip"
-            android:scaleType="fitCenter"
-            android:layout_toLeftOf="@id/title_update_btn"
-            android:background="@null"
-            android:onClick="location"
-            android:visibility="visible"
-            android:src="@drawable/local" />
-
-        <ImageButton
-            android:id="@+id/title_location"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="45.0dip"
-            android:layout_height="45.0dip"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@id/title_local_btn"
-            android:background="@null"
-            android:onClick="test"
-            android:visibility="visible"
-            android:src="@drawable/addclothes" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -144,19 +119,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="新增活動"
-            android:layout_toRightOf="@+id/AddSchedule"
+            android:layout_toRightOf="@+id/Calendar"
             android:layout_marginTop="305dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"/>
 
         <ImageButton
-            android:id="@+id/AddSchedule"
+            android:id="@+id/Calendar"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_below="@+id/View_wearing"
             android:layout_toRightOf="@+id/View_wearing"
             android:background="@null"
-            android:onClick="AddSchedule"
+            android:onClick="Calendar"
             android:scaleType="centerCrop"
             android:src="@drawable/calendar"
             android:layout_marginTop="40dp"
@@ -176,24 +151,23 @@
             android:id="@+id/Weekweather"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_below="@+id/AddSchedule"
-            android:layout_toRightOf="@+id/AddSchedule"
+            android:layout_below="@+id/Calendar"
+            android:layout_toRightOf="@+id/Calendar"
             android:background="@null"
             android:onClick="Weekweather"
             android:scaleType="centerCrop"
             android:src="@drawable/weather"
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="-55dp"/>
+            android:layout_marginLeft="-60dp"/>
 
         <TextView
             android:id="@+id/text_Mysetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="其他設定"
-            android:textFontWeight=""
             android:layout_toRightOf="@+id/Mysetting"
             android:layout_marginTop="496dp"
-            android:layout_marginLeft="-40dp"
+            android:layout_marginLeft="-50dp"
             android:textStyle="bold"/>
 
         <ImageButton
@@ -207,8 +181,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/tool"
             android:layout_marginTop="40dp"
-            android:layout_marginRight="50dp"/>
+            android:layout_marginRight="60dp"/>
     </RelativeLayout>
 
 </RelativeLayout>
-

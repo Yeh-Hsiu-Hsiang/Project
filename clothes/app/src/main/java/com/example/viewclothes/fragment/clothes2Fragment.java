@@ -1,19 +1,22 @@
 package com.example.viewclothes.fragment;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.viewclothes.MemberAdapter;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
-import com.example.viewclothes.MemberAdapter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -75,7 +78,7 @@ public class clothes2Fragment extends Fragment {
         private int divider;
         public MyPaddingDecoration() {
             //  設置分隔線寬度
-            divider = 40;
+            divider = 10;
         }
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

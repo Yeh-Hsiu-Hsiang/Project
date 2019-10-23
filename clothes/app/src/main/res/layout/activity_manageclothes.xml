@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/background"
     tools:context=".Manageclothes">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +16,7 @@
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="45.0dip"
-            android:background="#2d383f"
+            android:background="@color/bar_background"
             android:gravity="center_vertical">
 
             <ImageButton
@@ -59,31 +58,6 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/reload"
                 android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/title_local_btn"
-                style="@style/Widget.AppCompat.ImageButton"
-                android:layout_width="45.0dip"
-                android:layout_height="45.0dip"
-                android:layout_toLeftOf="@id/title_update_btn"
-                android:background="@null"
-                android:onClick="location"
-                android:scaleType="fitCenter"
-                android:src="@drawable/local"
-                android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/title_location"
-                style="@style/Widget.AppCompat.ImageButton"
-                android:layout_width="45.0dip"
-                android:layout_height="45.0dip"
-                android:layout_gravity="center"
-                android:layout_toLeftOf="@id/title_local_btn"
-                android:background="@null"
-                android:onClick="test"
-                android:scaleType="fitCenter"
-                android:src="@drawable/add"
-                android:visibility="visible" />
         </RelativeLayout>
 
         <android.support.design.widget.TabLayout
@@ -98,7 +72,7 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/myViewPager"
-            android:layout_width="407dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
         </android.support.v4.view.ViewPager>
