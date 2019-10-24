@@ -80,7 +80,7 @@ public class weather extends AppCompatActivity {
         locationManager.requestLocationUpdates(commadStr, 1000, 0, locationListener);
         android.location.Location location = locationManager.getLastKnownLocation(commadStr);
         if (location != null)
-            Location.setText("位於：" + getAddressByLocation(location));
+            Location.setText(getAddressByLocation(location));
             // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
         else
             Location.setText("定位中");
@@ -147,7 +147,7 @@ public class weather extends AppCompatActivity {
                 }
                 returnAddress = lstAddress.get(0).getAddressLine(0);
                 Log.d("returnAddress = ", returnAddress);
-                returnAddress = returnAddress.substring(5,7);
+                returnAddress = returnAddress.substring(5,8);
                 Log.d("city = ", returnAddress);
             }
         }
@@ -190,17 +190,37 @@ public class weather extends AppCompatActivity {
             JSONObject Ob;
             try{
                 Ob = new JSONObject(data);
-                Object jsonOb = Ob.getJSONObject("cwbopendata").get("dataset");
-                Log.d("dataset","Object = " + jsonOb);
+                JSONArray location_array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
+                Log.d("location_array", "location_array = " + location_array);
 
-                JSONArray array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
-                Log.d("array", "array = " + array);
-
-                for (int i = 0; i < array .length (); i++) {
-                    JSONObject JsonObject = array.getJSONObject(i);
+                for (int i = 0; i < location_array .length (); i++) {
+                    JSONObject JsonObject = location_array.getJSONObject(i);
                     Log.d("jsonObject", "json = " + JsonObject);
                     String locationName = JsonObject.getString("locationName");
-                    Log.d("TAG", "城市：:" + locationName);
+                    Log.d("locationName", "城市 = " + locationName);
+
+                    JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
+                    Log.d("weatherElement", "weatherElement = " + weatherElement);
+                    for (int j = 0; j < weatherElement.length(); j++) {
+                        JSONObject jsonObject2 = weatherElement.getJSONObject(j);
+                        String elementName = jsonObject2.getString("elementName");
+                        Log.d("elementName", "elementName = " + elementName);
+                        if (elementName == "MaxT") {
+                            Log.d("MaxT 判斷", "OK ");
+                            JSONArray time = jsonObject2.getJSONArray("time");
+                            Log.d("time", "time = " + time);
+                            for (int k = 0; k < time.length(); k++) {
+                                JSONObject jsonObject3 = weatherElement.getJSONObject(j);
+                                String parameter = jsonObject3.getString("parameter");
+                                Log.d("parameter", "parameter = " + parameter);
+                                String MaxT = JsonObject.getString("parameterName");
+                                Log.d("MaxT", "最高溫 = " + MaxT);
+                            }
+                        } else if (elementName == "MinT") {
+                            String MinT = JsonObject.getString("time");
+                            Log.d("MinT", "最低溫 = " + MinT);
+                        }
+                    }
                 }
             }
             catch(JSONException e) {
