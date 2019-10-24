@@ -1,16 +1,17 @@
 package com.example.viewclothes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.util.Log;
 
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
@@ -24,6 +25,9 @@ import com.example.viewclothes.fragment.clothes6Fragment;
 import com.example.viewclothes.fragment.clothes7Fragment;
 import com.example.viewclothes.fragment.clothes8Fragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class viewclothes extends AppCompatActivity {
     // 宣告資料庫功能類別欄位變數
     private clothesDAO dao;
 
-    private ViewGroup.LayoutParams mVgLp;
+    private DrawingView mView;
 
     private ViewPager myViewPager;
     private TabLayout tabLayout;
@@ -43,8 +47,10 @@ public class viewclothes extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewclothes);
+        mView = (DrawingView)findViewById(R.id.drawingView);
 
         dao = new clothesDAO(getApplicationContext());
         //測試用
@@ -91,17 +97,78 @@ public class viewclothes extends AppCompatActivity {
 
     public void getpicture(long id){
         getClothesMember member = dao.getoneID(id);
-        TouchImageView imageView = new TouchImageView(getApplicationContext());
-        Bitmap bitmap = BitmapFactory.decodeFile( member.getImgPath());
-        imageView.setImageBitmap(bitmap);
 
-        RelativeLayout parentLayout = (RelativeLayout)findViewById(R.id.parentrelativeLayout);
-        mVgLp = parentLayout.getLayoutParams();
+        Bitmap bmp= BitmapFactory.decodeFile( member.getImgPath());
 
-        RelativeLayout relative = (RelativeLayout)findViewById(R.id.relativeLayout);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(mVgLp);
+        CustomBitmap customBitmap = new CustomBitmap(bmp);
 
-        relative.addView(imageView,params);
+        customBitmap.setId(1);
 
+        if (getSavedMatrix(1) != null){
+            Log.e("tag", "matrix 1 is not null");
+            customBitmap.setMatrix(getSavedMatrix(1));
+
+        }
+
+        mView.addBitmap(customBitmap);
+
+    }
+    private void saveMatrix(CustomBitmap customBitmap){
+        Log.e("tag", "save matrix" + customBitmap.getId());
+        SharedPreferences.Editor editor = getSharedPreferences("matrix",Context.MODE_PRIVATE).edit();
+        Matrix matrix = customBitmap.matrix;
+        float[] values = new float[9];
+        matrix.getValues(values);
+        JSONArray array = new JSONArray();
+        for (float value:values){
+            try {
+                array.put(value);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        editor.putString(String.valueOf(customBitmap.getId()), array.toString());
+        editor.commit();
+        Log.e("tag", "save matrix id:" + customBitmap.getId() + "---------"+values[Matrix.MPERSP_0] + " , " + values[Matrix.MPERSP_1] + " , " +
+                values[Matrix.MPERSP_2] + " , " + values[Matrix.MSCALE_X] + " , " +
+                values[Matrix.MSCALE_Y] + " , " + values[Matrix.MSKEW_X] + " , " +
+                values[Matrix.MSKEW_Y] + " , " +values[Matrix.MTRANS_X] + " , " +
+                values[Matrix.MTRANS_Y]);
+    }
+
+    //獲取matrix
+    private Matrix getSavedMatrix(int id){
+        SharedPreferences sp = getSharedPreferences("matrix", Context.MODE_PRIVATE);
+        String result = sp.getString(String.valueOf(id), null);
+        if (result != null){
+            float[] values = new float[9];
+            Matrix matrix = new Matrix();
+            try {
+                JSONArray array = new JSONArray(result);
+                for (int i = 0; i < array.length(); i++) {
+                    values[i] = Float.valueOf(String.valueOf(array.getDouble(i)));
+                }
+                matrix.setValues(values);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.e("tag", "get matrix id:" + id + "---------"+values[Matrix.MPERSP_0] + " , " + values[Matrix.MPERSP_1] + " , " +
+                    values[Matrix.MPERSP_2] + " , " + values[Matrix.MSCALE_X] + " , " +
+                    values[Matrix.MSCALE_Y] + " , " + values[Matrix.MSKEW_X] + " , " +
+                    values[Matrix.MSKEW_Y] + " , " +values[Matrix.MTRANS_X] + " , " +
+                    values[Matrix.MTRANS_Y]);
+
+            return matrix ;
+        }
+        return null;
+    }
+
+    @Override
+    public void finish() {
+        List<CustomBitmap> list = mView.getViews();
+        for (CustomBitmap customBitmap:list){
+            saveMatrix(customBitmap);
+        }
+        super.finish();
     }
 }
