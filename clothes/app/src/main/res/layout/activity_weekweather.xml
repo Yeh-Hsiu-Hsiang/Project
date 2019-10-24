@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -10,7 +11,6 @@
         android:layout_height="45.0dip"
         android:background="@color/bar_background"
         android:gravity="center_vertical">
-
         <ImageButton
             android:id="@+id/title_home_btn"
             style="@style/Widget.AppCompat.ImageButton"
@@ -21,14 +21,12 @@
             android:onClick="toHome"
             android:visibility="visible"
             android:src="@drawable/home" />
-
         <ImageView
             android:id="@+id/city_seperator"
             android:layout_width="1.0dip"
             android:layout_height="40dip"
             android:layout_marginTop="2.0dip"
             android:layout_toRightOf="@id/title_home_btn" />
-
         <ImageView
             android:id="@+id/title_city_name"
             android:layout_width="fill_parent"
@@ -37,7 +35,6 @@
             android:gravity="center_vertical"
             android:paddingLeft="-100dp"
             android:src="@drawable/titleweather"/>
-
         <ImageButton
             android:id="@+id/title_update_btn"
             style="@style/Widget.AppCompat.ImageButton"
@@ -52,37 +49,124 @@
             android:src="@drawable/reload" />
     </RelativeLayout>
 
-    <Spinner
-        android:id="@+id/spinner"
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/City"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="City"
+            android:textColor="@color/text_dark"
+            android:textSize="50.0sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/HighLowTemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/City"
+            android:text="H / L"
+            android:textSize="30.0sp"
+            android:textColor="@color/text_dark"
+            android:textIsSelectable="true" />
+        <TextView
+            android:id="@+id/Temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/HighLowTemperature"
+            android:text="Temperature"
+            android:textStyle="bold"
+            android:textSize="40.0sp"
+            android:textColor="@color/text_dark"
+            android:textIsSelectable="true" />
+        <TextView
+            android:id="@+id/weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/Temperature"
+            android:text="weather"
+            android:textSize="22.0sp"
+            android:textColor="@color/text_dark"
+            android:textIsSelectable="true" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/weather"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="-150dp"
+            android:layout_marginTop="200dp"/>
+    </RelativeLayout>
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="30dp"
-        android:spinnerMode="dialog"
-        android:background="@null"
-        android:textColor="#ffffffff"
-        android:textSize="22.0sp"/>
+        android:layout_below="@+id/content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1" />
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_below="@+id/test"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/weather" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="2" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="3" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="4" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="5" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="6" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="7" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="8" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="9" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="10" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
-    <TextView
-        android:id="@+id/City"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/spinner"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/darkTheme_colorAccent"
-        android:textSize="22.0sp" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="390dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/title"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="weather"
-        android:textSize="22.0sp"
-        android:textColor="@color/colorPrimary"
-        android:textIsSelectable="true" />
 
 </RelativeLayout>
