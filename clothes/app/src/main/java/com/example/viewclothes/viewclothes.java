@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
@@ -56,6 +57,7 @@ public class viewclothes extends AppCompatActivity {
         //測試用
         getpicture(1);
         getpicture(3);
+        getpicture(8);
         processView();
     }
     public void processView(){
@@ -170,5 +172,8 @@ public class viewclothes extends AppCompatActivity {
             saveMatrix(customBitmap);
         }
         super.finish();
+    }
+    public void deletepic(View view){
+        mView.delectpic();
     }
 }

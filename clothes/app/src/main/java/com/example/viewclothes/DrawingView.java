@@ -164,6 +164,9 @@ public class DrawingView extends View{
         invalidate();
         return true;
     }
-
+    public void delectpic(){
+        _bitmaps.remove(_curCustomBitmap);
+        postInvalidate();
+    }
 
 }
