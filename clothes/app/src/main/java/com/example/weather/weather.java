@@ -141,14 +141,14 @@ public class weather extends AppCompatActivity {
                 Geocoder gc = new Geocoder(this, Locale.TRADITIONAL_CHINESE);        //地區:台灣
                 //自經緯度取得地址
                 List<Address> lstAddress = gc.getFromLocation(latitude, longitude, 1);
-                Log.d("lstAddress = ", String.valueOf(lstAddress));
+                //                Log.d("lstAddress = ", String.valueOf(lstAddress));
                 if (!Geocoder.isPresent()){ //Since: API Level 9
                     returnAddress = "Sorry! Geocoder service not Present.";
                 }
                 returnAddress = lstAddress.get(0).getAddressLine(0);
-                Log.d("returnAddress = ", returnAddress);
+                //                Log.d("returnAddress = ", returnAddress);
                 returnAddress = returnAddress.substring(5,8);
-                Log.d("city = ", returnAddress);
+                //                Log.d("city = ", returnAddress);
             }
         }
         catch(Exception e) {
@@ -168,7 +168,7 @@ public class weather extends AppCompatActivity {
                 BufferedReader in = new BufferedReader (new InputStreamReader ( url.openStream () ) );
                 String line = in.readLine ();
                 while (line != null) {
-                    Log.d ( "HTTP", line );
+                    //                    Log.d ( "HTTP", line );
                     sb.append ( line );
                     line = in.readLine ();
                 }
@@ -182,7 +182,7 @@ public class weather extends AppCompatActivity {
 
         protected void onPostExecute(String data) {
             super.onPostExecute ( data );
-            Log.d ( "JSON", data );
+            //            Log.d ( "JSON", data );
             parseJSON ( data );
         }
 
@@ -191,11 +191,11 @@ public class weather extends AppCompatActivity {
             try{
                 Ob = new JSONObject(data);
                 JSONArray location_array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
-                Log.d("location_array", "location_array = " + location_array);
+                //                Log.d("location_array", "location_array = " + location_array);
 
                 for (int i = 0; i < location_array .length (); i++) {
                     JSONObject JsonObject = location_array.getJSONObject(i);
-                    Log.d("jsonObject", "json = " + JsonObject);
+                    //                    Log.d("jsonObject", "json = " + JsonObject);
                     String locationName = JsonObject.getString("locationName");
                     Log.d("locationName", "城市 = " + locationName);
 
@@ -205,23 +205,43 @@ public class weather extends AppCompatActivity {
                         JSONObject jsonObject2 = weatherElement.getJSONObject(j);
                         String elementName = jsonObject2.getString("elementName");
                         Log.d("elementName", "elementName = " + elementName);
-                        if (elementName == "MaxT") {
-                            Log.d("MaxT 判斷", "OK ");
-                            JSONArray time = jsonObject2.getJSONArray("time");
-                            Log.d("time", "time = " + time);
-                            for (int k = 0; k < time.length(); k++) {
-                                JSONObject jsonObject3 = weatherElement.getJSONObject(j);
-                                String parameter = jsonObject3.getString("parameter");
-                                Log.d("parameter", "parameter = " + parameter);
-                                String MaxT = JsonObject.getString("parameterName");
-                                Log.d("MaxT", "最高溫 = " + MaxT);
-                            }
-                        } else if (elementName == "MinT") {
-                            String MinT = JsonObject.getString("time");
-                            Log.d("MinT", "最低溫 = " + MinT);
+
+
+                        JSONArray time = jsonObject2.getJSONArray("time");
+                        Log.d("time", "time = " + time);
+                        for (int k = 0; k < time.length(); k++) {
+                            JSONObject jsonObject3 = time.getJSONObject(k);
+                            JSONObject parameter = jsonObject3.getJSONObject("parameter");
+                            Log.d("parameter", "parameter = " + parameter);
+                            String parameterName = parameter.getString("parameterName");
+                            Log.d("parameterName", "parameterName = " + parameterName);
+                            String parameterValue = parameter.getString("parameterValue");
+                            Log.d("parameterValue", "parameterValue = " + parameterValue);
                         }
+//                        if (elementName == "MaxT") {
+//                            Log.d("MaxT_yes", "OK ");
+//                            JSONArray time = jsonObject2.getJSONArray("time");
+//                            Log.d("time", "time = " + time);
+//                            for (int k = 0; k < time.length(); k++) {
+//                                JSONObject jsonObject3 = weatherElement.getJSONObject(k);
+//                                String parameter = jsonObject3.getString("parameter");
+//                                Log.d("parameter", "parameter = " + parameter);
+//                                String MaxT = JsonObject.getString("parameterName");
+//                                Log.d("MaxT", "最高溫 = " + MaxT);
+//                            }
+//                        } else if (elementName == "MinT") {
+//                            String MinT = JsonObject.getString("time");
+//                            Log.d("MinT", "最低溫 = " + MinT);
+//                        }
                     }
                 }
+
+//                if(parameterName.indexOf("晴")>-1){
+//                    //有
+//                }
+//                else{
+//                    //無
+//                }
             }
             catch(JSONException e) {
                 e.printStackTrace();
