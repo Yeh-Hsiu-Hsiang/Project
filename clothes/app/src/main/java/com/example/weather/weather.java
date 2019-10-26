@@ -15,10 +15,11 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,24 +42,31 @@ import java.util.Locale;
 public class weather extends AppCompatActivity {
 
     public TextView Location; // 顯示城市
-    public TextView HighLowTemperature; // 顯示最高最低溫
+    public TextView HighTemperature; // 顯示最高溫
+    public TextView LowTemperature; // 顯示最低溫
 
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private String commadStr;
     private LocationManager locationManager;
     private int GPS_REQUEST_CODE = 10;
 
-    public String test;
+    private HorizontalScrollView scrollView;
+    private LinearLayout linear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_weekweather);
 
+        scrollView = (HorizontalScrollView) this.findViewById(R.id.scroll_view);
+        linear = (LinearLayout) this.findViewById(R.id.linear);
+        createChildLinearLayout();
+
         // 顯示所在位置
         Location = (TextView) findViewById(R.id.City);
         // 顯示最高最低溫
-        HighLowTemperature = (TextView) findViewById(R.id.HighLowTemperature);
+        HighTemperature = (TextView) findViewById(R.id.HighTemperature);
+        LowTemperature = (TextView) findViewById(R.id.LowTemperature);
 
         // 讀取各縣市一週天氣預報
         new WeekTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
@@ -116,15 +124,12 @@ public class weather extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
         }
-
         // 定位狀態改變
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
-
         // 當GPS或網路定位功能開啟
         @Override
         public void onProviderEnabled(String provider) { }
-
         // 當GPS或網路定位功能關閉時
         @Override
         public void onProviderDisabled(String provider) { }
@@ -141,14 +146,11 @@ public class weather extends AppCompatActivity {
                 Geocoder gc = new Geocoder(this, Locale.TRADITIONAL_CHINESE);        //地區:台灣
                 //自經緯度取得地址
                 List<Address> lstAddress = gc.getFromLocation(latitude, longitude, 1);
-                //                Log.d("lstAddress = ", String.valueOf(lstAddress));
                 if (!Geocoder.isPresent()){ //Since: API Level 9
                     returnAddress = "Sorry! Geocoder service not Present.";
                 }
                 returnAddress = lstAddress.get(0).getAddressLine(0);
-                //                Log.d("returnAddress = ", returnAddress);
                 returnAddress = returnAddress.substring(5,8);
-                //                Log.d("city = ", returnAddress);
             }
         }
         catch(Exception e) {
@@ -191,11 +193,9 @@ public class weather extends AppCompatActivity {
             try{
                 Ob = new JSONObject(data);
                 JSONArray location_array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
-                //                Log.d("location_array", "location_array = " + location_array);
 
                 for (int i = 0; i < location_array .length (); i++) {
                     JSONObject JsonObject = location_array.getJSONObject(i);
-                    //                    Log.d("jsonObject", "json = " + JsonObject);
                     String locationName = JsonObject.getString("locationName");
                     Log.d("locationName", "城市 = " + locationName);
 
@@ -205,47 +205,80 @@ public class weather extends AppCompatActivity {
                         JSONObject jsonObject2 = weatherElement.getJSONObject(j);
                         String elementName = jsonObject2.getString("elementName");
                         Log.d("elementName", "elementName = " + elementName);
-
-
                         JSONArray time = jsonObject2.getJSONArray("time");
                         Log.d("time", "time = " + time);
-                        for (int k = 0; k < time.length(); k++) {
-                            JSONObject jsonObject3 = time.getJSONObject(k);
-                            JSONObject parameter = jsonObject3.getJSONObject("parameter");
-                            Log.d("parameter", "parameter = " + parameter);
-                            String parameterName = parameter.getString("parameterName");
-                            Log.d("parameterName", "parameterName = " + parameterName);
-                            String parameterValue = parameter.getString("parameterValue");
-                            Log.d("parameterValue", "parameterValue = " + parameterValue);
+                        switch  (elementName) {
+                            // 天氣現象
+                            case "Wx":
+                                for (int k = 0; k < time.length(); k++) {
+                                    JSONObject jsonObject3 = time.getJSONObject(k);
+                                    JSONObject parameter = jsonObject3.getJSONObject("parameter");
+                                    Log.d("parameter", "parameter = " + parameter);
+                                    String parameterName = parameter.getString("parameterName");
+                                    Log.d("Wx", "Wx = " + parameterName);
+                                }
+                                break;
+                            case "MaxT":
+                                for (int k = 0; k < time.length(); k++) {
+                                    JSONObject jsonObject3 = time.getJSONObject(k);
+                                    JSONObject parameter = jsonObject3.getJSONObject("parameter");
+                                    Log.d("parameter", "parameter = " + parameter);
+                                    String parameterName = parameter.getString("parameterName");
+                                    Log.d("MaxT", "MaxT = " + parameterName);
+                                    HighTemperature.setText(parameterName);
+                                }
+                                break;
+                            case "MinT":
+                                for (int k = 0; k < time.length(); k++) {
+                                    JSONObject jsonObject3 = time.getJSONObject(k);
+                                    JSONObject parameter = jsonObject3.getJSONObject("parameter");
+                                    Log.d("parameter", "parameter = " + parameter);
+                                    String parameterName = parameter.getString("parameterName");
+                                    Log.d("MinT", "MinT = " + parameterName);
+                                    LowTemperature.setText(parameterName);
+                                }
+                                break;
                         }
-//                        if (elementName == "MaxT") {
-//                            Log.d("MaxT_yes", "OK ");
-//                            JSONArray time = jsonObject2.getJSONArray("time");
-//                            Log.d("time", "time = " + time);
-//                            for (int k = 0; k < time.length(); k++) {
-//                                JSONObject jsonObject3 = weatherElement.getJSONObject(k);
-//                                String parameter = jsonObject3.getString("parameter");
-//                                Log.d("parameter", "parameter = " + parameter);
-//                                String MaxT = JsonObject.getString("parameterName");
-//                                Log.d("MaxT", "最高溫 = " + MaxT);
-//                            }
-//                        } else if (elementName == "MinT") {
-//                            String MinT = JsonObject.getString("time");
-//                            Log.d("MinT", "最低溫 = " + MinT);
-//                        }
                     }
                 }
-
-//                if(parameterName.indexOf("晴")>-1){
-//                    //有
-//                }
-//                else{
-//                    //無
-//                }
             }
             catch(JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void createChildLinearLayout() {
+        for (int n = 0; n < 20; n++) {
+            LinearLayout.LayoutParams linearLp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout myLinear = new LinearLayout(this);
+            linearLp.setMargins(30, 50, 30, 50);
+            myLinear.setOrientation(LinearLayout.VERTICAL);
+            myLinear.setTag(n);
+            linear.addView(myLinear, linearLp);
+            // 小時
+            LinearLayout.LayoutParams textViewLp = new LinearLayout.LayoutParams(150, 150);
+            TextView textView = new TextView(this);
+            textView.setText(n + "");
+            textView.setGravity(Gravity.CENTER);
+            myLinear.addView(textView, textViewLp);
+            // 天氣圖示
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(150, 150);
+            ImageView imageView = new ImageView(this);
+            imageView.setBackgroundResource(R.drawable.weather);
+            imageView.setScaleType(ImageView.ScaleType. CENTER_CROP);
+            myLinear.addView(imageView, lp);
+
+            myLinear.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    Toast.makeText(weather.this, v.getTag().toString(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

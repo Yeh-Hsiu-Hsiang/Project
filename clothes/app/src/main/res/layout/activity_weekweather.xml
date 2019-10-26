@@ -71,13 +71,37 @@
                 android:textSize="50.0sp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/HighLowTemperature"
+                android:id="@+id/HighTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/City"
-                android:text="H / L"
+                android:text="H"
+                android:textSize="30.0sp"
+                android:textColor="@color/text_dark"
+                android:textIsSelectable="true" />
+            <TextView
+                android:id="@+id/line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/City"
+                android:layout_toRightOf="@+id/HighTemperature"
+                android:text="/"
+                android:textSize="30.0sp"
+                android:textColor="@color/text_dark"
+                android:textIsSelectable="true" />
+            <TextView
+                android:id="@+id/LowTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/City"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/line"
+                android:text="L"
                 android:textSize="30.0sp"
                 android:textColor="@color/text_dark"
                 android:textIsSelectable="true" />
@@ -87,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
-                android:layout_below="@+id/HighLowTemperature"
+                android:layout_below="@+id/LowTemperature"
                 android:text="C"
                 android:textStyle="normal"
                 android:textSize="60.0sp"
@@ -135,61 +159,15 @@
         </RelativeLayout>
 
         <HorizontalScrollView
-            android:id="@+id/HorizontalScrollView"
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:layout_below="@+id/content">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1" />
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_below="@+id/test"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/weather" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="2" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="3" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="4" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="5" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="6" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="7" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="8" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="9" />
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="10" />
+                android:id="@+id/linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -198,16 +176,17 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/HorizontalScrollView"
+            android:layout_below="@+id/scroll_view"
             android:gravity="center_vertical">
             <TextView
                 android:id="@+id/MON"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="MON"
+                android:text="星期一"
                 android:textStyle="bold"
-                android:textSize = "16sp"/>
+                android:textSize = "16sp"
+                android:gravity="left"/>
             <ImageView
                 android:id="@+id/MON_image"
                 android:layout_width="10dp"
@@ -242,9 +221,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/MON"
                 android:layout_marginLeft="10dp"
-                android:text="TUE"
+                android:text="星期二"
                 android:textStyle="bold"
-                android:textSize = "16sp"/>
+                android:textSize = "16sp"
+                android:gravity="left"/>
             <ImageView
                 android:id="@+id/TUE_image"
                 android:layout_width="10dp"
@@ -282,9 +262,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/TUE"
                 android:layout_marginLeft="10dp"
-                android:text="WED"
+                android:text="星期三"
                 android:textStyle="bold"
-                android:textSize = "16sp"/>
+                android:textSize = "16sp"
+                android:gravity="left"/>
             <ImageView
                 android:id="@+id/WED_image"
                 android:layout_width="10dp"
@@ -322,9 +303,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/WED"
                 android:layout_marginLeft="10dp"
-                android:text="THU"
+                android:text="星期四"
                 android:textStyle="bold"
-                android:textSize = "16sp"/>
+                android:textSize = "16sp"
+                android:gravity="left"/>
             <ImageView
                 android:id="@+id/THU_image"
                 android:layout_width="10dp"
@@ -362,9 +344,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/THU"
                 android:layout_marginLeft="10dp"
-                android:text="FRI"
+                android:text="星期五"
                 android:textStyle="bold"
-                android:textSize = "16sp"/>
+                android:textSize = "16sp"
+                android:gravity="left"/>
             <ImageView
                 android:id="@+id/FRI_image"
                 android:layout_width="10dp"
@@ -402,9 +385,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/FRI"
                 android:layout_marginLeft="10dp"
-                android:text="SAT"
+                android:text="星期六"
                 android:textStyle="bold"
-                android:textSize = "16sp"/>
+                android:textSize = "16sp"
+                android:gravity="left"/>
             <ImageView
                 android:id="@+id/SAT_image"
                 android:layout_width="10dp"
@@ -442,9 +426,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/SAT"
                 android:layout_marginLeft="10dp"
-                android:text="SUN"
+                android:text="星期日"
                 android:textStyle="bold"
-                android:textSize = "16sp"/>
+                android:textSize = "16sp"
+                android:gravity="left"/>
             <ImageView
                 android:id="@+id/SUN_image"
                 android:layout_width="10dp"
