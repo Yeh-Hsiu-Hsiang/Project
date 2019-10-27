@@ -1,19 +1,15 @@
 package com.example.viewclothes.fragment;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.viewclothes.DrawingView;
 import com.example.viewclothes.MemberAdapter;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
@@ -22,7 +18,6 @@ import com.example.viewclothes.viewclothes;
 
 import java.util.ArrayList;
 
-import static com.example.viewclothes.DrawingView.*;
 
 
 public class clothes1Fragment extends Fragment {
@@ -36,9 +31,7 @@ public class clothes1Fragment extends Fragment {
     private ArrayList<getClothesMember> clothesList;
     //自定義recyclerveiw的Adapter
     private MemberAdapter memberAdapter;
-   // String text = null;
 
-    private boolean chosen = false;
     private viewclothes viewClothes = (viewclothes)getActivity();
 
     @Override
@@ -59,13 +52,13 @@ public class clothes1Fragment extends Fragment {
         clothesList = new ArrayList<>();
         initData();
         initRecyclerView();
-        //建立數據
 
     }
 
     private void initData(){
         clothesList = dao.getoneType("\"短袖上衣\"");
     }
+
     private void initRecyclerView(){
         mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
@@ -80,23 +73,8 @@ public class clothes1Fragment extends Fragment {
         memberAdapter.setOnItemClickListener(new MemberAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view , getClothesMember data) {
-                    if(!chosen){    //選取
-                        CardView cardview = (CardView)view.findViewById(R.id.cardview);
-                        cardview.setCardBackgroundColor(0xFFADA5A3);
-                        viewClothes.wearlist.add(data.getId());
-                        viewClothes.getpicture(data.getId(),getContext());
-//                        viewClothes.resetMatrix(data.getId());
-
-                        chosen = true;
-                    }else{         //取消選取
-                        CardView cardview = (CardView)view.findViewById(R.id.cardview);
-                        cardview.setCardBackgroundColor(0xFFFFFFFF);
-                        viewClothes.wearlist.remove(data.getId());
-                        chosen = false;
-                    }
-
-
-
+                viewClothes.wearlist.add(data.getId());
+                viewClothes.getpicture(data.getId(),getContext());
             }
         });
     }

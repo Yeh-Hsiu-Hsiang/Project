@@ -58,7 +58,6 @@ public class viewclothes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewclothes);
         mView = findViewById(R.id.drawingView);
-
         dao = new clothesDAO(getApplicationContext());
 
         //測試用
@@ -68,7 +67,6 @@ public class viewclothes extends AppCompatActivity {
         for(int i=0 ;i < wearlist.size() ; i++){
             getpicture((Long) wearlist.get(i),getApplicationContext());
         }
-
 
         processView();
     }
@@ -143,21 +141,6 @@ public class viewclothes extends AppCompatActivity {
                 values[Matrix.MSKEW_Y] + " , " +values[Matrix.MSCALE_Y] + " , " + values[Matrix.MTRANS_Y] + " , " +
                 values[Matrix.MPERSP_0] + " , " +values[Matrix.MPERSP_1] + " , " + values[Matrix.MPERSP_2]);
     }
-    //重設matrix
-//    public static void resetMatrix(){
-//        float[] values = new float[9];
-//        Matrix matrix = new Matrix();
-//        values[0] = (float) 0.0;
-//        values[1] = (float) 0.0;
-//        values[2] = (float) 1.0;
-//        values[3] = (float) 0.5;
-//        values[4] = (float) 0.05;
-//        values[5] = (float) 0.005;
-//        values[6] = (float) -0.005;
-//        values[7] = (float) 150.0;
-//        values[8] = (float) -150.0;
-//        matrix.setValues(values);
-//    }
 
     //獲取matrix
     private static Matrix getSavedMatrix(long id ,Context ctxt){
@@ -173,12 +156,12 @@ public class viewclothes extends AppCompatActivity {
                     values[i] = Float.valueOf(String.valueOf(array.getDouble(i)));
 
                 }
-//                if(values[2]> 250.0 ||  values[5] < -250.0){
-//                    //位置重定位
-//                    Log.e("RE:" ,"RE");
-//                    values[2] = (float) 150.0;
-//                    values[5] = (float) -150.0;
-//                }
+                //位置重定位
+//                 if(values[2]> 250.0 ||  values[5] < -250.0){
+//                     Log.e("RE:" ,"RE");
+//                     values[2] = (float) 150.0;
+//                     values[5] = (float) -150.0;
+//                 }
                 matrix.setValues(values);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -193,16 +176,11 @@ public class viewclothes extends AppCompatActivity {
         return null;
     }
 
-    @Override
-    public void finish() {
+    public void save(View view){
         List<CustomBitmap> list = mView.getViews();
         for (CustomBitmap customBitmap:list){
             saveMatrix(customBitmap);
         }
-        if(wearlist != null)
-            wearlist = null;
-        wearlist = new ArrayList<>();
-        super.finish();
     }
     public void deletepic(View view){
         try {
@@ -211,6 +189,13 @@ public class viewclothes extends AppCompatActivity {
             Toast.makeText(this, "請先點選一件衣服", Toast.LENGTH_LONG).show();
         }
     }
-
+    @Override
+    public void finish() {
+        save(getCurrentFocus());
+        if(wearlist != null)
+            wearlist = null;
+        wearlist = new ArrayList<>();
+        super.finish();
+    }
 
 }

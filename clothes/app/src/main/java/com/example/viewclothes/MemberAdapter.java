@@ -44,21 +44,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         getClothesMember member = ClothesList.get(position);
-        //holder.imageId.setImageResource(member.getImage());
         holder.imageId.setImageBitmap( BitmapFactory.decodeFile(member.getImgPath()));
-
-    }
-
-
-    public void getMultipleSelect(int position){
-        getClothesMember member = ClothesList.get(position);
-        dao.delete(member.getId());
 
     }
 
     @Override
     public int getItemCount() {
-//        Log.e("count", "Adapter"+ String.valueOf(ClothesList.size()));
         return ClothesList.size();
     }
 
@@ -68,8 +59,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             imageId = (ImageView) itemView.findViewById(R.id.imageId);
-
-
 
             //在adapter中设置点击事件(長按)
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
