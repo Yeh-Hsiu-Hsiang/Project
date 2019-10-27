@@ -1,6 +1,7 @@
 package com.example.viewclothes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
@@ -36,9 +38,9 @@ import java.util.List;
 public class viewclothes extends AppCompatActivity {
 
     // 宣告資料庫功能類別欄位變數
-    private clothesDAO dao;
+    private static clothesDAO dao;
 
-    private DrawingView mView;
+    private static DrawingView mView;
 
     private ViewPager myViewPager;
     private TabLayout tabLayout;
@@ -46,23 +48,34 @@ public class viewclothes extends AppCompatActivity {
             R.drawable.selector_four, R.drawable.selector_five, R.drawable.selector_six,
             R.drawable.selector_seven, R.drawable.selector_eight};
 
+    public static ArrayList wearlist = new ArrayList<>();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewclothes);
-        mView = (DrawingView)findViewById(R.id.drawingView);
+        mView = findViewById(R.id.drawingView);
 
         dao = new clothesDAO(getApplicationContext());
+
         //測試用
-        getpicture(1);
-        getpicture(3);
-        getpicture(8);
+        wearlist.add((long)2);
+        wearlist.add((long)1);
+        wearlist.add((long)8);
+        for(int i=0 ;i < wearlist.size() ; i++){
+            getpicture((Long) wearlist.get(i),getApplicationContext());
+        }
+
+
         processView();
     }
+
     public void processView(){
-        myViewPager = (ViewPager) findViewById( R.id.myViewPager);
-        tabLayout = (TabLayout) findViewById( R.id.TabLayout);
+        myViewPager = findViewById( R.id.myViewPager);
+        tabLayout = findViewById( R.id.TabLayout);
         setViewPager();
         tabLayout.setupWithViewPager(myViewPager);
         setTabLayoutIcon();
@@ -97,23 +110,17 @@ public class viewclothes extends AppCompatActivity {
         myViewPager.setAdapter(myFragmentAdapter);
     }
 
-    public void getpicture(long id){
+    public static void getpicture(long id,Context ctxt){
         getClothesMember member = dao.getoneID(id);
-
         Bitmap bmp= BitmapFactory.decodeFile( member.getImgPath());
-
         CustomBitmap customBitmap = new CustomBitmap(bmp);
-
-        customBitmap.setId(1);
-
-        if (getSavedMatrix(1) != null){
-            Log.e("tag", "matrix 1 is not null");
-            customBitmap.setMatrix(getSavedMatrix(1));
-
+        customBitmap.setId(id);
+        if (getSavedMatrix(id,ctxt) != null){
+            Log.e("tag", "matrix "+ id +" is not null");
+            customBitmap.setMatrix(getSavedMatrix(id,ctxt));
         }
-
         mView.addBitmap(customBitmap);
-
+        mView.refresh();
     }
     private void saveMatrix(CustomBitmap customBitmap){
         Log.e("tag", "save matrix" + customBitmap.getId());
@@ -131,16 +138,31 @@ public class viewclothes extends AppCompatActivity {
         }
         editor.putString(String.valueOf(customBitmap.getId()), array.toString());
         editor.commit();
-        Log.e("tag", "save matrix id:" + customBitmap.getId() + "---------"+values[Matrix.MPERSP_0] + " , " + values[Matrix.MPERSP_1] + " , " +
-                values[Matrix.MPERSP_2] + " , " + values[Matrix.MSCALE_X] + " , " +
-                values[Matrix.MSCALE_Y] + " , " + values[Matrix.MSKEW_X] + " , " +
-                values[Matrix.MSKEW_Y] + " , " +values[Matrix.MTRANS_X] + " , " +
-                values[Matrix.MTRANS_Y]);
+        Log.e("tag", "save matrix id:" + customBitmap.getId() + "---------"+
+                values[Matrix.MSCALE_X] + " , " + values[Matrix.MSKEW_X] + " , " + values[Matrix.MTRANS_X] + " , " +
+                values[Matrix.MSKEW_Y] + " , " +values[Matrix.MSCALE_Y] + " , " + values[Matrix.MTRANS_Y] + " , " +
+                values[Matrix.MPERSP_0] + " , " +values[Matrix.MPERSP_1] + " , " + values[Matrix.MPERSP_2]);
     }
+    //重設matrix
+//    public static void resetMatrix(){
+//        float[] values = new float[9];
+//        Matrix matrix = new Matrix();
+//        values[0] = (float) 0.0;
+//        values[1] = (float) 0.0;
+//        values[2] = (float) 1.0;
+//        values[3] = (float) 0.5;
+//        values[4] = (float) 0.05;
+//        values[5] = (float) 0.005;
+//        values[6] = (float) -0.005;
+//        values[7] = (float) 150.0;
+//        values[8] = (float) -150.0;
+//        matrix.setValues(values);
+//    }
 
     //獲取matrix
-    private Matrix getSavedMatrix(int id){
-        SharedPreferences sp = getSharedPreferences("matrix", Context.MODE_PRIVATE);
+    private static Matrix getSavedMatrix(long id ,Context ctxt){
+        SharedPreferences sp;
+        sp = ctxt.getSharedPreferences("matrix", Context.MODE_PRIVATE);
         String result = sp.getString(String.valueOf(id), null);
         if (result != null){
             float[] values = new float[9];
@@ -149,16 +171,22 @@ public class viewclothes extends AppCompatActivity {
                 JSONArray array = new JSONArray(result);
                 for (int i = 0; i < array.length(); i++) {
                     values[i] = Float.valueOf(String.valueOf(array.getDouble(i)));
+
                 }
+//                if(values[2]> 250.0 ||  values[5] < -250.0){
+//                    //位置重定位
+//                    Log.e("RE:" ,"RE");
+//                    values[2] = (float) 150.0;
+//                    values[5] = (float) -150.0;
+//                }
                 matrix.setValues(values);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.e("tag", "get matrix id:" + id + "---------"+values[Matrix.MPERSP_0] + " , " + values[Matrix.MPERSP_1] + " , " +
-                    values[Matrix.MPERSP_2] + " , " + values[Matrix.MSCALE_X] + " , " +
-                    values[Matrix.MSCALE_Y] + " , " + values[Matrix.MSKEW_X] + " , " +
-                    values[Matrix.MSKEW_Y] + " , " +values[Matrix.MTRANS_X] + " , " +
-                    values[Matrix.MTRANS_Y]);
+            Log.e("tag", "get matrix id:" + id + "---------"+
+                    values[Matrix.MSCALE_X] + " , " + values[Matrix.MSKEW_X] + " , " + values[Matrix.MTRANS_X] + " , " +
+                    values[Matrix.MSKEW_Y] + " , " +values[Matrix.MSCALE_Y] + " , " + values[Matrix.MTRANS_Y] + " , " +
+                    values[Matrix.MPERSP_0] + " , " +values[Matrix.MPERSP_1] + " , " + values[Matrix.MPERSP_2]);
 
             return matrix ;
         }
@@ -171,9 +199,18 @@ public class viewclothes extends AppCompatActivity {
         for (CustomBitmap customBitmap:list){
             saveMatrix(customBitmap);
         }
+        if(wearlist != null)
+            wearlist = null;
+        wearlist = new ArrayList<>();
         super.finish();
     }
     public void deletepic(View view){
-        mView.delectpic();
+        try {
+            mView.delectpic();
+        }catch (NullPointerException e){
+            Toast.makeText(this, "請先點選一件衣服", Toast.LENGTH_LONG).show();
+        }
     }
+
+
 }

@@ -58,7 +58,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        Log.e("count", "Adapter"+ String.valueOf(ClothesList.size()));
+//        Log.e("count", "Adapter"+ String.valueOf(ClothesList.size()));
         return ClothesList.size();
     }
 

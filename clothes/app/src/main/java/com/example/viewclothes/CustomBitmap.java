@@ -11,7 +11,7 @@ public class CustomBitmap {
     //Matrix.MTRANS_Y//左上顶点Y坐标
     //Matrix.MSCALE_X//宽度缩放倍数
     //Matrix.MSCALE_Y//高度缩放位数
-    private int id;//唯一标识，实际项目中可替换为url
+    private long id;//唯一标识，实际项目中可替换为url
     public float startDis;// 开始距离
     public PointF midPoint;// 中间点
     public float oldRotation = 0;
@@ -28,11 +28,11 @@ public class CustomBitmap {
         return bitmap;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

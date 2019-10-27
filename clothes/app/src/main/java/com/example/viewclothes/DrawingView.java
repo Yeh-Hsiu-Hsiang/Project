@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class DrawingView extends View{
     private List<CustomBitmap> _bitmaps;
     private Context _context;
     private CustomBitmap _curCustomBitmap;
-
+    private viewclothes viewClothes;
 
     private Matrix currentMatrix = new Matrix();
 
@@ -166,6 +167,10 @@ public class DrawingView extends View{
     }
     public void delectpic(){
         _bitmaps.remove(_curCustomBitmap);
+        viewClothes.wearlist.remove(_curCustomBitmap.getId());
+        postInvalidate();
+    }
+    public void refresh(){
         postInvalidate();
     }
 

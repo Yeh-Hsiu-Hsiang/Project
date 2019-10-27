@@ -1,21 +1,28 @@
 package com.example.viewclothes.fragment;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.viewclothes.DrawingView;
 import com.example.viewclothes.MemberAdapter;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
+import com.example.viewclothes.viewclothes;
 
 import java.util.ArrayList;
+
+import static com.example.viewclothes.DrawingView.*;
 
 
 public class clothes1Fragment extends Fragment {
@@ -31,7 +38,8 @@ public class clothes1Fragment extends Fragment {
     private MemberAdapter memberAdapter;
    // String text = null;
 
-
+    private boolean chosen = false;
+    private viewclothes viewClothes = (viewclothes)getActivity();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +76,29 @@ public class clothes1Fragment extends Fragment {
         //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
+        //點擊(短按)進入修改
+        memberAdapter.setOnItemClickListener(new MemberAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view , getClothesMember data) {
+                    if(!chosen){    //選取
+                        CardView cardview = (CardView)view.findViewById(R.id.cardview);
+                        cardview.setCardBackgroundColor(0xFFADA5A3);
+                        viewClothes.wearlist.add(data.getId());
+                        viewClothes.getpicture(data.getId(),getContext());
+//                        viewClothes.resetMatrix(data.getId());
 
+                        chosen = true;
+                    }else{         //取消選取
+                        CardView cardview = (CardView)view.findViewById(R.id.cardview);
+                        cardview.setCardBackgroundColor(0xFFFFFFFF);
+                        viewClothes.wearlist.remove(data.getId());
+                        chosen = false;
+                    }
+
+
+
+            }
+        });
     }
 
     //RecyclerView的分隔線
