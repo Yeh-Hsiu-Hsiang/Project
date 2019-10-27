@@ -12,10 +12,12 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class WeekWeather {
+
+public class WeekWeather  {
 
     protected void onCreate(Bundle savedInstanceState) {
         // 讀取各縣市一週天氣預報

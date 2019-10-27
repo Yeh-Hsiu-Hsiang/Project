@@ -1,6 +1,7 @@
 package com.example.weather;
 
 import android.Manifest;
+import android.app.assist.AssistStructure;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -55,8 +56,8 @@ public class weather extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_weekweather);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_weekweather);
 
         scrollView = (HorizontalScrollView) this.findViewById(R.id.scroll_view);
         linear = (LinearLayout) this.findViewById(R.id.linear);
@@ -69,9 +70,9 @@ public class weather extends AppCompatActivity {
         LowTemperature = (TextView) findViewById(R.id.LowTemperature);
 
         // 讀取各縣市一週天氣預報
-        new WeekTask ().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+        new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
 
-        if(!GPSIsOpen()) {
+        if (!GPSIsOpen()) {
             return;
         }
 
@@ -95,8 +96,7 @@ public class weather extends AppCompatActivity {
     }
 
     // 判斷當前是否開啟GPS
-    private boolean GPSIsOpen()
-    {
+    private boolean GPSIsOpen() {
         boolean GPS = true;
         LocationManager alm = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         if(!alm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -159,7 +159,6 @@ public class weather extends AppCompatActivity {
         return returnAddress;
     }
 
-
     //  取得伺服端傳來回應
     class WeekTask extends AsyncTask<String, Void, String> {
         @Override
@@ -182,16 +181,16 @@ public class weather extends AppCompatActivity {
             return sb.toString ();
         }
 
-        protected void onPostExecute(String data) {
-            super.onPostExecute ( data );
+        protected void onPostExecute(String week_data) {
+            super.onPostExecute ( week_data );
             //            Log.d ( "JSON", data );
-            parseJSON ( data );
+            parseJSON ( week_data );
         }
 
-        private void parseJSON(String data)  {
+        private void parseJSON(String week_data)  {
             JSONObject Ob;
             try{
-                Ob = new JSONObject(data);
+                Ob = new JSONObject(week_data);
                 JSONArray location_array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
 
                 for (int i = 0; i < location_array .length (); i++) {

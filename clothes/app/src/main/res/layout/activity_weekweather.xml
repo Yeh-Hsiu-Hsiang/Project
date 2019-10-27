@@ -112,7 +112,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
                 android:layout_below="@+id/LowTemperature"
-                android:text="C"
+                android:text="°C"
                 android:textStyle="normal"
                 android:textSize="60.0sp"
                 android:textColor="@color/text_dark"
