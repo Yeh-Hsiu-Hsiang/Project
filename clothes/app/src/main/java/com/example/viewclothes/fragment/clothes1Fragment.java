@@ -14,8 +14,10 @@ import com.example.viewclothes.MemberAdapter;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
+import com.example.viewclothes.viewclothes;
 
 import java.util.ArrayList;
+
 
 
 public class clothes1Fragment extends Fragment {
@@ -29,9 +31,8 @@ public class clothes1Fragment extends Fragment {
     private ArrayList<getClothesMember> clothesList;
     //自定義recyclerveiw的Adapter
     private MemberAdapter memberAdapter;
-   // String text = null;
 
-
+    private viewclothes viewClothes = (viewclothes)getActivity();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,13 +52,13 @@ public class clothes1Fragment extends Fragment {
         clothesList = new ArrayList<>();
         initData();
         initRecyclerView();
-        //建立數據
 
     }
 
     private void initData(){
         clothesList = dao.getoneType("\"短袖上衣\"");
     }
+
     private void initRecyclerView(){
         mCollectRecyclerView = (RecyclerView)view.findViewById(R.id.collect_recyclerView);
         memberAdapter = new MemberAdapter(getActivity(), clothesList);
@@ -68,7 +69,14 @@ public class clothes1Fragment extends Fragment {
         //解決留白問題 用分隔線
         mCollectRecyclerView.addItemDecoration(new MyPaddingDecoration());
 
-
+        //點擊(短按)進入修改
+        memberAdapter.setOnItemClickListener(new MemberAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view , getClothesMember data) {
+                viewClothes.wearlist.add(data.getId());
+                viewClothes.getpicture(data.getId(),getContext());
+            }
+        });
     }
 
     //RecyclerView的分隔線

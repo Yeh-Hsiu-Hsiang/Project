@@ -44,7 +44,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         getClothesMember member = ClothesList.get(position);
-        //holder.imageId.setImageResource(member.getImage());
         holder.imageId.setImageBitmap( BitmapFactory.decodeFile(member.getImgPath()));
         holder.textId.setText(member.getId().toString());
         holder.textName.setText(member.getName());
@@ -96,6 +95,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                     //此处回传点击监听事件
                     if(onItemClickListener!=null){
                         onItemClickListener.OnItemClick(v, ClothesList.get(getLayoutPosition()));
+
                     }
                     return;
                 }

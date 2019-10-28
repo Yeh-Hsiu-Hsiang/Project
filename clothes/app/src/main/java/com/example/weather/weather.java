@@ -49,6 +49,9 @@ public class weather extends AppCompatActivity {
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
 
+    private HorizontalScrollView scrollView;
+    private LinearLayout linear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +71,6 @@ public class weather extends AppCompatActivity {
         new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-003?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
 
     }
-
 
     //  取得伺服端傳來回應
     private class WeekTask extends AsyncTask<String, Void, String> {

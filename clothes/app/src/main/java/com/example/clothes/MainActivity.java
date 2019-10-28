@@ -38,6 +38,11 @@ import java.util.List;
 import java.util.Locale;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
     // GPS 定位
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     public TextView Temperature; // 顯示氣溫
     public TextView TodayWeek; // 顯示星期
     public TextView date; // 顯示星期
+
+    private TextView date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

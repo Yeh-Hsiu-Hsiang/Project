@@ -6,12 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
-    app:cardCornerRadius="1dp"
-    app:cardElevation="1dp">
+    android:background="#FFFFFF"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF">
 
         <ImageView
             android:id="@+id/imageId"
