@@ -5,22 +5,30 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextClock;
+import android.widget.TextView;
 
 import com.example.calendar.CalendarView;
 import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        date = (TextView) findViewById(R.id.date);
+        date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
     }
 
     // 管理衣服

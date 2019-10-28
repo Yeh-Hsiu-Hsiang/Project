@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.clothes.R;
@@ -47,6 +48,7 @@ public class viewclothes extends AppCompatActivity {
     private int[] IconResID = {R.drawable.selector_one, R.drawable.selector_two, R.drawable.selector_three,
             R.drawable.selector_four, R.drawable.selector_five, R.drawable.selector_six,
             R.drawable.selector_seven, R.drawable.selector_eight};
+    private TextView hinttext;
 
     public static ArrayList wearlist = new ArrayList<>();
 
@@ -72,6 +74,8 @@ public class viewclothes extends AppCompatActivity {
     }
 
     public void processView(){
+        hinttext = findViewById(R.id.hint);
+        hinttext.setText("今天降雨機率" + "60%" + "，記得要攜帶雨具出門喔！");
         myViewPager = findViewById( R.id.myViewPager);
         tabLayout = findViewById( R.id.TabLayout);
         setViewPager();
