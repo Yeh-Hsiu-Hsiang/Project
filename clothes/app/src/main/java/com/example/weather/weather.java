@@ -49,9 +49,6 @@ public class weather extends AppCompatActivity {
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
 
-    private HorizontalScrollView scrollView;
-    private LinearLayout linear;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

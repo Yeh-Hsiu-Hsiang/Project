@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
     public TextView TodayWeek; // 顯示星期
     public TextView date; // 顯示星期
 
-    private TextView date;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
