@@ -7,8 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -26,7 +24,6 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +42,7 @@ public class newclothes extends AppCompatActivity {
     int flag ;
 
     String clothesType;
+    String clothesStyle;
     String clothesSeason = "";
     boolean spring, summer, autumn, winter = false;
     @Override
@@ -98,12 +96,12 @@ public class newclothes extends AppCompatActivity {
         });
 
         //衣服種類選單
-        final Spinner spinner = (Spinner)findViewById( R.id.spinner);
+        final Spinner spinnertype = (Spinner)findViewById( R.id.spinnertype);
         final ArrayAdapter<CharSequence> clothesList = ArrayAdapter.createFromResource( newclothes.this,
                 R.array.clothesclass, android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(clothesList);
+        spinnertype.setAdapter(clothesList);
         //衣服類型監聽事件
-        spinner.setOnItemSelectedListener(new OnItemSelectedListener (){
+        spinnertype.setOnItemSelectedListener(new OnItemSelectedListener (){
             public void onItemSelected(AdapterView adapterView, View view, int position, long id){
                 clothesType = adapterView.getSelectedItem().toString();
             }
@@ -112,6 +110,20 @@ public class newclothes extends AppCompatActivity {
             }
         });
 
+        //衣服樣式選單
+        final Spinner spinnerstyle = (Spinner)findViewById( R.id.spinnerstyle);
+        final ArrayAdapter<CharSequence> styleList = ArrayAdapter.createFromResource( newclothes.this,
+                R.array.styleclass, android.R.layout.simple_spinner_dropdown_item);
+        spinnerstyle.setAdapter(styleList);
+        //衣服類型監聽事件
+        spinnerstyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView adapterView, View view, int position, long id){
+                clothesStyle = adapterView.getSelectedItem().toString();
+            }
+            public void onNothingSelected(AdapterView arg0) {
+                Toast.makeText( newclothes.this, "您沒有選擇任何項目", Toast.LENGTH_LONG).show();
+            }
+        });
 
         //建立選擇器資料(溫度區間)
         initOptionData();
@@ -146,53 +158,11 @@ public class newclothes extends AppCompatActivity {
         dao = new clothesDAO(getApplicationContext());
     }
 
-    private void paletteBitmap(Bitmap bitmap) {
-        final ImageView pcolor = (ImageView)findViewById( R.id.imageView3);
-        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                //Palette.Swatch swatch = palette.getMutedSwatch();
-                Palette.Swatch swatch = palette.getVibrantSwatch();
-                //Palette.Swatch swatch = palette.getDarkMutedSwatch();
-                //Palette.Swatch swatch = palette.getDarkVibrantSwatch();
-                //Palette.Swatch swatch = palette.getLightMutedSwatch();
-                //Palette.Swatch swatch = palette.getLightVibrantSwatch();
-                if (swatch != null) {
-                    pcolor.setBackgroundColor(swatch.getRgb());
-                    //pcolor.setBackgroundColor(Color.parseColor("#F90F3D"));
-                } else {
-                    Log.e("smallsoho", "swatch为空");
-                }
-            }
-        });
-    }
-
     public void showPic(String picpath){
         ImageView imv = (ImageView)findViewById( R.id.clothesPic);
         Bitmap bitmap = BitmapFactory.decodeFile(picpath);
-        paletteBitmap(pathToBitmap(picpath, 800, 800));
         imv.setImageBitmap(bitmap);
     }
-
-    public Bitmap pathToBitmap(String path, int wantWidth, int wantHeight) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true; // 设置为ture只获取图片大小
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        BitmapFactory.decodeFile(path, options); // 返回为空
-        int realWidth = options.outWidth;
-        int readlHeight = options.outHeight;
-        float scaleWidth = 0.f, scaleHeight = 0.f;
-        if (realWidth > wantWidth || readlHeight > wantHeight) { // 缩放
-            scaleWidth = ((float) realWidth) / wantWidth;
-            scaleHeight = ((float) readlHeight) / wantHeight;
-        }
-        options.inJustDecodeBounds = false;
-        float scale = Math.max(scaleWidth, scaleHeight);
-        options.inSampleSize = (int) scale;
-        WeakReference<Bitmap> weak = new WeakReference<> ( BitmapFactory.decodeFile(path, options));
-        return Bitmap.createScaledBitmap(weak.get(), wantWidth, wantHeight, true);
-    }
-
 
     private View.OnClickListener LeaveOrAdd = new View.OnClickListener() {
         Intent intent = new Intent ();
@@ -303,25 +273,28 @@ public class newclothes extends AppCompatActivity {
         //4衣服類型<<clothesType>>
         getclothesmember.setType(clothesType);
 
-        //5溫度下限<<tempLower>>
+        //5衣服類型<<clothesStyle>>
+        getclothesmember.setStyle(clothesStyle);
+
+        //6溫度下限<<tempLower>>
         String tempL = ((TextView)findViewById( R.id.TempRange_Lower)).getText().toString();
         Long tempLower = Long.parseLong(tempL.substring(0,tempL.indexOf("℃")));
         getclothesmember.setTempLower(tempLower);
 
-        //6溫度上限<<tempUpper>>
+        //7溫度上限<<tempUpper>>
         String tempU = ((TextView)findViewById( R.id.TempRange_Upper)).getText().toString();
         Long tempUpper = Long.parseLong(tempU.substring(0,tempU.indexOf("℃")));
         getclothesmember.setTempUpper(tempUpper);
 
-        //7衣服季節<<clothesSeason>>
+        //8衣服季節<<clothesSeason>>
         clothesSeason = "";
         if (spring) clothesSeason = clothesSeason + "春";
         if (summer) clothesSeason = clothesSeason + "夏";
         if (autumn) clothesSeason = clothesSeason + "秋";
         if (winter) clothesSeason = clothesSeason + "冬";
-        getclothesmember.setSeasen(clothesSeason);
+        getclothesmember.setSeason(clothesSeason);
 
-        //8建立日期<<timeStamp>>
+        //9建立日期<<timeStamp>>
         String timeStamp = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date ());
         getclothesmember.setUpdateTime(timeStamp);
 

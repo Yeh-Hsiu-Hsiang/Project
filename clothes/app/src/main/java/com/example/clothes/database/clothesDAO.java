@@ -20,6 +20,7 @@ public class clothesDAO {
     public static final String CLOTHESPATH_COLUMN = "clothespath";
     public static final String NAME_COLUMN = "name";
     public static final String TYPE_COLUMN = "type";
+    public static final String STYLE_COLUMN = "style";
     public static final String TEMPLOWER_COLUMN = "tempLower";
     public static final String TEMPUPPER_COLUMN = "tempUpper";
     public static final String SEASON_COLUMN = "season";
@@ -32,6 +33,7 @@ public class clothesDAO {
                     CLOTHESPATH_COLUMN + " TEXT NOT NULL, " +
                     NAME_COLUMN + " TEXT NOT NULL, " +
                     TYPE_COLUMN + " TEXT NOT NULL, " +
+                    STYLE_COLUMN + " TEXT NOT NULL, " +
                     TEMPLOWER_COLUMN + " INTEGER NOT NULL, " +
                     TEMPUPPER_COLUMN + " INTEGER  NOT NULL, " +
                     SEASON_COLUMN + " TEXT NOT NULL,  " +
@@ -58,9 +60,10 @@ public class clothesDAO {
         cv.put(CLOTHESPATH_COLUMN, getclothesmember.getImgPath());
         cv.put(NAME_COLUMN, getclothesmember.getName());
         cv.put(TYPE_COLUMN, getclothesmember.getType());
+        cv.put(STYLE_COLUMN, getclothesmember.getStyle());
         cv.put(TEMPLOWER_COLUMN, getclothesmember.getTempLower());
         cv.put(TEMPUPPER_COLUMN, getclothesmember.getTempUpper());
-        cv.put(SEASON_COLUMN, getclothesmember.getSeasen());
+        cv.put(SEASON_COLUMN, getclothesmember.getSeason());
         cv.put(UPDATETIME_COLUMN, getclothesmember.getUpdateTime());
 
         long id = db.insert(TABLE_NAME, null, cv);
@@ -78,9 +81,10 @@ public class clothesDAO {
         cv.put(CLOTHESPATH_COLUMN, getclothesmember.getImgPath());
         cv.put(NAME_COLUMN, getclothesmember.getName());
         cv.put(TYPE_COLUMN, getclothesmember.getType());
+        cv.put(STYLE_COLUMN, getclothesmember.getStyle());
         cv.put(TEMPLOWER_COLUMN, getclothesmember.getTempLower());
         cv.put(TEMPUPPER_COLUMN, getclothesmember.getTempUpper());
-        cv.put(SEASON_COLUMN, getclothesmember.getSeasen());
+        cv.put(SEASON_COLUMN, getclothesmember.getSeason());
         cv.put(UPDATETIME_COLUMN, getclothesmember.getUpdateTime());
 
         String where = KEY_ID + "=" + getclothesmember.getId();
@@ -140,10 +144,11 @@ public class clothesDAO {
         result.setImgPath(cursor.getString(1));
         result.setName(cursor.getString(2));
         result.setType(cursor.getString(3));
-        result.setTempLower(cursor.getLong(4));
-        result.setTempUpper(cursor.getLong(5));
-        result.setSeasen(cursor.getString(6));
-        result.setUpdateTime(cursor.getString(7));
+        result.setStyle(cursor.getString(4));
+        result.setTempLower(cursor.getLong(5));
+        result.setTempUpper(cursor.getLong(6));
+        result.setSeason(cursor.getString(7));
+        result.setUpdateTime(cursor.getString(8));
 
         // 回傳結果
         return result;

@@ -232,4 +232,12 @@
         <item>外套</item>
         <item>配件</item>
     </string-array>
+
+    <string-array name="styleclass">
+        <item>素色</item>
+        <item>圖案或文字</item>
+        <item>格子</item>
+        <item>條紋</item>
+        <item>花紋</item>
+    </string-array>
 </resources>
