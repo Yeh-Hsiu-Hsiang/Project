@@ -292,7 +292,7 @@ public class newclothes extends AppCompatActivity {
         if (summer) clothesSeason = clothesSeason + "夏";
         if (autumn) clothesSeason = clothesSeason + "秋";
         if (winter) clothesSeason = clothesSeason + "冬";
-        getclothesmember.setSeasen(clothesSeason);
+        getclothesmember.setSeason(clothesSeason);
 
         //9建立日期<<timeStamp>>
         String timeStamp = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date ());

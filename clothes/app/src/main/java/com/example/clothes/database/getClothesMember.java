@@ -10,7 +10,7 @@ public class getClothesMember implements Serializable {
     private  String style;
     private  Long tempLower;
     private  Long tempUpper;
-    private  String seasen;
+    private  String season;
     private  String updatetime;
 
 
@@ -20,7 +20,7 @@ public class getClothesMember implements Serializable {
     public getClothesMember(Long id, String imgPath, String name,
                             String type, String style ,
                             Long tempLower, Long tempUpper,
-                            String seasen, String updatetime ) {
+                            String season, String updatetime ) {
         this.id = id;
         this.imgPath = imgPath;
         this.name = name;
@@ -28,7 +28,7 @@ public class getClothesMember implements Serializable {
         this.style = style;
         this.tempLower = tempLower;
         this.tempUpper = tempUpper;
-        this.seasen = seasen;
+        this.season = season;
         this.updatetime = updatetime;
     }
 
@@ -88,12 +88,12 @@ public class getClothesMember implements Serializable {
         this.tempUpper = tempUpper;
     }
 
-    public String getSeasen() {
-        return seasen;
+    public String getSeason() {
+        return season;
     }
 
-    public void setSeasen(String seasen) {
-        this.seasen = seasen;
+    public void setSeason(String season) {
+        this.season = season;
     }
 
     public String getUpdateTime() {

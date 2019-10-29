@@ -63,7 +63,7 @@ public class clothesDAO {
         cv.put(STYLE_COLUMN, getclothesmember.getStyle());
         cv.put(TEMPLOWER_COLUMN, getclothesmember.getTempLower());
         cv.put(TEMPUPPER_COLUMN, getclothesmember.getTempUpper());
-        cv.put(SEASON_COLUMN, getclothesmember.getSeasen());
+        cv.put(SEASON_COLUMN, getclothesmember.getSeason());
         cv.put(UPDATETIME_COLUMN, getclothesmember.getUpdateTime());
 
         long id = db.insert(TABLE_NAME, null, cv);
@@ -84,7 +84,7 @@ public class clothesDAO {
         cv.put(STYLE_COLUMN, getclothesmember.getStyle());
         cv.put(TEMPLOWER_COLUMN, getclothesmember.getTempLower());
         cv.put(TEMPUPPER_COLUMN, getclothesmember.getTempUpper());
-        cv.put(SEASON_COLUMN, getclothesmember.getSeasen());
+        cv.put(SEASON_COLUMN, getclothesmember.getSeason());
         cv.put(UPDATETIME_COLUMN, getclothesmember.getUpdateTime());
 
         String where = KEY_ID + "=" + getclothesmember.getId();
@@ -147,7 +147,7 @@ public class clothesDAO {
         result.setStyle(cursor.getString(4));
         result.setTempLower(cursor.getLong(5));
         result.setTempUpper(cursor.getLong(6));
-        result.setSeasen(cursor.getString(7));
+        result.setSeason(cursor.getString(7));
         result.setUpdateTime(cursor.getString(8));
 
         // 回傳結果
