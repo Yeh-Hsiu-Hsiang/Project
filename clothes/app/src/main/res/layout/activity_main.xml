@@ -123,6 +123,18 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/date"
             android:gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/PoP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-30dp"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/WeatherDescription"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="-100dp"
+            android:gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/text_Manageclothes"

@@ -46,6 +46,8 @@ public class weather extends AppCompatActivity {
     public TextView HighTemperature; // 顯示最高溫
     public TextView LowTemperature; // 顯示最低溫
     public TextView Temperature;
+    public TextView PoPh; // 降雨機率
+    public TextView WeatherDescription; // 顯示天氣敘述
 
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
@@ -65,6 +67,8 @@ public class weather extends AppCompatActivity {
         Temperature = (TextView) findViewById(R.id.Temperature);
         HighTemperature = (TextView) findViewById(R.id.HighTemperature);
         LowTemperature = (TextView) findViewById(R.id.LowTemperature);
+        PoPh = (TextView) findViewById(R.id.Rainfall_probability);
+        WeatherDescription = (TextView) findViewById(R.id.weather);
 
         // 讀取各縣市一週天氣預報
         new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-091?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
@@ -73,7 +77,13 @@ public class weather extends AppCompatActivity {
         //從Intent當中根據key取得value
         if (intent != null) {
             String city = intent.getStringExtra("locationName");
+            String Tem = intent.getStringExtra("Today_Temperature");
+            String PoP12h = intent.getStringExtra("PoP");
+            String Description = intent.getStringExtra("WeatherDescription");
             Location.setText(city);
+            PoPh.setText(PoP12h);
+            Temperature.setText(Tem);
+            WeatherDescription.setText(Description);
         }
     }
 
@@ -126,16 +136,6 @@ public class weather extends AppCompatActivity {
                         JSONArray time = jsonObject2.getJSONArray("time");
                         Log.d("time", "time = " + time);
                         switch  (elementName) {
-                            case "T":
-                                for (int k = 0; k < time.length(); k++) {
-                                    JSONObject jsonObject3 = time.getJSONObject(k);
-                                    JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                    Log.d("elementValue", "elementValue = " + elementValue);
-                                    String value = elementValue.getString("value");
-                                    Log.d("T", "T = " + value);
-                                    Temperature.setText(value + " °C ");
-                                }
-                                break;
                             // 天氣現象
                             case "Wx":
                                 for (int k = 0; k < time.length(); k++) {
@@ -153,6 +153,13 @@ public class weather extends AppCompatActivity {
                                     Log.d("parameter", "parameter = " + parameter);
                                     String parameterName = parameter.getString("parameterName");
                                     Log.d("MaxT", "MaxT = " + parameterName);
+                                    switch (k){
+                                        case 0 :
+                                            HighTemperature.setText(parameterName);
+                                        case 1 :
+                                    }
+
+
                                 }
                                 break;
                             case "MinT":
@@ -162,6 +169,11 @@ public class weather extends AppCompatActivity {
                                     Log.d("parameter", "parameter = " + parameter);
                                     String parameterName = parameter.getString("parameterName");
                                     Log.d("MinT", "MinT = " + parameterName);
+                                    switch (k) {
+                                        case 0:
+                                            LowTemperature.setText(parameterName);
+                                        case 1:
+                                    }
                                 }
                                 break;
                         }

@@ -37,12 +37,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity {
     // GPS 定位
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
@@ -53,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
     public TextView CityName; // 顯示城市
     public TextView Today_Temperature; // 顯示氣溫
     public TextView TodayWeek; // 顯示星期
-    public TextView date; // 顯示星期
+    public TextView date; // 顯示日期
+    public TextView PoP; // 顯示降雨量
+    public TextView Description; // 顯示天氣敘述
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.date);
         CityName = (TextView) findViewById(R.id.CityName);
         Today_Temperature = (TextView) findViewById(R.id.C);
+        PoP = (TextView) findViewById(R.id.PoP);
+        Description = (TextView) findViewById(R.id.WeatherDescription);
 
         date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
         //  獲取當前系統星期
@@ -216,8 +214,7 @@ public class MainActivity extends AppCompatActivity {
                             city = "臺南市";
                             CityName.setText("臺南市");
                     }
-
-                    if (locationName == city) {
+//                    if (locationName == city) {
                         Log.d("loaction = city","yes");
                         JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
                         Log.d("weatherElement", "weatherElement = " + weatherElement);
@@ -239,13 +236,13 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     break;
                                 // 天氣現象
-                                case "Wx":
+                                case "WeatherDescription":
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
-                                        JSONObject parameter = jsonObject3.getJSONObject("parameter");
-                                        Log.d("parameter", "parameter = " + parameter);
-                                        String parameterName = parameter.getString("parameterName");
-                                        Log.d("Wx", "Wx = " + parameterName);
+                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                        Log.d("elementValue", "elementValue = " + elementValue);
+                                        String value = elementValue.getString("value");
+                                        Description.setText(value);
                                     }
                                     break;
                                 case "MaxT":
@@ -266,11 +263,22 @@ public class MainActivity extends AppCompatActivity {
                                         Log.d("MinT", "MinT = " + parameterName);
                                     }
                                     break;
+                                // 降雨機率
+                                case "PoP12h":
+                                    for (int k = 0; k < time.length(); k++) {
+                                        JSONObject jsonObject3 = time.getJSONObject(k);
+                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                        Log.d("elementValue", "elementValue = " + elementValue);
+                                        String value = elementValue.getString("value");
+                                        Log.d("PoP", "PoP = " + value);
+                                        PoP.setText(value + " % ");
+                                    }
+                                    break;
                             }
                         }
-                    }else{
-                        Toast.makeText(MainActivity.this, "查詢不到所在位置天氣", Toast.LENGTH_LONG).show();
-                    }
+//                    }else if(locationName != city)  {
+//                        Toast.makeText(MainActivity.this, "查詢不到所在位置天氣", Toast.LENGTH_LONG).show();
+//                    }
                 }
             }
             catch(JSONException e) {
@@ -305,6 +313,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , weather.class);
         intent.putExtra("locationName", CityName.getText().toString());
+        intent.putExtra("Today_Temperature", Today_Temperature.getText().toString());
+        intent.putExtra("PoP", PoP.getText().toString());
+        intent.putExtra("WeatherDescription", Description.getText().toString());
         Log.d("put","ok");
         startActivity(intent);
     }
