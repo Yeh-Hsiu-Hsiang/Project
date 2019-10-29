@@ -106,6 +106,13 @@ public class WeekWeather  {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+//            public void  onBackWeather() {
+//                Intent intent = new Intent();
+//                intent.setClass( WeekWeather.this  , weather.class);
+//                intent.putExtra("c", "我是C頁面返回的值");
+//                setResult(1, intent);
+//                finish();
+//            }
         }
     }
 }

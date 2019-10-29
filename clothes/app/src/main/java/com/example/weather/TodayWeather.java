@@ -25,14 +25,14 @@ public class TodayWeather {
     class TodayTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            StringBuilder sb = new StringBuilder ();
+            StringBuilder today_sb = new StringBuilder ();
             try {
                 URL url = new URL ( params[0] );
                 BufferedReader in = new BufferedReader (new InputStreamReader ( url.openStream () ) );
                 String line = in.readLine ();
                 while (line != null) {
                     Log.d ( "HTTP", line );
-                    sb.append ( line );
+                    today_sb.append ( line );
                     line = in.readLine ();
                 }
             } catch (MalformedURLException e) {
@@ -40,20 +40,20 @@ public class TodayWeather {
             } catch (IOException e) {
                 e.printStackTrace ();
             }
-            return sb.toString ();
+            return today_sb.toString ();
         }
 
-        protected void onPostExecute(String data) {
-            super.onPostExecute ( data );
-            Log.d ( "JSON", data );
-            parseJSON ( data );
+        protected void onPostExecute(String today_data) {
+            super.onPostExecute ( today_data );
+            Log.d ( "JSON", today_data );
+            parseJSON ( today_data );
         }
 
-        private void parseJSON(String data)  {
-            Log.d("data","data = " + data);
+        private void parseJSON(String today_data)  {
+            Log.d("today_data","today_data = " + today_data);
             JSONObject Ob;
             try{
-                Ob = new JSONObject(data);
+                Ob = new JSONObject(today_data);
                 Object jsonOb = Ob.getJSONObject("cwbopendata").get("dataset");
                 Log.d("dataset","Object = " + jsonOb);
 

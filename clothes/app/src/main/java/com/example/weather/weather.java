@@ -46,11 +46,6 @@ public class weather extends AppCompatActivity {
     public TextView HighTemperature; // 顯示最高溫
     public TextView LowTemperature; // 顯示最低溫
 
-    public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
-    private String commadStr;
-    private LocationManager locationManager;
-    private int GPS_REQUEST_CODE = 10;
-
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
 
@@ -70,97 +65,12 @@ public class weather extends AppCompatActivity {
         LowTemperature = (TextView) findViewById(R.id.LowTemperature);
 
         // 讀取各縣市一週天氣預報
-        new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-005?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+        new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-003?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
 
-        if (!GPSIsOpen()) {
-            return;
-        }
-
-        //使用GPS定位
-        commadStr = LocationManager.GPS_PROVIDER;
-        // LocationManager可以用來獲取當前的位置，追蹤設備的移動路線
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(weather.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(weather.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(weather.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_ACCESS_COARSE_LOCATION);
-            return;
-        }
-
-        locationManager.requestLocationUpdates(commadStr, 1000, 0, locationListener);
-        android.location.Location location = locationManager.getLastKnownLocation(commadStr);
-        if (location != null)
-            Location.setText(getAddressByLocation(location));
-            // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
-        else
-            Location.setText("定位中");
-    }
-
-    // 判斷當前是否開啟GPS
-    private boolean GPSIsOpen() {
-        boolean GPS = true;
-        LocationManager alm = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        if(!alm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, "未開啟GPS", Toast.LENGTH_SHORT).show();
-            GPS = false;
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivityForResult(intent, GPS_REQUEST_CODE);
-        } else {
-            Toast.makeText(this, "GPS已開啟", Toast.LENGTH_SHORT).show();
-        }
-        return GPS;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GPS_REQUEST_CODE) {
-            // 做需要做的事情，比如再次检测是否打开GPS了 或者定位
-            GPSIsOpen();
-        }
-    }
-
-    public LocationListener locationListener = new LocationListener() {
-        //當地點改變時
-        @Override
-        public void onLocationChanged(Location location) {
-        }
-        // 定位狀態改變
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) { }
-        // 當GPS或網路定位功能開啟
-        @Override
-        public void onProviderEnabled(String provider) { }
-        // 當GPS或網路定位功能關閉時
-        @Override
-        public void onProviderDisabled(String provider) { }
-    };
-
-    // 轉成地址
-    public String getAddressByLocation(Location location) {
-        String returnAddress = "";
-        try {
-            if (location != null) {
-                Double longitude = location.getLongitude();        //取得經度
-                Double latitude = location.getLatitude();        //取得緯度
-
-                Geocoder gc = new Geocoder(this, Locale.TRADITIONAL_CHINESE);        //地區:台灣
-                //自經緯度取得地址
-                List<Address> lstAddress = gc.getFromLocation(latitude, longitude, 1);
-                if (!Geocoder.isPresent()){ //Since: API Level 9
-                    returnAddress = "Sorry! Geocoder service not Present.";
-                }
-                returnAddress = lstAddress.get(0).getAddressLine(0);
-                returnAddress = returnAddress.substring(5,8);
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return returnAddress;
     }
 
     //  取得伺服端傳來回應
-    class WeekTask extends AsyncTask<String, Void, String> {
+    private class WeekTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             StringBuilder sb = new StringBuilder ();
@@ -224,7 +134,6 @@ public class weather extends AppCompatActivity {
                                     Log.d("parameter", "parameter = " + parameter);
                                     String parameterName = parameter.getString("parameterName");
                                     Log.d("MaxT", "MaxT = " + parameterName);
-                                    HighTemperature.setText(parameterName);
                                 }
                                 break;
                             case "MinT":
@@ -234,7 +143,6 @@ public class weather extends AppCompatActivity {
                                     Log.d("parameter", "parameter = " + parameter);
                                     String parameterName = parameter.getString("parameterName");
                                     Log.d("MinT", "MinT = " + parameterName);
-                                    LowTemperature.setText(parameterName);
                                 }
                                 break;
                         }
@@ -273,7 +181,6 @@ public class weather extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     Toast.makeText(weather.this, v.getTag().toString(),
                             Toast.LENGTH_SHORT).show();
                 }

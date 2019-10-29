@@ -7,6 +7,7 @@ public class getClothesMember implements Serializable {
     private  String imgPath;
     private  String name;
     private  String type;
+    private  String style;
     private  Long tempLower;
     private  Long tempUpper;
     private  String seasen;
@@ -17,12 +18,14 @@ public class getClothesMember implements Serializable {
     }
 
     public getClothesMember(Long id, String imgPath, String name,
-                            String type, Long tempLower, Long tempUpper,
+                            String type, String style ,
+                            Long tempLower, Long tempUpper,
                             String seasen, String updatetime ) {
         this.id = id;
         this.imgPath = imgPath;
         this.name = name;
         this.type = type;
+        this.style = style;
         this.tempLower = tempLower;
         this.tempUpper = tempUpper;
         this.seasen = seasen;
@@ -59,6 +62,14 @@ public class getClothesMember implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     public Long getTempLower() {
