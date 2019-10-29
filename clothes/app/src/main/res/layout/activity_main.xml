@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:text="CITY"
             android:textStyle="bold"
-            android:textSize="50dp"
+            android:textSize="46dp"
             android:textColor="@color/text_dark"
             android:layout_marginLeft="20dp"
             android:layout_below="@+id/CityOf"

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private int GPS_REQUEST_CODE = 10;
 
     public TextView CityName; // 顯示城市
-    public TextView Temperature; // 顯示氣溫
+    public TextView Today_Temperature; // 顯示氣溫
     public TextView TodayWeek; // 顯示星期
     public TextView date; // 顯示星期
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         TodayWeek = (TextView) findViewById(R.id.week);
         date = (TextView) findViewById(R.id.date);
         CityName = (TextView) findViewById(R.id.CityName);
-        Temperature = (TextView) findViewById(R.id.C);
+        Today_Temperature = (TextView) findViewById(R.id.C);
 
         date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
         //  獲取當前系統星期
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 BufferedReader in = new BufferedReader (new InputStreamReader( url.openStream () ) );
                 String line = in.readLine ();
                 while (line != null) {
-                    Log.d ( "HTTP", line );
+//                    Log.d ( "HTTP", line );
                     today_sb.append ( line );
                     line = in.readLine ();
                 }
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String today_data) {
             super.onPostExecute ( today_data );
-            Log.d ( "JSON", today_data );
+//            Log.d ( "JSON", today_data );
             parseJSON ( today_data );
         }
 
@@ -202,6 +202,21 @@ public class MainActivity extends AppCompatActivity {
                     String locationName = JsonObject.getString("locationName");
                     Log.d("locationName", "城市 = " + locationName);
                     String city = CityName.getText().toString();
+                    switch (city){
+                        case "台北市":
+                            city = "臺北市";
+                            CityName.setText("臺北市");
+                        case "台中市":
+                            city = "臺中市";
+                            CityName.setText("臺中市");
+                        case "台東市":
+                            city = "臺東市";
+                            CityName.setText("臺東市");
+                        case "台南市":
+                            city = "臺南市";
+                            CityName.setText("臺南市");
+                    }
+
                     if (locationName == city) {
                         Log.d("loaction = city","yes");
                         JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
@@ -220,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
                                         Log.d("elementValue", "elementValue = " + elementValue);
                                         String value = elementValue.getString("value");
                                         Log.d("T", "T = " + value);
+                                        Today_Temperature.setText(value + " °C ");
                                     }
                                     break;
                                 // 天氣現象
@@ -254,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }else{
                         Toast.makeText(MainActivity.this, "查詢不到所在位置天氣", Toast.LENGTH_LONG).show();
-                        Log.d("fail", "查詢不到所在位置天氣");
                     }
                 }
             }
@@ -289,6 +304,8 @@ public class MainActivity extends AppCompatActivity {
     public void Weekweather(View view) {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , weather.class);
+        intent.putExtra("locationName", CityName.getText().toString());
+        Log.d("put","ok");
         startActivity(intent);
     }
 

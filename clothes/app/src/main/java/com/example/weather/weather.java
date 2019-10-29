@@ -45,6 +45,7 @@ public class weather extends AppCompatActivity {
     public TextView Location; // 顯示城市
     public TextView HighTemperature; // 顯示最高溫
     public TextView LowTemperature; // 顯示最低溫
+    public TextView Temperature;
 
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
@@ -61,12 +62,19 @@ public class weather extends AppCompatActivity {
         // 顯示所在位置
         Location = (TextView) findViewById(R.id.City);
         // 顯示最高最低溫
+        Temperature = (TextView) findViewById(R.id.Temperature);
         HighTemperature = (TextView) findViewById(R.id.HighTemperature);
         LowTemperature = (TextView) findViewById(R.id.LowTemperature);
 
         // 讀取各縣市一週天氣預報
-        new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-003?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+        new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-091?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
 
+        Intent intent = getIntent();
+        //從Intent當中根據key取得value
+        if (intent != null) {
+            String city = intent.getStringExtra("locationName");
+            Location.setText(city);
+        }
     }
 
     //  取得伺服端傳來回應
@@ -101,7 +109,8 @@ public class weather extends AppCompatActivity {
             JSONObject Ob;
             try{
                 Ob = new JSONObject(week_data);
-                JSONArray location_array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
+                JSONObject locations = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONObject ("locations");
+                JSONArray location_array = locations.getJSONArray("location");
 
                 for (int i = 0; i < location_array .length (); i++) {
                     JSONObject JsonObject = location_array.getJSONObject(i);
@@ -117,6 +126,16 @@ public class weather extends AppCompatActivity {
                         JSONArray time = jsonObject2.getJSONArray("time");
                         Log.d("time", "time = " + time);
                         switch  (elementName) {
+                            case "T":
+                                for (int k = 0; k < time.length(); k++) {
+                                    JSONObject jsonObject3 = time.getJSONObject(k);
+                                    JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                    Log.d("elementValue", "elementValue = " + elementValue);
+                                    String value = elementValue.getString("value");
+                                    Log.d("T", "T = " + value);
+                                    Temperature.setText(value + " °C ");
+                                }
+                                break;
                             // 天氣現象
                             case "Wx":
                                 for (int k = 0; k < time.length(); k++) {
