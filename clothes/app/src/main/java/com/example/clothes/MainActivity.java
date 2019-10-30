@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                             CityName.setText("臺南市");
                             break;
                     }
+
                     if (locationName.equals(city)) {
                         Log.d("loaction = city","yes");
                         JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
@@ -280,7 +281,8 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                             }
                         }
-                    }else if(locationName != city)  {
+                        break;
+                    }else if(!locationName.equals(city)){
                         Toast.makeText(MainActivity.this, "查詢不到所在位置天氣", Toast.LENGTH_LONG).show();
                     }
                 }
