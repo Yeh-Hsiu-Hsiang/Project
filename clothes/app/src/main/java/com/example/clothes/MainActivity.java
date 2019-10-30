@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView date; // 顯示日期
     public TextView PoP; // 顯示降雨量
     public TextView Description; // 顯示天氣敘述
+    public TextView Time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
         Today_Temperature = (TextView) findViewById(R.id.C);
         PoP = (TextView) findViewById(R.id.PoP);
         Description = (TextView) findViewById(R.id.WeatherDescription);
+        Time = (TextView) findViewById(R.id.Time);
 
+        Time.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
         //  獲取當前系統星期
         long time = System.currentTimeMillis();
@@ -199,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject JsonObject = location_array.getJSONObject(i);
                     String locationName = JsonObject.getString("locationName");
                     Log.d("locationName", "城市 = " + locationName);
-                    String city = CityName.getText().toString();
+//                    String city = CityName.getText().toString();
+                    String city = "台北市";
+
                     switch (city){
                         case "台北市":
                             city = "臺北市";
@@ -222,68 +227,69 @@ public class MainActivity extends AppCompatActivity {
                     if (locationName.equals(city)) {
                         Log.d("loaction = city","yes");
                         JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
-                        Log.d("weatherElement", "weatherElement = " + weatherElement);
+                        Log.d("weatherElement", " = " + weatherElement);
                         for (int j = 0; j < weatherElement.length(); j++) {
                             JSONObject jsonObject2 = weatherElement.getJSONObject(j);
                             String elementName = jsonObject2.getString("elementName");
-                            Log.d("elementName", "elementName = " + elementName);
+                            Log.d("elementName", " = " + elementName);
                             JSONArray time = jsonObject2.getJSONArray("time");
-                            Log.d("time", "time = " + time);
+                            Log.d("time", " = " + time);
+
                             switch  (elementName) {
                                 case "T":
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
-                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                        Log.d("elementValue", "elementValue = " + elementValue);
-                                        String value = elementValue.getString("value");
-                                        Log.d("T", "T = " + value);
-                                        Today_Temperature.setText(value + " °C ");
+                                        String dataTime = jsonObject3.getString("dataTime");
+                                        dataTime = dataTime.substring(0,10);
+                                        Log.d("dataTime", " = " + dataTime);
+                                        if(dataTime.equals(Time.getText().toString())){
+                                            JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                            Log.d("elementValue", " = " + elementValue);
+                                            String value = elementValue.getString("value");
+                                            Log.d("T", " = " + value);
+                                            Today_Temperature.setText(value + " °C ");
+                                        }
                                     }
                                     break;
                                 // 天氣現象
                                 case "WeatherDescription":
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
-                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                        Log.d("elementValue", "elementValue = " + elementValue);
-                                        String value = elementValue.getString("value");
-                                        Description.setText(value);
-                                    }
-                                    break;
-                                case "MaxT":
-                                    for (int k = 0; k < time.length(); k++) {
-                                        JSONObject jsonObject3 = time.getJSONObject(k);
-                                        JSONObject parameter = jsonObject3.getJSONObject("parameter");
-                                        Log.d("parameter", "parameter = " + parameter);
-                                        String parameterName = parameter.getString("parameterName");
-                                        Log.d("MaxT", "MaxT = " + parameterName);
-                                    }
-                                    break;
-                                case "MinT":
-                                    for (int k = 0; k < time.length(); k++) {
-                                        JSONObject jsonObject3 = time.getJSONObject(k);
-                                        JSONObject parameter = jsonObject3.getJSONObject("parameter");
-                                        Log.d("parameter", "parameter = " + parameter);
-                                        String parameterName = parameter.getString("parameterName");
-                                        Log.d("MinT", "MinT = " + parameterName);
+                                        String startTime = jsonObject3.getString("startTime");
+                                        startTime = startTime.substring(0,10);
+                                        String endTime = jsonObject3.getString("endTime");
+                                        endTime = endTime.substring(0,10);
+                                        Log.d("WDstartTime", " = " + startTime);
+                                        Log.d("WDendTime", " = " + endTime);
+                                        if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                            JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                            Log.d("elementValue", " = " + elementValue);
+                                            String value = elementValue.getString("value");
+                                            Description.setText(value);
+                                        }
                                     }
                                     break;
                                 // 降雨機率
                                 case "PoP12h":
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
-                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                        Log.d("elementValue", "elementValue = " + elementValue);
-                                        String value = elementValue.getString("value");
-                                        Log.d("PoP", "PoP = " + value);
-                                        PoP.setText(value + " % ");
+                                        String startTime = jsonObject3.getString("startTime");
+                                        startTime = startTime.substring(0,10);
+                                        String endTime = jsonObject3.getString("endTime");
+                                        endTime = endTime.substring(0,10);
+                                        Log.d("PoPstartTime", " = " + startTime);
+                                        Log.d("PoPendTime", " = " + endTime);
+                                        if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                            JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                            Log.d("elementValue", " = " + elementValue);
+                                            String value = elementValue.getString("value");
+                                            Log.d("PoP", " = " + value);
+                                            PoP.setText(value + " % ");
+                                        }
                                     }
                                     break;
                             }
                         }
-                        break;
-                    }else if(!locationName.equals(city)){
-                        Toast.makeText(MainActivity.this, "查詢不到所在位置天氣", Toast.LENGTH_LONG).show();
                     }
                 }
             }

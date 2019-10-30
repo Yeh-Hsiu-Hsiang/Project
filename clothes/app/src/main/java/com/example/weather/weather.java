@@ -83,7 +83,9 @@ public class weather extends AppCompatActivity {
             Location.setText(city);
             PoPh.setText(PoP12h);
             Temperature.setText(Tem);
-            WeatherDescription.setText(Description);
+
+            String[] Description_array = Description.split("。");
+            WeatherDescription.setText(Description_array[0] + "\n" + Description_array[1] + "\n" + Description_array[2] + "\n" + Description_array[3] + "\n" + Description_array[4] + "\n" + Description_array[5]);
         }
     }
 

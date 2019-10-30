@@ -109,7 +109,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/week"
-            android:format12Hour="yyyy / MM / dd"
             android:textSize="18dp"/>
         <TextView
             android:id="@+id/C"
@@ -131,6 +130,12 @@
             android:visibility="invisible"/>
         <TextView
             android:id="@+id/WeatherDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:visibility="invisible"/>
+        <TextView
+            android:id="@+id/Time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
