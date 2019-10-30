@@ -204,17 +204,22 @@ public class MainActivity extends AppCompatActivity {
                         case "台北市":
                             city = "臺北市";
                             CityName.setText("臺北市");
+                            break;
                         case "台中市":
                             city = "臺中市";
                             CityName.setText("臺中市");
+                            break;
                         case "台東市":
                             city = "臺東市";
                             CityName.setText("臺東市");
+                            break;
                         case "台南市":
                             city = "臺南市";
                             CityName.setText("臺南市");
+                            break;
                     }
-//                    if (locationName == city) {
+
+                    if (locationName.equals(city)) {
                         Log.d("loaction = city","yes");
                         JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
                         Log.d("weatherElement", "weatherElement = " + weatherElement);
@@ -276,9 +281,10 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                             }
                         }
-//                    }else if(locationName != city)  {
-//                        Toast.makeText(MainActivity.this, "查詢不到所在位置天氣", Toast.LENGTH_LONG).show();
-//                    }
+                        break;
+                    }else if(!locationName.equals(city)){
+                        Toast.makeText(MainActivity.this, "查詢不到所在位置天氣", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
             catch(JSONException e) {
