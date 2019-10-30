@@ -45,6 +45,9 @@ public class weather extends AppCompatActivity {
     public TextView Location; // 顯示城市
     public TextView HighTemperature; // 顯示最高溫
     public TextView LowTemperature; // 顯示最低溫
+    public TextView Temperature;
+    public TextView PoPh; // 降雨機率
+    public TextView WeatherDescription; // 顯示天氣敘述
 
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
@@ -61,12 +64,29 @@ public class weather extends AppCompatActivity {
         // 顯示所在位置
         Location = (TextView) findViewById(R.id.City);
         // 顯示最高最低溫
+        Temperature = (TextView) findViewById(R.id.Temperature);
         HighTemperature = (TextView) findViewById(R.id.HighTemperature);
         LowTemperature = (TextView) findViewById(R.id.LowTemperature);
+        PoPh = (TextView) findViewById(R.id.Rainfall_probability);
+        WeatherDescription = (TextView) findViewById(R.id.weather);
 
         // 讀取各縣市一週天氣預報
-        new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-003?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
+        new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-091?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
 
+        Intent intent = getIntent();
+        //從Intent當中根據key取得value
+        if (intent != null) {
+            String city = intent.getStringExtra("locationName");
+            String Tem = intent.getStringExtra("Today_Temperature");
+            String PoP12h = intent.getStringExtra("PoP");
+            String Description = intent.getStringExtra("WeatherDescription");
+            Location.setText(city);
+            PoPh.setText(PoP12h);
+            Temperature.setText(Tem);
+
+            String[] Description_array = Description.split("。");
+            WeatherDescription.setText(Description_array[0] + "\n" + Description_array[1] + "\n" + Description_array[2] + "\n" + Description_array[3] + "\n" + Description_array[4] + "\n" + Description_array[5]);
+        }
     }
 
     //  取得伺服端傳來回應
@@ -101,7 +121,8 @@ public class weather extends AppCompatActivity {
             JSONObject Ob;
             try{
                 Ob = new JSONObject(week_data);
-                JSONArray location_array = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONArray ("location");
+                JSONObject locations = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONObject ("locations");
+                JSONArray location_array = locations.getJSONArray("location");
 
                 for (int i = 0; i < location_array .length (); i++) {
                     JSONObject JsonObject = location_array.getJSONObject(i);
@@ -134,6 +155,13 @@ public class weather extends AppCompatActivity {
                                     Log.d("parameter", "parameter = " + parameter);
                                     String parameterName = parameter.getString("parameterName");
                                     Log.d("MaxT", "MaxT = " + parameterName);
+                                    switch (k){
+                                        case 0 :
+                                            HighTemperature.setText(parameterName);
+                                        case 1 :
+                                    }
+
+
                                 }
                                 break;
                             case "MinT":
@@ -143,6 +171,11 @@ public class weather extends AppCompatActivity {
                                     Log.d("parameter", "parameter = " + parameter);
                                     String parameterName = parameter.getString("parameterName");
                                     Log.d("MinT", "MinT = " + parameterName);
+                                    switch (k) {
+                                        case 0:
+                                            LowTemperature.setText(parameterName);
+                                        case 1:
+                                    }
                                 }
                                 break;
                         }

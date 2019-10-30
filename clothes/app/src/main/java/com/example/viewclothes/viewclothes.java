@@ -52,7 +52,7 @@ public class viewclothes extends AppCompatActivity {
 
     public static ArrayList wearlist = new ArrayList<>();
 
-
+    Integer PoP,Tem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,14 @@ public class viewclothes extends AppCompatActivity {
         setContentView(R.layout.activity_viewclothes);
         mView = findViewById(R.id.drawingView);
         dao = new clothesDAO(getApplicationContext());
+
+        Intent intent = getIntent();
+        if(intent != null){
+            PoP = Integer.valueOf(intent.getStringExtra("PoP").substring
+                    (0,intent.getStringExtra("PoP").indexOf(" ")));
+            Tem = Integer.valueOf(intent.getStringExtra("Today_Temperature").substring
+                    (0,intent.getStringExtra("Today_Temperature").indexOf(" ")));
+        }
 
         //測試用
         wearlist.add((long)2);
@@ -74,8 +82,11 @@ public class viewclothes extends AppCompatActivity {
     }
 
     public void processView(){
+
         hinttext = findViewById(R.id.hint);
-        hinttext.setText("今天降雨機率" + "60%" + "，記得要攜帶雨具出門喔！");
+        if(PoP >= 50)
+            hinttext.setText("降雨機率為" + PoP + "%，記得要攜帶雨具出門喔！");
+
         myViewPager = findViewById( R.id.myViewPager);
         tabLayout = findViewById( R.id.TabLayout);
         setViewPager();
