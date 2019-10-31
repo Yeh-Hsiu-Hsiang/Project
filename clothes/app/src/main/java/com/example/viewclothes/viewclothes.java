@@ -53,7 +53,8 @@ public class viewclothes extends AppCompatActivity {
     public static ArrayList wearlist = new ArrayList<>();
 
     Integer PoP,Tem;
-
+    //定義getClothesMember的集合
+    private ArrayList<getClothesMember> UPclothes ,DOWNclothes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,19 +62,12 @@ public class viewclothes extends AppCompatActivity {
         setContentView(R.layout.activity_viewclothes);
         mView = findViewById(R.id.drawingView);
         dao = new clothesDAO(getApplicationContext());
-
-        Intent intent = getIntent();
-        if(intent != null){
-            PoP = Integer.valueOf(intent.getStringExtra("PoP").substring
-                    (0,intent.getStringExtra("PoP").indexOf(" ")));
-            Tem = Integer.valueOf(intent.getStringExtra("Today_Temperature").substring
-                    (0,intent.getStringExtra("Today_Temperature").indexOf(" ")));
-        }
+        initdata();
 
         //測試用
-        wearlist.add((long)2);
-        wearlist.add((long)1);
-        wearlist.add((long)8);
+//        wearlist.add((long)2);
+//        wearlist.add((long)1);
+//        wearlist.add((long)8);
         for(int i=0 ;i < wearlist.size() ; i++){
             getpicture((Long) wearlist.get(i),getApplicationContext());
         }
@@ -81,11 +75,73 @@ public class viewclothes extends AppCompatActivity {
         processView();
     }
 
+    public void initdata(){
+        //抓取主頁天氣資訊
+        Intent intent = getIntent();
+        if(intent != null){
+            try {
+                Tem = Integer.valueOf(intent.getStringExtra("Today_Temperature").substring
+                        (0,intent.getStringExtra("Today_Temperature").indexOf(" ")));
+            }catch (StringIndexOutOfBoundsException e){
+                Toast.makeText( viewclothes.this, "獲取溫度資料錯誤" , Toast.LENGTH_LONG).show();
+                Tem = 25;   //測試用
+            }
+            try {
+                PoP = Integer.valueOf(intent.getStringExtra("PoP").substring
+                        (0,intent.getStringExtra("PoP").indexOf(" ")));
+            }catch (StringIndexOutOfBoundsException e){
+                Toast.makeText( viewclothes.this, "獲取降雨機率資料錯誤" , Toast.LENGTH_LONG).show();
+                PoP = 60;   //測試用
+            }
+        }
+
+        //抓取db資料
+        int temp = 0;
+        do{
+            UPclothes = dao.getUPclothes(Tem+temp , Tem-temp);
+            temp++;
+        }while (UPclothes ==null);
+        temp = 0;
+        do {
+            DOWNclothes = dao.getDOWNclothes(Tem+temp , Tem-temp);
+            temp++;
+        }while (DOWNclothes == null);
+
+        //決定衣服
+        int index = (int)(Math.random() * UPclothes.size());
+         if(!UPclothes.get(index).getType().equals("連身裙")){
+             wearlist.add(UPclothes.get(index).getId());
+             //花上衣+素下衣
+             if(!UPclothes.get(index).getStyle().equals("素色") && !UPclothes.get(index).getStyle().equals("圖案或文字")){
+                 index = (int) (Math.random() * DOWNclothes.size());
+                 while (  !DOWNclothes.get(index).getStyle().equals("格子") ||
+                         !DOWNclothes.get(index).getStyle().equals("條紋") ||
+                         !DOWNclothes.get(index).getStyle().equals("花紋") ) {
+                     if(DOWNclothes.size() == 1) break; //如果有很前衛的人(花上+花下)
+                     DOWNclothes.remove(index);
+                     index = (int) (Math.random() * DOWNclothes.size());
+                 }
+                 wearlist.add(DOWNclothes.get(index).getId());
+             }else{ //素上衣+任意下衣
+                 index = (int) (Math.random() * DOWNclothes.size());
+                 wearlist.add(DOWNclothes.get(index).getId());
+             }
+         }else{ //是連衣直接加入
+             wearlist.add(UPclothes.get(index).getId());
+         }
+
+    }
+
     public void processView(){
 
         hinttext = findViewById(R.id.hint);
-        if(PoP >= 50)
-            hinttext.setText("降雨機率為" + PoP + "%，記得要攜帶雨具出門喔！");
+        try {
+            if(PoP >= 50)
+                hinttext.setText("降雨機率為" + PoP + "%，記得要攜帶雨具出門喔！");
+        }catch (NullPointerException e){
+            hinttext.setText("抓不到資料我們深感抱歉QQ");
+        }
+
 
         myViewPager = findViewById( R.id.myViewPager);
         tabLayout = findViewById( R.id.TabLayout);
