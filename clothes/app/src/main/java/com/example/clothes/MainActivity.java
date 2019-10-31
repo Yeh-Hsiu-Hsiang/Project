@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     public TextView date; // 顯示日期
     public TextView PoP; // 顯示降雨量
     public TextView Description; // 顯示天氣敘述
-    public TextView Time;
+    public TextView Today_Time;
+    public TextView Today_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,11 @@ public class MainActivity extends AppCompatActivity {
         Today_Temperature = (TextView) findViewById(R.id.C);
         PoP = (TextView) findViewById(R.id.PoP);
         Description = (TextView) findViewById(R.id.WeatherDescription);
-        Time = (TextView) findViewById(R.id.Time);
+        Today_Time = (TextView) findViewById(R.id.Today_Time);
+        Today_date = (TextView) findViewById(R.id.Today_date);
 
-        Time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+        Today_Time.setText(new SimpleDateFormat("HH").format(new Date()));
+        Today_date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
         //  獲取當前系統星期
         long time = System.currentTimeMillis();
@@ -238,14 +241,46 @@ public class MainActivity extends AppCompatActivity {
                                 case "T":
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
-                                        String dataTime = jsonObject3.getString("dataTime");
-                                        dataTime = dataTime.substring(0,10) + " " + dataTime.substring(11,16);
-                                        Log.d("dataTime", " = " + dataTime);
-                                        Log.d("currentTime", " = " + Time.getText().toString());
-                                        if(dataTime.equals(Time.getText().toString())){
-                                            JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                            Log.d("elementValue", " = " + elementValue);
-                                            String value = elementValue.getString("value");
+                                        String T_date = jsonObject3.getString("dataTime");
+                                        String current_date = T_date.substring(0,10);
+                                        Log.d("Tcurrent_data", " = " + current_date);
+                                        Integer current_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
+                                        Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
+                                        int quotients = Math.round(Today_current_Time/3);
+                                        switch (quotients){
+                                            case 0:
+                                                Today_current_Time = 0;
+                                                break;
+                                            case 1:
+                                                Today_current_Time = 3;
+                                                break;
+                                            case 2:
+                                                Today_current_Time = 6;
+                                                break;
+                                            case 3:
+                                                Today_current_Time = 9;
+                                                break;
+                                            case 4:
+                                                Today_current_Time = 12;
+                                                break;
+                                            case 5:
+                                                Today_current_Time = 15;
+                                                break;
+                                            case 6:
+                                                Today_current_Time = 18;
+                                                break;
+                                            case 7:
+                                                Today_current_Time = 21;
+                                                break;
+                                            case 8:
+                                                Today_current_Time = 0;
+                                                break;
+                                        }
+                                        Log.d("Today_Time", " = " + Today_Time.getText().toString());
+                                        if(current_date.equals(Today_date.getText().toString()) && current_time == Today_current_Time) {
+                                            JSONObject TelementValue = jsonObject3.getJSONObject("elementValue");
+                                            Log.d("TelementValue", " = " + TelementValue);
+                                            String value = TelementValue.getString("value");
                                             Log.d("T", " = " + value);
                                             Today_Temperature.setText(value + " °C ");
                                         }
@@ -256,16 +291,46 @@ public class MainActivity extends AppCompatActivity {
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
-                                        startTime = startTime.substring(0,10) + " " + startTime.substring(11,16);
-                                        Log.d("WDstartTime", " = " + startTime);
-                                        String endTime = jsonObject3.getString("endTime");
-                                        endTime = endTime.substring(0,10) + " " + endTime.substring(11,16);
-                                        Log.d("WDendTime", " = " + endTime);
-                                        if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
-                                            JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                            Log.d("elementValue", " = " + elementValue);
-                                            String value = elementValue.getString("value");
+                                        String WD_startTime = startTime.substring(0,10);
+                                        Log.d("WDstartTime", " = " + WD_startTime);
+                                        Integer current_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
+                                        Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
+                                        int quotients = Math.round(Today_current_Time/3);
+                                        switch (quotients){
+                                            case 0:
+                                                Today_current_Time = 0;
+                                                break;
+                                            case 1:
+                                                Today_current_Time = 3;
+                                                break;
+                                            case 2:
+                                                Today_current_Time = 6;
+                                                break;
+                                            case 3:
+                                                Today_current_Time = 9;
+                                                break;
+                                            case 4:
+                                                Today_current_Time = 12;
+                                                break;
+                                            case 5:
+                                                Today_current_Time = 15;
+                                                break;
+                                            case 6:
+                                                Today_current_Time = 18;
+                                                break;
+                                            case 7:
+                                                Today_current_Time = 21;
+                                                break;
+                                            case 8:
+                                                Today_current_Time = 0;
+                                                break;
+                                        }
+                                        if(WD_startTime.equals(Today_date.getText().toString()) && current_time == Today_current_Time) {
+                                            JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
+                                            Log.d("WDelementValue", " = " + WDelementValue);
+                                            String value = WDelementValue.getString("value");
                                             Description.setText(value);
+                                            Log.d("DescriptionValue", " = " + Description.getText().toString());
                                         }
                                     }
                                     break;
@@ -274,17 +339,47 @@ public class MainActivity extends AppCompatActivity {
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
-                                        startTime =  startTime.substring(0,10) + " " + startTime.substring(11,16);
-                                        Log.d("PoPstartTime", " = " + startTime);
-                                        String endTime = jsonObject3.getString("endTime");
-                                        endTime = endTime.substring(0,10) + " " + endTime.substring(11,16);
-                                        Log.d("PoPendTime", " = " + endTime);
-                                        if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                        String PoP_startTime = startTime.substring(0,10);
+                                        Log.d("PoP_startTime", " = " + PoP_startTime);
+                                        Integer current_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
+                                        Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
+                                        int quotients = Math.round(Today_current_Time/3);
+                                        switch (quotients){
+                                            case 0:
+                                                Today_current_Time = 0;
+                                                break;
+                                            case 1:
+                                                Today_current_Time = 3;
+                                                break;
+                                            case 2:
+                                                Today_current_Time = 6;
+                                                break;
+                                            case 3:
+                                                Today_current_Time = 9;
+                                                break;
+                                            case 4:
+                                                Today_current_Time = 12;
+                                                break;
+                                            case 5:
+                                                Today_current_Time = 15;
+                                                break;
+                                            case 6:
+                                                Today_current_Time = 18;
+                                                break;
+                                            case 7:
+                                                Today_current_Time = 21;
+                                                break;
+                                            case 8:
+                                                Today_current_Time = 0;
+                                                break;
+                                        }
+                                        if(PoP_startTime.equals(Today_date.getText().toString()) && current_time == Today_current_Time) {
                                             JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                            Log.d("elementValue", " = " + elementValue);
+                                            Log.d("PoPelementValue", " = " + elementValue);
                                             String value = elementValue.getString("value");
                                             Log.d("PoP", " = " + value);
                                             PoP.setText(value + " % ");
+                                            Log.d("PoPValue", " = " + PoP.getText().toString());
                                         }
                                     }
                                     break;
