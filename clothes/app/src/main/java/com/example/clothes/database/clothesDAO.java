@@ -119,11 +119,45 @@ public class clothesDAO {
         return getclothesmember;
     }
 
-    //取得指定類別的多量資料
+    //取得指定類別的多量資料 --- 取出單一類別
     public ArrayList<getClothesMember> getoneType(String type){
         ArrayList<getClothesMember> result = new ArrayList<>();
 
         String where = TYPE_COLUMN + "=" + type;
+        // 執行查詢
+        Cursor cursor = db.query(
+                TABLE_NAME, null, where, null, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            result.add(getRecord(cursor));
+        }
+        cursor.close();
+        return result;
+    }
+
+    //取得指定類別的多量資料 --- 取出合適溫度的上衣&連衣裙
+    public ArrayList<getClothesMember> getUPclothes(Integer tem_MAX,Integer tem_MIN){
+        ArrayList<getClothesMember> result = new ArrayList<>();
+
+        String where = TYPE_COLUMN + "=\"短袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"長袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"連衣裙\"" +" AND "+
+                    TEMPLOWER_COLUMN + "<=" + tem_MAX.toString() +" AND "+ TEMPUPPER_COLUMN + ">=" + tem_MIN.toString();
+        // 執行查詢
+        Cursor cursor = db.query(
+                TABLE_NAME, null, where, null, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            result.add(getRecord(cursor));
+        }
+        cursor.close();
+        return result;
+    }
+
+    //取得指定類別的多量資料 --- 取出合適溫度的下衣
+    public ArrayList<getClothesMember> getDOWNclothes(Integer tem_MAX,Integer tem_MIN){
+        ArrayList<getClothesMember> result = new ArrayList<>();
+
+        String where = TYPE_COLUMN + "=\"短褲\"" +" OR "+ TYPE_COLUMN + "=\"長褲\"" +" OR "+ TYPE_COLUMN + "=\"裙子\"" +" AND "+
+                TEMPLOWER_COLUMN + "<=" + tem_MAX.toString() +" AND "+ TEMPUPPER_COLUMN + ">=" + tem_MIN.toString();
         // 執行查詢
         Cursor cursor = db.query(
                 TABLE_NAME, null, where, null, null, null, null, null);

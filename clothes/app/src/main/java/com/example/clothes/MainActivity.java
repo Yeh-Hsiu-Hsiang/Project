@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String today_data) {
             super.onPostExecute ( today_data );
-            Log.d ( "JSON", today_data );
+//            Log.d ( "JSON", today_data );
             parseJSON ( today_data );
         }
 
@@ -310,6 +310,8 @@ public class MainActivity extends AppCompatActivity {
     public void View_wearing(View view) {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , viewclothes.class);
+        intent.putExtra("Today_Temperature", Today_Temperature.getText().toString());
+        intent.putExtra("PoP", PoP.getText().toString());
         startActivity(intent);
     }
 
