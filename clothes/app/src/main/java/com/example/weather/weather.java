@@ -36,8 +36,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class weather extends AppCompatActivity {
@@ -48,6 +48,7 @@ public class weather extends AppCompatActivity {
     public TextView Temperature;
     public TextView PoPh; // 降雨機率
     public TextView WeatherDescription; // 顯示天氣敘述
+    public TextView Time;
 
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
@@ -69,6 +70,9 @@ public class weather extends AppCompatActivity {
         LowTemperature = (TextView) findViewById(R.id.LowTemperature);
         PoPh = (TextView) findViewById(R.id.Rainfall_probability);
         WeatherDescription = (TextView) findViewById(R.id.weather);
+        Time = (TextView) findViewById(R.id.Time);
+
+        Time.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
         // 讀取各縣市一週天氣預報
         new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-091?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
@@ -76,16 +80,21 @@ public class weather extends AppCompatActivity {
         Intent intent = getIntent();
         //從Intent當中根據key取得value
         if (intent != null) {
-            String city = intent.getStringExtra("locationName");
-            String Tem = intent.getStringExtra("Today_Temperature");
-            String PoP12h = intent.getStringExtra("PoP");
-            String Description = intent.getStringExtra("WeatherDescription");
-            Location.setText(city);
-            PoPh.setText(PoP12h);
-            Temperature.setText(Tem);
+            try{
+                String city = intent.getStringExtra("locationName");
+                String Tem = intent.getStringExtra("Today_Temperature");
+                String PoP12h = intent.getStringExtra("PoP");
+                String Description = intent.getStringExtra("WeatherDescription");
+                Location.setText(city);
+                PoPh.setText(PoP12h);
+                Temperature.setText(Tem);
 
-            String[] Description_array = Description.split("。");
-            WeatherDescription.setText(Description_array[0] + "\n" + Description_array[1] + "\n" + Description_array[2] + "\n" + Description_array[3] + "\n" + Description_array[4] + "\n" + Description_array[5]);
+                String[] Description_array = Description.split("。");
+                WeatherDescription.setText(Description_array[0] + "\n" + Description_array[1] + "\n" + Description_array[2] + "\n" + Description_array[3] + "\n" + Description_array[4] + "\n" + Description_array[5]);
+            } catch (Exception e) {
+                Toast.makeText(weather.this, "獲取資料錯誤", Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 
@@ -139,42 +148,72 @@ public class weather extends AppCompatActivity {
                         Log.d("time", "time = " + time);
                         switch  (elementName) {
                             // 天氣現象
-                            case "Wx":
+                            case "WeatherDescription":
                                 for (int k = 0; k < time.length(); k++) {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
-                                    JSONObject parameter = jsonObject3.getJSONObject("parameter");
-                                    Log.d("parameter", "parameter = " + parameter);
-                                    String parameterName = parameter.getString("parameterName");
-                                    Log.d("Wx", "Wx = " + parameterName);
+                                    String startTime = jsonObject3.getString("startTime");
+                                    startTime = startTime.substring(0,10);
+                                    Log.d("WDstartTime", " = " + startTime);
+                                    String endTime = jsonObject3.getString("endTime");
+                                    endTime = endTime.substring(0,10);
+                                    Log.d("WDendTime", " = " + endTime);
+                                    if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                        Log.d("elementValue", " = " + elementValue);
+                                        String value = elementValue.getString("value");
+//                                        Description.setText(value);
+                                    }
                                 }
                                 break;
                             case "MaxT":
                                 for (int k = 0; k < time.length(); k++) {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
-                                    JSONObject parameter = jsonObject3.getJSONObject("parameter");
-                                    Log.d("parameter", "parameter = " + parameter);
-                                    String parameterName = parameter.getString("parameterName");
-                                    Log.d("MaxT", "MaxT = " + parameterName);
-                                    switch (k){
-                                        case 0 :
-                                            HighTemperature.setText(parameterName);
-                                        case 1 :
+                                    String startTime = jsonObject3.getString("startTime");
+                                    startTime = startTime.substring(0,10);
+                                    String endTime = jsonObject3.getString("endTime");
+                                    endTime = endTime.substring(0,10);
+                                    Log.d("WDstartTime", " = " + startTime);
+                                    Log.d("WDendTime", " = " + endTime);
+                                    if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                        Log.d("elementValue", " = " + elementValue);
+                                        String value = elementValue.getString("value");
+                                        Log.d("MaxT", "MaxT = " + value);
+                                        switch (k){
+                                            case 0 :
+                                                HighTemperature.setText("H" + value + "°");
+                                                Log.d("0", " = " + value);
+                                                break;
+                                            case 1 :
+                                                Log.d("1", " = " + value);
+                                                break;
+                                        }
                                     }
-
-
                                 }
                                 break;
                             case "MinT":
                                 for (int k = 0; k < time.length(); k++) {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
-                                    JSONObject parameter = jsonObject3.getJSONObject("parameter");
-                                    Log.d("parameter", "parameter = " + parameter);
-                                    String parameterName = parameter.getString("parameterName");
-                                    Log.d("MinT", "MinT = " + parameterName);
-                                    switch (k) {
-                                        case 0:
-                                            LowTemperature.setText(parameterName);
-                                        case 1:
+                                    String startTime = jsonObject3.getString("startTime");
+                                    startTime = startTime.substring(0,10);
+                                    String endTime = jsonObject3.getString("endTime");
+                                    endTime = endTime.substring(0,10);
+                                    Log.d("WDstartTime", " = " + startTime);
+                                    Log.d("WDendTime", " = " + endTime);
+                                    if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
+                                        Log.d("elementValue", " = " + elementValue);
+                                        String value = elementValue.getString("value");
+                                        Log.d("MinT", "MinT = " + value);
+                                        switch (k) {
+                                            case 0:
+                                                LowTemperature.setText("L" + value + "°");
+                                                Log.d("0", " = " + value);
+                                                break;
+                                            case 1:
+                                                Log.d("1", " = " + value);
+                                                break;
+                                        }
                                     }
                                 }
                                 break;

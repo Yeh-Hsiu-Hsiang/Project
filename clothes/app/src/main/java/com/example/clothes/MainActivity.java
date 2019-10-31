@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Description = (TextView) findViewById(R.id.WeatherDescription);
         Time = (TextView) findViewById(R.id.Time);
 
-        Time.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        Time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
         date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
         //  獲取當前系統星期
         long time = System.currentTimeMillis();
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String today_data) {
             super.onPostExecute ( today_data );
-//            Log.d ( "JSON", today_data );
+            Log.d ( "JSON", today_data );
             parseJSON ( today_data );
         }
 
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("locationName", "城市 = " + locationName);
 //                    String city = CityName.getText().toString();
                     String city = "台北市";
-
+                    Log.d(" city = ",city);
                     switch (city){
                         case "台北市":
                             city = "臺北市";
@@ -234,14 +234,14 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("elementName", " = " + elementName);
                             JSONArray time = jsonObject2.getJSONArray("time");
                             Log.d("time", " = " + time);
-
                             switch  (elementName) {
                                 case "T":
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String dataTime = jsonObject3.getString("dataTime");
-                                        dataTime = dataTime.substring(0,10);
+                                        dataTime = dataTime.substring(0,10) + " " + dataTime.substring(11,16);
                                         Log.d("dataTime", " = " + dataTime);
+                                        Log.d("currentTime", " = " + Time.getText().toString());
                                         if(dataTime.equals(Time.getText().toString())){
                                             JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
                                             Log.d("elementValue", " = " + elementValue);
@@ -256,10 +256,10 @@ public class MainActivity extends AppCompatActivity {
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
-                                        startTime = startTime.substring(0,10);
-                                        String endTime = jsonObject3.getString("endTime");
-                                        endTime = endTime.substring(0,10);
+                                        startTime = startTime.substring(0,10) + " " + startTime.substring(11,16);
                                         Log.d("WDstartTime", " = " + startTime);
+                                        String endTime = jsonObject3.getString("endTime");
+                                        endTime = endTime.substring(0,10) + " " + endTime.substring(11,16);
                                         Log.d("WDendTime", " = " + endTime);
                                         if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
                                             JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
@@ -274,10 +274,10 @@ public class MainActivity extends AppCompatActivity {
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
-                                        startTime = startTime.substring(0,10);
-                                        String endTime = jsonObject3.getString("endTime");
-                                        endTime = endTime.substring(0,10);
+                                        startTime =  startTime.substring(0,10) + " " + startTime.substring(11,16);
                                         Log.d("PoPstartTime", " = " + startTime);
+                                        String endTime = jsonObject3.getString("endTime");
+                                        endTime = endTime.substring(0,10) + " " + endTime.substring(11,16);
                                         Log.d("PoPendTime", " = " + endTime);
                                         if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
                                             JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
