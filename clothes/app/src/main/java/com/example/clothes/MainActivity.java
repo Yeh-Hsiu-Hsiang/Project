@@ -276,7 +276,10 @@ public class MainActivity extends AppCompatActivity {
                                                 Today_current_Time = 0;
                                                 break;
                                         }
-                                        Log.d("Today_Time", " = " + Today_Time.getText().toString());
+                                        Log.d("Today_date", " = " + Today_date.getText().toString());
+                                        Log.d("current_time", " = " + current_time);
+                                        Log.d("Today_current_Time", " = " + Today_current_Time);
+                                        Log.d("current_date", " = " + current_date);
                                         if(current_date.equals(Today_date.getText().toString()) && current_time == Today_current_Time) {
                                             JSONObject TelementValue = jsonObject3.getJSONObject("elementValue");
                                             Log.d("TelementValue", " = " + TelementValue);
@@ -341,39 +344,8 @@ public class MainActivity extends AppCompatActivity {
                                         String startTime = jsonObject3.getString("startTime");
                                         String PoP_startTime = startTime.substring(0,10);
                                         Log.d("PoP_startTime", " = " + PoP_startTime);
-                                        Integer current_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
-                                        Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
-                                        int quotients = Math.round(Today_current_Time/3);
-                                        switch (quotients){
-                                            case 0:
-                                                Today_current_Time = 0;
-                                                break;
-                                            case 1:
-                                                Today_current_Time = 3;
-                                                break;
-                                            case 2:
-                                                Today_current_Time = 6;
-                                                break;
-                                            case 3:
-                                                Today_current_Time = 9;
-                                                break;
-                                            case 4:
-                                                Today_current_Time = 12;
-                                                break;
-                                            case 5:
-                                                Today_current_Time = 15;
-                                                break;
-                                            case 6:
-                                                Today_current_Time = 18;
-                                                break;
-                                            case 7:
-                                                Today_current_Time = 21;
-                                                break;
-                                            case 8:
-                                                Today_current_Time = 0;
-                                                break;
-                                        }
-                                        if(PoP_startTime.equals(Today_date.getText().toString()) && current_time == Today_current_Time) {
+                                        Log.d("Today_date", " = " + Today_date.getText().toString());
+                                        if(PoP_startTime.equals(Today_date.getText().toString())) {
                                             JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
                                             Log.d("PoPelementValue", " = " + elementValue);
                                             String value = elementValue.getString("value");
@@ -423,7 +395,6 @@ public class MainActivity extends AppCompatActivity {
         intent.setClass( MainActivity.this  , weather.class);
         intent.putExtra("locationName", CityName.getText().toString());
         intent.putExtra("Today_Temperature", Today_Temperature.getText().toString());
-        intent.putExtra("PoP", PoP.getText().toString());
         intent.putExtra("WeatherDescription", Description.getText().toString());
         Log.d("put","ok");
         startActivity(intent);

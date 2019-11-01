@@ -36,7 +36,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -48,7 +50,9 @@ public class weather extends AppCompatActivity {
     public TextView Temperature;
     public TextView PoPh; // 降雨機率
     public TextView WeatherDescription; // 顯示天氣敘述
-    public TextView Time;
+    public TextView Today_date;
+    public TextView Today_Time;
+    public ImageView weather_image;
 
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
@@ -70,9 +74,12 @@ public class weather extends AppCompatActivity {
         LowTemperature = (TextView) findViewById(R.id.LowTemperature);
         PoPh = (TextView) findViewById(R.id.Rainfall_probability);
         WeatherDescription = (TextView) findViewById(R.id.weather);
-        Time = (TextView) findViewById(R.id.Time);
+        Today_date = (TextView) findViewById(R.id.Today_date);
+        Today_Time = (TextView) findViewById(R.id.Today_Time);
+        weather_image = (ImageView) findViewById(R.id.weather_image);
 
-        Time.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        Today_date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        Today_Time.setText(new SimpleDateFormat("HH").format(new Date()));
 
         // 讀取各縣市一週天氣預報
         new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-091?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
@@ -83,14 +90,28 @@ public class weather extends AppCompatActivity {
             try{
                 String city = intent.getStringExtra("locationName");
                 String Tem = intent.getStringExtra("Today_Temperature");
-                String PoP12h = intent.getStringExtra("PoP");
                 String Description = intent.getStringExtra("WeatherDescription");
-                Location.setText(city);
-                PoPh.setText(PoP12h);
-                Temperature.setText(Tem);
 
                 String[] Description_array = Description.split("。");
                 WeatherDescription.setText(Description_array[0] + "\n" + Description_array[1] + "\n" + Description_array[2] + "\n" + Description_array[3] + "\n" + Description_array[4] + "\n" + Description_array[5]);
+                Location.setText(city);
+                String PoP = Description_array[1].substring(5,7);
+                PoPh.setText(PoP);
+                Temperature.setText(Tem);
+
+                if(Description_array[0].equals("晴") || Description_array[0].equals("晴時多雲") || Description_array[0].equals("多雲時晴")){
+                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.sunny));
+                }else if(Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲") || Description_array[0].equals("陰天")){
+                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.cloudybackground));
+                }else if(Description_array[0].contains("雨")){
+                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.rainy));
+                }else if(Description_array[0].contains("雷")){
+                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.lightning));
+                }else if(Description_array[0].contains("雪")){
+                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.snowy));
+                }else if(Description_array[0].contains("霧")){
+                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.windy));
+                }
             } catch (Exception e) {
                 Toast.makeText(weather.this, "獲取資料錯誤", Toast.LENGTH_LONG).show();
             }
@@ -151,17 +172,13 @@ public class weather extends AppCompatActivity {
                             case "WeatherDescription":
                                 for (int k = 0; k < time.length(); k++) {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
-                                    String startTime = jsonObject3.getString("startTime");
-                                    startTime = startTime.substring(0,10);
-                                    Log.d("WDstartTime", " = " + startTime);
-                                    String endTime = jsonObject3.getString("endTime");
-                                    endTime = endTime.substring(0,10);
-                                    Log.d("WDendTime", " = " + endTime);
-                                    if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
-                                        JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                        Log.d("elementValue", " = " + elementValue);
-                                        String value = elementValue.getString("value");
-//                                        Description.setText(value);
+                                    String WD_startTime = jsonObject3.getString("startTime");
+                                    WD_startTime = WD_startTime.substring(0,10);
+                                    Log.d("WDstartTime", " = " + WD_startTime);
+                                    if(WD_startTime.equals(Today_date.getText().toString())) {
+                                        JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
+                                        Log.d("WDelementValue", " = " + WDelementValue);
+                                        String value = WDelementValue.getString("value");
                                     }
                                 }
                                 break;
@@ -169,25 +186,13 @@ public class weather extends AppCompatActivity {
                                 for (int k = 0; k < time.length(); k++) {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
                                     String startTime = jsonObject3.getString("startTime");
-                                    startTime = startTime.substring(0,10);
-                                    String endTime = jsonObject3.getString("endTime");
-                                    endTime = endTime.substring(0,10);
-                                    Log.d("WDstartTime", " = " + startTime);
-                                    Log.d("WDendTime", " = " + endTime);
-                                    if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                    String MaxT_startTime = startTime.substring(0,10);
+                                    if(MaxT_startTime.equals(Today_date.getText().toString())) {
                                         JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                        Log.d("elementValue", " = " + elementValue);
+                                        Log.d("MaxT_elementValue", " = " + elementValue);
                                         String value = elementValue.getString("value");
                                         Log.d("MaxT", "MaxT = " + value);
-                                        switch (k){
-                                            case 0 :
-                                                HighTemperature.setText("H" + value + "°");
-                                                Log.d("0", " = " + value);
-                                                break;
-                                            case 1 :
-                                                Log.d("1", " = " + value);
-                                                break;
-                                        }
+                                        HighTemperature.setText("H" + value + "°");
                                     }
                                 }
                                 break;
@@ -195,29 +200,19 @@ public class weather extends AppCompatActivity {
                                 for (int k = 0; k < time.length(); k++) {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
                                     String startTime = jsonObject3.getString("startTime");
-                                    startTime = startTime.substring(0,10);
-                                    String endTime = jsonObject3.getString("endTime");
-                                    endTime = endTime.substring(0,10);
-                                    Log.d("WDstartTime", " = " + startTime);
-                                    Log.d("WDendTime", " = " + endTime);
-                                    if(startTime.equals(Time.getText().toString()) && startTime.equals(endTime)) {
+                                    String MinT_startTime = startTime.substring(0,10);
+                                    if(MinT_startTime.equals(Today_date.getText().toString())) {
                                         JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
-                                        Log.d("elementValue", " = " + elementValue);
+                                        Log.d("MinT_elementValue", " = " + elementValue);
                                         String value = elementValue.getString("value");
                                         Log.d("MinT", "MinT = " + value);
-                                        switch (k) {
-                                            case 0:
-                                                LowTemperature.setText("L" + value + "°");
-                                                Log.d("0", " = " + value);
-                                                break;
-                                            case 1:
-                                                Log.d("1", " = " + value);
-                                                break;
-                                        }
+                                        LowTemperature.setText("L" + value + "°");
+                                        Log.d("week = ", getWeek(MinT_startTime));
                                     }
                                 }
                                 break;
                         }
+
                     }
                 }
             }
@@ -227,10 +222,38 @@ public class weather extends AppCompatActivity {
         }
     }
 
+    private String getWeek(String pTime) {
+        String Week = "";
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(format.parse(pTime));
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+            Week += "天";
+        }if (c.get(Calendar.DAY_OF_WEEK) == 2) {
+            Week += "一";
+        }if (c.get(Calendar.DAY_OF_WEEK) == 3) {
+            Week += "二";
+        }if (c.get(Calendar.DAY_OF_WEEK) == 4) {
+            Week += "三";
+        }if (c.get(Calendar.DAY_OF_WEEK) == 5) {
+            Week += "四";
+        }if (c.get(Calendar.DAY_OF_WEEK) == 6) {
+            Week += "五";
+        }if (c.get(Calendar.DAY_OF_WEEK) == 7) {
+            Week += "六";
+        }
+        return Week;
+    }
+
     private void createChildLinearLayout() {
         for (int n = 0; n < 20; n++) {
-            LinearLayout.LayoutParams linearLp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams linearLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             LinearLayout myLinear = new LinearLayout(this);
             linearLp.setMargins(30, 50, 30, 50);
             myLinear.setOrientation(LinearLayout.VERTICAL);
