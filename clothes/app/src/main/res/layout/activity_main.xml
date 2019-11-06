@@ -166,7 +166,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/wear"
             android:layout_marginTop="150dp"
-            android:layout_marginLeft="150dp" />
+            android:layout_marginLeft="140dp" />
 
         <TextView
             android:id="@+id/text_View_wearing"
@@ -212,7 +212,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/weather"
             android:layout_marginTop="120dp"
-            android:layout_marginLeft="-135dp"/>
+            android:layout_marginLeft="-115dp"/>
 
     </RelativeLayout>
 

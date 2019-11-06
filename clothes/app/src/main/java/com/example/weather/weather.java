@@ -82,7 +82,7 @@ public class weather extends AppCompatActivity {
                 String Description = intent.getStringExtra("WeatherDescription");
 
                 String[] Description_array = Description.split("。");
-                WeatherDescription.setText(Description_array[0] + "\n" + Description_array[1] + "\n" + Description_array[2] + "\n" + Description_array[3] + "\n" + Description_array[4] + "\n" + Description_array[5]);
+                WeatherDescription.setText(Description_array[0] + "\n" + "\n" + Description_array[1] + "\n" + "\n" + Description_array[2] + "\n" + "\n" + Description_array[3] + "\n" + "\n" + Description_array[4] + "\n" + "\n" + Description_array[5]);
                 Location.setText(city);
                 String PoP = Description_array[1].substring(5,7);
                 PoPh.setText(PoP);
