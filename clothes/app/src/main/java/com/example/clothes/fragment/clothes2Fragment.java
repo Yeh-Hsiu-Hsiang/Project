@@ -89,7 +89,7 @@ public class clothes2Fragment extends Fragment {
                         }
                     }
                 })
-                .customMenu(new SimpleDeleteMenuBar(getActivity(),getResources().getColor(R.color.Primary),Gravity.TOP))
+                .customMenu(new SimpleDeleteMenuBar(getActivity(),getResources().getColor(R.color.colorAccent),Gravity.TOP))
                 .build();
         mCollectRecyclerView.setAdapter(adapter);
         mCollectRecyclerView.setLayoutManager(new GridLayoutManager (getActivity() ,2, GridLayoutManager.VERTICAL,false));
