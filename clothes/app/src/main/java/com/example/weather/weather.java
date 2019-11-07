@@ -1,19 +1,8 @@
 package com.example.weather;
 
-import android.Manifest;
-import android.app.assist.AssistStructure;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -93,7 +82,7 @@ public class weather extends AppCompatActivity {
                 String Description = intent.getStringExtra("WeatherDescription");
 
                 String[] Description_array = Description.split("。");
-                WeatherDescription.setText(Description_array[0] + "\n" + Description_array[1] + "\n" + Description_array[2] + "\n" + Description_array[3] + "\n" + Description_array[4] + "\n" + Description_array[5]);
+                WeatherDescription.setText(Description_array[0] + "\n" + "\n" + Description_array[1] + "\n" + "\n" + Description_array[2] + "\n" + "\n" + Description_array[3] + "\n" + "\n" + Description_array[4] + "\n" + "\n" + Description_array[5]);
                 Location.setText(city);
                 String PoP = Description_array[1].substring(5,7);
                 PoPh.setText(PoP);

@@ -24,7 +24,7 @@
             android:background="@null"
             android:onClick="toHome"
             android:visibility="visible"
-            android:src="@drawable/home" />
+            android:src="@drawable/back" />
 
         <ImageView
             android:id="@+id/city_seperator"
@@ -52,7 +52,7 @@
             android:background="@null"
             android:onClick="reLoad"
             android:visibility="visible"
-            android:src="@drawable/reload" />
+            android:src="@drawable/refresh" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:text="衣服管理"
             android:layout_toRightOf="@+id/Manageclothes"
-            android:layout_marginTop="135dp"
+            android:layout_marginTop="165dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"/>
 
@@ -165,8 +165,8 @@
             android:onClick="Manageclothes"
             android:scaleType="centerCrop"
             android:src="@drawable/wear"
-            android:layout_marginTop="120dp"
-            android:layout_marginLeft="100dp" />
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="140dp" />
 
         <TextView
             android:id="@+id/text_View_wearing"
@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             android:text="預覽穿衣"
             android:layout_toRightOf="@+id/View_wearing"
-            android:layout_marginTop="210dp"
+            android:layout_marginTop="320dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"/>
 
@@ -188,31 +188,8 @@
             android:onClick="View_wearing"
             android:scaleType="centerCrop"
             android:src="@drawable/browse"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="100dp"
             android:layout_marginLeft="30dp"/>
-
-        <TextView
-            android:id="@+id/text_AddSchedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="新增活動"
-            android:layout_toRightOf="@+id/Calendar"
-            android:layout_marginTop="305dp"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"/>
-
-        <ImageButton
-            android:id="@+id/Calendar"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_below="@+id/View_wearing"
-            android:layout_toRightOf="@+id/View_wearing"
-            android:background="@null"
-            android:onClick="Calendar"
-            android:scaleType="centerCrop"
-            android:src="@drawable/calendar"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="-15dp"/>
 
         <TextView
             android:id="@+id/text_Weekweather"
@@ -220,7 +197,7 @@
             android:layout_height="wrap_content"
             android:text="一周天氣"
             android:layout_toRightOf="@+id/Weekweather"
-            android:layout_marginTop="400dp"
+            android:layout_marginTop="495dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"/>
 
@@ -228,37 +205,14 @@
             android:id="@+id/Weekweather"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_below="@+id/Calendar"
-            android:layout_toRightOf="@+id/Calendar"
+            android:layout_below="@+id/View_wearing"
+            android:layout_toRightOf="@+id/View_wearing"
             android:background="@null"
             android:onClick="Weekweather"
             android:scaleType="centerCrop"
             android:src="@drawable/weather"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="-60dp"/>
-
-        <TextView
-            android:id="@+id/text_Mysetting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="其他設定"
-            android:layout_toRightOf="@+id/Mysetting"
-            android:layout_marginTop="496dp"
-            android:layout_marginLeft="-50dp"
-            android:textStyle="bold"/>
-
-        <ImageButton
-            android:id="@+id/Mysetting"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_below="@+id/Weekweather"
-            android:layout_toLeftOf="@+id/Weekweather"
-            android:background="@null"
-            android:onClick="Mysetting"
-            android:scaleType="centerCrop"
-            android:src="@drawable/tool"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="60dp"/>
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="-115dp"/>
 
     </RelativeLayout>
 

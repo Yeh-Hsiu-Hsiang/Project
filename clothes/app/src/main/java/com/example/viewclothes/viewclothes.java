@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.clothes.MainActivity;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
@@ -32,8 +33,13 @@ import com.example.viewclothes.fragment.clothes8Fragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 
 public class viewclothes extends AppCompatActivity {
@@ -53,7 +59,9 @@ public class viewclothes extends AppCompatActivity {
     public static ArrayList wearlist = new ArrayList<>();
 
     Integer PoP,Tem;
-    //定義getClothesMember的集合
+    Set<String> wearSet = new HashSet<String>();
+    SharedPreferences WEAR;
+    //定義getClothesMember的集合(上衣下衣)
     private ArrayList<getClothesMember> UPclothes ,DOWNclothes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +70,9 @@ public class viewclothes extends AppCompatActivity {
         setContentView(R.layout.activity_viewclothes);
         mView = findViewById(R.id.drawingView);
         dao = new clothesDAO(getApplicationContext());
+        WEAR = getSharedPreferences("WEAR", MODE_PRIVATE);
         initdata();
 
-        //測試用
-//        wearlist.add((long)2);
-//        wearlist.add((long)1);
-//        wearlist.add((long)8);
         for(int i=0 ;i < wearlist.size() ; i++){
             getpicture((Long) wearlist.get(i),getApplicationContext());
         }
@@ -83,14 +88,14 @@ public class viewclothes extends AppCompatActivity {
                 Tem = Integer.valueOf(intent.getStringExtra("Today_Temperature").substring
                         (0,intent.getStringExtra("Today_Temperature").indexOf(" ")));
             }catch (StringIndexOutOfBoundsException e){
-                Toast.makeText( viewclothes.this, "獲取溫度資料錯誤" , Toast.LENGTH_LONG).show();
-                Tem = 25;   //測試用
+                Toast.makeText( viewclothes.this, "獲取天氣資料錯誤" , Toast.LENGTH_LONG).show();
+                Tem = 32;   //測試用
             }
             try {
                 PoP = Integer.valueOf(intent.getStringExtra("PoP").substring
                         (0,intent.getStringExtra("PoP").indexOf(" ")));
             }catch (StringIndexOutOfBoundsException e){
-                Toast.makeText( viewclothes.this, "獲取降雨機率資料錯誤" , Toast.LENGTH_LONG).show();
+                Toast.makeText( viewclothes.this, "獲取天氣資料錯誤" , Toast.LENGTH_LONG).show();
                 PoP = 60;   //測試用
             }
         }
@@ -107,33 +112,59 @@ public class viewclothes extends AppCompatActivity {
             temp++;
         }while (DOWNclothes == null);
 
-        //決定衣服
-        int index = (int)(Math.random() * UPclothes.size());
-         if(!UPclothes.get(index).getType().equals("連身裙")){
-             wearlist.add(UPclothes.get(index).getId());
-             //花上衣+素下衣
-             if(!UPclothes.get(index).getStyle().equals("素色") && !UPclothes.get(index).getStyle().equals("圖案或文字")){
-                 index = (int) (Math.random() * DOWNclothes.size());
-                 while (  !DOWNclothes.get(index).getStyle().equals("格子") ||
-                         !DOWNclothes.get(index).getStyle().equals("條紋") ||
-                         !DOWNclothes.get(index).getStyle().equals("花紋") ) {
-                     if(DOWNclothes.size() == 1) break; //如果有很前衛的人(花上+花下)
-                     DOWNclothes.remove(index);
-                     index = (int) (Math.random() * DOWNclothes.size());
-                 }
-                 wearlist.add(DOWNclothes.get(index).getId());
-             }else{ //素上衣+任意下衣
-                 index = (int) (Math.random() * DOWNclothes.size());
-                 wearlist.add(DOWNclothes.get(index).getId());
-             }
-         }else{ //是連衣直接加入
-             wearlist.add(UPclothes.get(index).getId());
-         }
+        SharedPreferences DATE = getSharedPreferences("DATE", Context.MODE_PRIVATE);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
+
+        if(!timeStamp.equals(DATE.getString("todayis",null)) ||
+                Tem != DATE.getInt("todayTem",0)){
+            //修改成今天日期跟現在溫度
+            DATE.edit()
+                    .putString("todayis",timeStamp)
+                    .putInt("todayTem",Tem)
+                    .commit();
+
+            if(wearlist != null)wearlist = null;
+            wearlist = new ArrayList<>();
+            //決定衣服
+            int index = (int)(Math.random() * UPclothes.size());
+            if(!UPclothes.get(index).getType().equals("連身裙")){
+                wearlist.add(UPclothes.get(index).getId());
+                //花上衣+素下衣
+                if(!UPclothes.get(index).getStyle().equals("素色") && !UPclothes.get(index).getStyle().equals("圖案或文字")){
+                    index = (int) (Math.random() * DOWNclothes.size());
+                    while (  !DOWNclothes.get(index).getStyle().equals("格子") ||
+                            !DOWNclothes.get(index).getStyle().equals("條紋") ||
+                            !DOWNclothes.get(index).getStyle().equals("花紋") ) {
+                        if(DOWNclothes.size() == 1) break; //如果有很前衛的人(花上+花下)
+                        DOWNclothes.remove(index);
+                        index = (int) (Math.random() * DOWNclothes.size());
+                    }
+                    wearlist.add(DOWNclothes.get(index).getId());
+                }else{ //素上衣+任意下衣
+                    index = (int) (Math.random() * DOWNclothes.size());
+                    wearlist.add(DOWNclothes.get(index).getId());
+                }
+            }else{ //是連衣直接加入
+                wearlist.add(UPclothes.get(index).getId());
+            }
+
+        }else {
+            if(wearlist != null)wearlist = null;
+            wearlist = new ArrayList<>();
+            wearSet = WEAR.getStringSet("wearSet",null);
+            if(wearSet.size() > 0){
+                String[] data = (String[]) wearSet.toArray(new String[wearSet.size()]);
+                for (int i = 0; i < data.length; i++){
+                    wearlist.add(Long.parseLong(data[i]));
+                }
+            }
+
+        }
+
 
     }
 
     public void processView(){
-
         hinttext = findViewById(R.id.hint);
         try {
             if(PoP >= 50)
@@ -141,7 +172,6 @@ public class viewclothes extends AppCompatActivity {
         }catch (NullPointerException e){
             hinttext.setText("抓不到資料我們深感抱歉QQ");
         }
-
 
         myViewPager = findViewById( R.id.myViewPager);
         tabLayout = findViewById( R.id.TabLayout);
@@ -215,9 +245,9 @@ public class viewclothes extends AppCompatActivity {
 
     //獲取matrix
     private static Matrix getSavedMatrix(long id ,Context ctxt){
-        SharedPreferences sp;
-        sp = ctxt.getSharedPreferences("matrix", Context.MODE_PRIVATE);
+        SharedPreferences sp = ctxt.getSharedPreferences("matrix", Context.MODE_PRIVATE);
         String result = sp.getString(String.valueOf(id), null);
+        Log.e("getstring",result);
         if (result != null){
             float[] values = new float[9];
             Matrix matrix = new Matrix();
@@ -252,6 +282,16 @@ public class viewclothes extends AppCompatActivity {
         for (CustomBitmap customBitmap:list){
             saveMatrix(customBitmap);
         }
+
+        wearSet = new HashSet<String>();
+        WEAR.edit().clear();
+        WEAR.edit().remove("wearSet");
+        for(int i=0 ;i < wearlist.size() ; i++){
+            wearSet.add(wearlist.get(i).toString());
+        }
+        Set<String> result = new HashSet<>(wearSet);
+        Log.e("wearsset", String.valueOf(wearSet.size()));
+        WEAR.edit().putStringSet("wearSet",result).commit();
     }
     public void deletepic(View view){
         try {
@@ -260,12 +300,25 @@ public class viewclothes extends AppCompatActivity {
             Toast.makeText(this, "請先點選一件衣服", Toast.LENGTH_LONG).show();
         }
     }
+    // 回到主頁按鈕
+    public void toHome(View view) {
+        Intent intent = new Intent();
+        intent.setClass( viewclothes.this  , MainActivity.class);
+        startActivity(intent);
+        viewclothes.this.finish();
+    }
+
+    // 重新整理按鈕,溫度跟氣溫會重抓 需等待修改
+    public void reLoad(View view) {
+        Intent intent=new Intent(this, viewclothes.class);
+        startActivity(intent);
+        finish(); // 關閉此檔案
+        overridePendingTransition(0, 0);
+    }
+
     @Override
     public void finish() {
         save(getCurrentFocus());
-        if(wearlist != null)
-            wearlist = null;
-        wearlist = new ArrayList<>();
         super.finish();
     }
 

@@ -6,9 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 精準位置(GPS) -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 約略位置(WIFI) -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMAND" />
-    <!-- 行事曆更改權限 -->
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:allowBackup="true"
@@ -33,7 +30,6 @@
             android:name="com.example.weather.weather"
             android:label="@string/天氣詳細"
             android:screenOrientation="portrait"/>
-
         <activity android:name=".Manageclothes"
             android:screenOrientation="portrait"/>
         <activity android:name=".AddClothes"
@@ -42,19 +38,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".editclothes"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.example.calendar.CalendarView"
-            android:label="@string/新增活動"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.example.calendar.AddSchedule"
-            android:screenOrientation="portrait"/>
         <activity android:name="com.example.viewclothes.viewclothes"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".setting"
-            android:label="@string/其他設定"
-            android:screenOrientation="portrait"/>
-
     </application>
 
 </manifest>

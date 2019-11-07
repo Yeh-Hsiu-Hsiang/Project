@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.calendar.CalendarView;
 import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
@@ -382,13 +381,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // 去行事曆
-    public void Calendar(View view) {
-        Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , CalendarView.class);
-        startActivity(intent);
-    }
-
     // 去天氣
     public void Weekweather(View view) {
         Intent intent = new Intent();
@@ -397,13 +389,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("Today_Temperature", Today_Temperature.getText().toString());
         intent.putExtra("WeatherDescription", Description.getText().toString());
         Log.d("put","ok");
-        startActivity(intent);
-    }
-
-    // 去個人設定
-    public void Mysetting(View view) {
-        Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , setting.class);
         startActivity(intent);
     }
 
