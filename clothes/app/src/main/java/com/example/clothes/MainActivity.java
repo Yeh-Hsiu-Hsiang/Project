@@ -242,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String T_date = jsonObject3.getString("dataTime");
                                         String current_date = T_date.substring(0,10);
-                                        Log.d("Tcurrent_data", " = " + current_date);
                                         Integer current_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
                                         Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
                                         int quotients = Math.round(Today_current_Time/3);
@@ -294,7 +293,6 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
                                         String WD_startTime = startTime.substring(0,10);
-                                        Log.d("WDstartTime", " = " + WD_startTime);
                                         Integer current_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
                                         Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
                                         int quotients = Math.round(Today_current_Time/3);
@@ -385,9 +383,14 @@ public class MainActivity extends AppCompatActivity {
     public void Weekweather(View view) {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , weather.class);
-        intent.putExtra("locationName", CityName.getText().toString());
-        intent.putExtra("Today_Temperature", Today_Temperature.getText().toString());
-        intent.putExtra("WeatherDescription", Description.getText().toString());
+        Bundle bundle = new Bundle();//建立一個bundle實體，將intent裡的所有資訊放在裡面
+        bundle.putString("locationName", CityName.getText().toString());
+        Log.d("putlocationName",CityName.getText().toString());
+        bundle.putString("Temperature", Today_Temperature.getText().toString());
+        Log.d("putTemperature",Today_Temperature.getText().toString());
+        bundle.putString("WeatherDescription", Description.getText().toString());
+        Log.d("putWeatherDescription",Description.getText().toString());
+        intent.putExtras(bundle);
         Log.d("put","ok");
         startActivity(intent);
     }
