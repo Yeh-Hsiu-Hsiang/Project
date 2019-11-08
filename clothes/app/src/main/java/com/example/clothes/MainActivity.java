@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.clothes.database.weatherDAO;
 import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
 
@@ -37,6 +38,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    // 宣告資料庫功能類別欄位變數
+    private weatherDAO dao;
+
     // GPS 定位
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private String commadStr;
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     public TextView Description; // 顯示天氣敘述
     public TextView Today_Time;
     public TextView Today_date;
+    public TextView threehour_Description;
+    public TextView threehourtime_Description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         Description = (TextView) findViewById(R.id.WeatherDescription);
         Today_Time = (TextView) findViewById(R.id.Today_Time);
         Today_date = (TextView) findViewById(R.id.Today_date);
+        threehour_Description = (TextView) findViewById(R.id.threehour_Description);
+        threehourtime_Description = (TextView) findViewById(R.id.threehourtime_Description);
 
         Today_Time.setText(new SimpleDateFormat("HH").format(new Date()));
         Today_date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -74,6 +82,16 @@ public class MainActivity extends AppCompatActivity {
         Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("EEEE");
         TodayWeek.setText(format.format(date));
+
+        dao = new weatherDAO(getApplicationContext());
+        
+        // 建立資料庫物件
+        weatherDAO weather = new weatherDAO(MainActivity.this);
+        // 如果資料庫是空的，就建立一些範例資料
+        if (weather.getCount() == 0) {
+            weather.sample();
+        }
+        weather.close();
 
         // 鄉鎮天氣預報-臺灣未來 2 天天氣預報
         new TodayTask().execute ( "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-089?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON" );
@@ -242,43 +260,43 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String T_date = jsonObject3.getString("dataTime");
                                         String current_date = T_date.substring(0,10);
-                                        Integer current_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
-                                        Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
-                                        int quotients = Math.round(Today_current_Time/3);
+                                        Integer T_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
+                                        Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
+                                        int quotients = Math.round(current_Time/3);
                                         switch (quotients){
                                             case 0:
-                                                Today_current_Time = 0;
+                                                current_Time = 0;
                                                 break;
                                             case 1:
-                                                Today_current_Time = 3;
+                                                current_Time = 3;
                                                 break;
                                             case 2:
-                                                Today_current_Time = 6;
+                                                current_Time = 6;
                                                 break;
                                             case 3:
-                                                Today_current_Time = 9;
+                                                current_Time = 9;
                                                 break;
                                             case 4:
-                                                Today_current_Time = 12;
+                                                current_Time = 12;
                                                 break;
                                             case 5:
-                                                Today_current_Time = 15;
+                                                current_Time = 15;
                                                 break;
                                             case 6:
-                                                Today_current_Time = 18;
+                                                current_Time = 18;
                                                 break;
                                             case 7:
-                                                Today_current_Time = 21;
+                                                current_Time = 21;
                                                 break;
                                             case 8:
-                                                Today_current_Time = 0;
+                                                current_Time = 0;
                                                 break;
                                         }
                                         Log.d("Today_date", " = " + Today_date.getText().toString());
-                                        Log.d("current_time", " = " + current_time);
-                                        Log.d("Today_current_Time", " = " + Today_current_Time);
+                                        Log.d("T_time", " = " + T_time);
+                                        Log.d("current_Time", " = " + current_Time);
                                         Log.d("current_date", " = " + current_date);
-                                        if(current_date.equals(Today_date.getText().toString()) && current_time == Today_current_Time) {
+                                        if(current_date.equals(Today_date.getText().toString()) && T_time == current_Time) {
                                             JSONObject TelementValue = jsonObject3.getJSONObject("elementValue");
                                             Log.d("TelementValue", " = " + TelementValue);
                                             String value = TelementValue.getString("value");
@@ -293,42 +311,44 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
                                         String WD_startTime = startTime.substring(0,10);
-                                        Integer current_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
-                                        Integer Today_current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
-                                        int quotients = Math.round(Today_current_Time/3);
+                                        JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
+                                        String value = WDelementValue.getString("value");
+                                        threehour_Description.setText(value);
+                                        Log.d("threehour_Description", threehour_Description.getText().toString());
+                                        Integer WD_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
+                                        threehourtime_Description.setText(WD_time.toString());
+                                        Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
+                                        int quotients = Math.round(current_Time/3);
                                         switch (quotients){
                                             case 0:
-                                                Today_current_Time = 0;
+                                                current_Time = 0;
                                                 break;
                                             case 1:
-                                                Today_current_Time = 3;
+                                                current_Time = 3;
                                                 break;
                                             case 2:
-                                                Today_current_Time = 6;
+                                                current_Time = 6;
                                                 break;
                                             case 3:
-                                                Today_current_Time = 9;
+                                                current_Time = 9;
                                                 break;
                                             case 4:
-                                                Today_current_Time = 12;
+                                                current_Time = 12;
                                                 break;
                                             case 5:
-                                                Today_current_Time = 15;
+                                                current_Time = 15;
                                                 break;
                                             case 6:
-                                                Today_current_Time = 18;
+                                                current_Time = 18;
                                                 break;
                                             case 7:
-                                                Today_current_Time = 21;
+                                                current_Time = 21;
                                                 break;
                                             case 8:
-                                                Today_current_Time = 0;
+                                                current_Time = 0;
                                                 break;
                                         }
-                                        if(WD_startTime.equals(Today_date.getText().toString()) && current_time == Today_current_Time) {
-                                            JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
-                                            Log.d("WDelementValue", " = " + WDelementValue);
-                                            String value = WDelementValue.getString("value");
+                                        if(WD_startTime.equals(Today_date.getText().toString()) && WD_time == current_Time) {
                                             Description.setText(value);
                                             Log.d("DescriptionValue", " = " + Description.getText().toString());
                                         }
@@ -385,11 +405,10 @@ public class MainActivity extends AppCompatActivity {
         intent.setClass( MainActivity.this  , weather.class);
         Bundle bundle = new Bundle();//建立一個bundle實體，將intent裡的所有資訊放在裡面
         bundle.putString("locationName", CityName.getText().toString());
-        Log.d("putlocationName",CityName.getText().toString());
         bundle.putString("Temperature", Today_Temperature.getText().toString());
-        Log.d("putTemperature",Today_Temperature.getText().toString());
         bundle.putString("WeatherDescription", Description.getText().toString());
-        Log.d("putWeatherDescription",Description.getText().toString());
+        bundle.putString("threehour_Description", threehour_Description.getText().toString());
+        bundle.putString("threehourtime_Description", threehourtime_Description.getText().toString());
         intent.putExtras(bundle);
         Log.d("put","ok");
         startActivity(intent);

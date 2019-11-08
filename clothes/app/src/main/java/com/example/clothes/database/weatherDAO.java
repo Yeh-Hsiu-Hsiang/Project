@@ -16,6 +16,7 @@ public class weatherDAO {
     public static final String KEY_ID = "_id";
 
     // 其它表格欄位名稱
+    public static final String CityName = "CityName";
     public static final String Temperature = "%";
     public static final String HighTemperature = "HighTemperature";
     public static final String LowTemperature = "LowTemperature";
@@ -26,6 +27,7 @@ public class weatherDAO {
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    CityName + " TEXT NOT NULL, " +
                     Temperature + " TEXT NOT NULL, " +
                     HighTemperature + " TEXT NOT NULL, " +
                     LowTemperature + " TEXT NOT NULL, " +
@@ -50,6 +52,7 @@ public class weatherDAO {
         // 建立準備修改資料的ContentValues物件
         ContentValues cv = new ContentValues();
 
+        cv.put(CityName, getweather.getCityName());
         cv.put(Temperature, getweather.getTemperature());
         cv.put(HighTemperature, getweather.getHighTemperature());
         cv.put(LowTemperature, getweather.getLowTemperature());
@@ -68,6 +71,7 @@ public class weatherDAO {
         // 建立準備修改資料的ContentValues物件
         ContentValues cv = new ContentValues();
 
+        cv.put(CityName, getweather.getCityName());
         cv.put(Temperature, getweather.getTemperature());
         cv.put(HighTemperature, getweather.getHighTemperature());
         cv.put(LowTemperature, getweather.getLowTemperature());
@@ -113,13 +117,28 @@ public class weatherDAO {
         getWeather result = new getWeather();
 
         result.setId(cursor.getLong(0));
-        result.setTemperature(cursor.getString(1));
-        result.setHighTemperature(cursor.getString(2));
-        result.setLowTemperature(cursor.getString(3));
-        result.setPoPh(cursor.getString(4));
-        result.setWeatherDescription(cursor.getString(5));
+        result.setCityName(cursor.getString(1));
+        result.setTemperature(cursor.getString(2));
+        result.setHighTemperature(cursor.getString(3));
+        result.setLowTemperature(cursor.getString(4));
+        result.setPoPh(cursor.getString(5));
+        result.setWeatherDescription(cursor.getString(6));
 
         // 回傳結果
+        return result;
+    }
+
+    // 建立範例資料
+    public void sample() {
+    }
+
+    // 取得資料數量
+    public int getCount() {
+        int result = 0;
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME, null);
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
         return result;
     }
 }

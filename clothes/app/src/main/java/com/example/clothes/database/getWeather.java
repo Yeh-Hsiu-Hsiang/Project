@@ -2,6 +2,7 @@ package com.example.clothes.database;
 
 public class getWeather {
     private  Long id;
+    private  String CityName;
     private  String Temperature;
     private  String HighTemperature;
     private  String LowTemperature;
@@ -12,10 +13,10 @@ public class getWeather {
     public getWeather() {
     }
 
-    public getWeather(Long id, String Temperature, String HighTemperature,
-                            String LowTemperature, String PoPh ,
-                            String WeatherDescription ) {
+    public getWeather(Long id, String CityName, String Temperature, String HighTemperature,
+                            String LowTemperature, String PoPh , String WeatherDescription ) {
         this.id = id;
+        this.CityName = CityName;
         this.Temperature = Temperature;
         this.HighTemperature = HighTemperature;
         this.LowTemperature = LowTemperature;
@@ -31,6 +32,14 @@ public class getWeather {
         this.id = id;
     }
 
+    public String getCityName() {
+        return CityName;
+    }
+
+    public void setCityName(String CityName) {
+        this.CityName = CityName;
+    }
+
     public String getTemperature() {
         return Temperature;
     }
@@ -43,7 +52,7 @@ public class getWeather {
         return HighTemperature;
     }
 
-    public void setHighTemperature(String name) {
+    public void setHighTemperature(String HighTemperature) {
         this.HighTemperature = HighTemperature;
     }
 
@@ -51,7 +60,7 @@ public class getWeather {
         return LowTemperature;
     }
 
-    public void setLowTemperature(String type) {
+    public void setLowTemperature(String LowTemperature) {
         this.LowTemperature = LowTemperature;
     }
 
@@ -59,7 +68,7 @@ public class getWeather {
         return PoPh;
     }
 
-    public void setPoPh(String style) {
+    public void setPoPh(String PoPh) {
         this.PoPh = PoPh;
     }
 
@@ -67,5 +76,5 @@ public class getWeather {
         return WeatherDescription;
     }
 
-    public void setWeatherDescription(String updatetime) { this.WeatherDescription = WeatherDescription; }
+    public void setWeatherDescription(String WeatherDescription) { this.WeatherDescription = WeatherDescription; }
 }
