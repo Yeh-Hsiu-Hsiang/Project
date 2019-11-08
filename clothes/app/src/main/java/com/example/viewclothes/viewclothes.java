@@ -105,11 +105,19 @@ public class viewclothes extends AppCompatActivity {
         do{
             UPclothes = dao.getUPclothes(Tem+temp , Tem-temp);
             temp++;
+            if(temp == 200){
+                Toast.makeText( viewclothes.this, "請先至少新增一件上衣" , Toast.LENGTH_LONG).show();
+                break;
+            }
         }while (UPclothes ==null);
         temp = 0;
         do {
             DOWNclothes = dao.getDOWNclothes(Tem+temp , Tem-temp);
             temp++;
+            if(temp == 200){
+                Toast.makeText( viewclothes.this, "請先至少新增一件下衣" , Toast.LENGTH_LONG).show();
+                break;
+            }
         }while (DOWNclothes == null);
 
         SharedPreferences DATE = getSharedPreferences("DATE", Context.MODE_PRIVATE);
