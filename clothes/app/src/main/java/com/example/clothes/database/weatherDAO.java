@@ -17,7 +17,7 @@ public class weatherDAO {
 
     // 其它表格欄位名稱
     public static final String CityName = "CityName";
-    public static final String Temperature = "%";
+    public static final String Temperature = "Temperature";
     public static final String HighTemperature = "HighTemperature";
     public static final String LowTemperature = "LowTemperature";
     public static final String PoPh = "PoPh";

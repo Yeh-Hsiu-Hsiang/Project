@@ -33,12 +33,14 @@ public class DBhelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // 建立應用程式需要的表格
         db.execSQL(clothesDAO.CREATE_TABLE);
+        db.execSQL(weatherDAO.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 刪除原有的表格
         db.execSQL("DROP TABLE IF EXISTS " + clothesDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + weatherDAO.TABLE_NAME);
         // 呼叫onCreate建立新版的表格
         onCreate(db);
     }
