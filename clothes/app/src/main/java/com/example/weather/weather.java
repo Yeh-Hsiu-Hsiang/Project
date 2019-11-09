@@ -144,7 +144,7 @@ public class weather extends AppCompatActivity {
                 WeatherDescription.setText(Description_array[0] + "\n" + "\n" + Description_array[1] + "\n" + "\n" + Description_array[2] + "\n" + "\n" + Description_array[3] + "\n" + "\n" + Description_array[4] + "\n" + "\n" + Description_array[5]);
                 Location.setText(city);
                 String PoP = Description_array[1].substring(5,7);
-                PoPh.setText(PoP + "%");
+                PoPh.setText(PoP);
                 Temperature.setText(Tem);
 
                 if(Description_array[0].equals("晴") || Description_array[0].equals("晴時多雲") || Description_array[0].equals("多雲時晴")){
@@ -161,8 +161,9 @@ public class weather extends AppCompatActivity {
                     weather_image.setImageDrawable(getResources().getDrawable( R.drawable.windy));
                 }
 
-                String[] threehour_array = threehour_Description.split("。");
-                for (int n = 0; n < threehour_array.length; n++) {
+                for (int n = 1; n < 24; n++) {
+                    String[] threehour_array = threehour_Description.split("。");
+                    n = n + 2 ;
                     LinearLayout.LayoutParams linearLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     LinearLayout myLinear = new LinearLayout(this);
                     linearLp.setMargins(30, 50, 30, 50);
@@ -172,12 +173,13 @@ public class weather extends AppCompatActivity {
                     // 小時
                     LinearLayout.LayoutParams textViewLp = new LinearLayout.LayoutParams(150, 150);
                     TextView textView = new TextView(this);
-                    textView.setText(n + "");
+                    textView.setText(n + " : 00 ");
                     textView.setGravity(Gravity.CENTER);
                     myLinear.addView(textView, textViewLp);
                     // 天氣圖示
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(150, 150);
                     ImageView imageView = new ImageView(this);
+                    String[] imageView_array;
                     if(threehour_array[0].equals("晴")){
                         imageView.setBackgroundResource(R.drawable.sun);
                     }else if(threehour_array[0].equals("晴時多雲") || threehour_array[0].equals("多雲時晴")){
@@ -199,6 +201,13 @@ public class weather extends AppCompatActivity {
                     }
                     imageView.setScaleType(ImageView.ScaleType. CENTER_CROP);
                     myLinear.addView(imageView, lp);
+
+                    // 溫度
+                    LinearLayout.LayoutParams textTem = new LinearLayout.LayoutParams(150, 150);
+                    TextView threehour_Tem = new TextView(this);
+                    threehour_Tem.setText(threehour_array[2].substring(4,6) + "°C");
+                    threehour_Tem.setGravity(Gravity.CENTER);
+                    myLinear.addView(threehour_Tem, textTem);
                 }
             } catch (Exception e) {
                 Toast.makeText(weather.this, "獲取資料錯誤", Toast.LENGTH_LONG).show();

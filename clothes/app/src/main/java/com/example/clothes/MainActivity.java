@@ -84,14 +84,6 @@ public class MainActivity extends AppCompatActivity {
         TodayWeek.setText(format.format(date));
 
         dao = new weatherDAO(getApplicationContext());
-        
-        // 建立資料庫物件
-        weatherDAO weather = new weatherDAO(MainActivity.this);
-        // 如果資料庫是空的，就建立一些範例資料
-        if (weather.getCount() == 0) {
-            weather.sample();
-        }
-        weather.close();
 
         // 鄉鎮天氣預報-臺灣未來 2 天天氣預報
         new TodayTask().execute ( "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-089?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON" );
