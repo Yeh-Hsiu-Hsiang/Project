@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,42 +35,14 @@ import java.util.Date;
 public class weather extends AppCompatActivity {
 
     public TextView Location; // 顯示城市
-    public TextView HighTemperature; // 顯示最高溫
-    public TextView LowTemperature; // 顯示最低溫
-    public TextView Temperature;
-    public TextView PoPh; // 降雨機率
+    public TextView Temperature, LowTemperature, HighTemperature; // 顯示溫度
     public TextView WeatherDescription; // 顯示天氣敘述
-    public TextView Today_date;
-    public TextView Today_Time;
-    public ImageView weather_image;
-    public ImageView MON_image;
-    public TextView MON_Min;
-    public TextView MON_Max;
-    public TextView MON_PoP;
-    public ImageView TUE_image;
-    public TextView TUE_Min;
-    public TextView TUE_Max;
-    public TextView TUE_PoP;
-    public ImageView WED_image;
-    public TextView WED_Min;
-    public TextView WED_Max;
-    public TextView WED_PoP;
-    public ImageView THU_image;
-    public TextView THU_Min;
-    public TextView THU_Max;
-    public TextView THU_PoP;
-    public ImageView FRI_image;
-    public TextView FRI_Min;
-    public TextView FRI_Max;
-    public TextView FRI_PoP;
-    public ImageView SAT_image;
-    public TextView SAT_Min;
-    public TextView SAT_Max;
-    public TextView SAT_PoP;
-    public ImageView SUN_image;
-    public TextView SUN_Min;
-    public TextView SUN_Max;
-    public TextView SUN_PoP;
+    public TextView Today_date, Today_Time; // 顯示日期時間
+    public ImageView weather_image, MON_image, TUE_image, WED_image, THU_image, FRI_image, SAT_image, SUN_image;
+    public TextView MON_Min, TUE_Min, WED_Min, THU_Min, FRI_Min, SAT_Min, SUN_Min;
+    public TextView MON_Max, TUE_Max, WED_Max, THU_Max, FRI_Max, SAT_Max, SUN_Max;
+    // 降雨機率
+    public TextView PoPh, MON_PoP, TUE_PoP, WED_PoP, THU_PoP, FRI_PoP, SAT_PoP, SUN_PoP;
 
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
@@ -138,7 +111,6 @@ public class weather extends AppCompatActivity {
                 String Tem = bundle.getString("Temperature");
                 String Description = bundle.getString("WeatherDescription");
                 String threehour_Description = bundle.getString("threehour_Description");
-                String threehourtime_Description = bundle.getString("threehourtime_Description");
 
                 String[] Description_array = Description.split("。");
                 WeatherDescription.setText(Description_array[0] + "\n" + "\n" + Description_array[1] + "\n" + "\n" + Description_array[2] + "\n" + "\n" + Description_array[3] + "\n" + "\n" + Description_array[4] + "\n" + "\n" + Description_array[5]);
@@ -162,7 +134,9 @@ public class weather extends AppCompatActivity {
                 }
 
                 for (int n = 1; n < 24; n++) {
+                    Log.d("three",threehour_Description);
                     String[] threehour_array = threehour_Description.split("。");
+                    Log.d("threehour_array", threehour_array[0] + threehour_array[2] );
                     n = n + 2 ;
                     LinearLayout.LayoutParams linearLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     LinearLayout myLinear = new LinearLayout(this);
@@ -179,7 +153,6 @@ public class weather extends AppCompatActivity {
                     // 天氣圖示
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(150, 150);
                     ImageView imageView = new ImageView(this);
-                    String[] imageView_array;
                     if(threehour_array[0].equals("晴")){
                         imageView.setBackgroundResource(R.drawable.sun);
                     }else if(threehour_array[0].equals("晴時多雲") || threehour_array[0].equals("多雲時晴")){

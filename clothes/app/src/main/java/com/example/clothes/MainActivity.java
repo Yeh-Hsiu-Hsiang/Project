@@ -50,13 +50,9 @@ public class MainActivity extends AppCompatActivity {
     public TextView CityName; // 顯示城市
     public TextView Today_Temperature; // 顯示氣溫
     public TextView TodayWeek; // 顯示星期
-    public TextView date; // 顯示日期
+    public TextView date, Today_Time, Today_date; // 顯示日期
     public TextView PoP; // 顯示降雨量
-    public TextView Description; // 顯示天氣敘述
-    public TextView Today_Time;
-    public TextView Today_date;
-    public TextView threehour_Description;
-    public TextView threehourtime_Description;
+    public TextView Description, threehour_Description; // 顯示天氣敘述
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         Today_Time = (TextView) findViewById(R.id.Today_Time);
         Today_date = (TextView) findViewById(R.id.Today_date);
         threehour_Description = (TextView) findViewById(R.id.threehour_Description);
-        threehourtime_Description = (TextView) findViewById(R.id.threehourtime_Description);
 
         Today_Time.setText(new SimpleDateFormat("HH").format(new Date()));
         Today_date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -306,9 +301,7 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
                                         String value = WDelementValue.getString("value");
                                         threehour_Description.setText(value);
-                                        Log.d("threehour_Description", threehour_Description.getText().toString());
                                         Integer WD_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
-                                        threehourtime_Description.setText(WD_time.toString());
                                         Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
                                         int quotients = Math.round(current_Time/3);
                                         switch (quotients){
@@ -400,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("Temperature", Today_Temperature.getText().toString());
         bundle.putString("WeatherDescription", Description.getText().toString());
         bundle.putString("threehour_Description", threehour_Description.getText().toString());
-        bundle.putString("threehourtime_Description", threehourtime_Description.getText().toString());
         intent.putExtras(bundle);
         Log.d("put","ok");
         startActivity(intent);
