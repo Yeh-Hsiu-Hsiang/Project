@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.clothes.MainActivity;
 import com.example.clothes.R;
+import com.example.clothes.database.WeekWeatherDAO;
+import com.example.clothes.database.getWeekWeather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,22 +29,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 
 public class weather extends AppCompatActivity {
+    // 宣告資料庫功能類別欄位變數
+    private WeekWeatherDAO dao;
+    getWeekWeather getWeekWeather = new getWeekWeather();
 
-    public TextView Location; // 顯示城市
+    public TextView Location, location; // 顯示城市
     public TextView Temperature, LowTemperature, HighTemperature; // 顯示溫度
-    public TextView WeatherDescription; // 顯示天氣敘述
-    public TextView Today_date, Today_Time; // 顯示日期時間
+    public TextView WeatherDescription, WeatherDescription_array; // 顯示天氣敘述
+    public TextView Today_date, Today_Time, WD_Day, PoP_Day, MaxT_Day, MinT_Day; // 顯示日期時間
     public ImageView weather_image, MON_image, TUE_image, WED_image, THU_image, FRI_image, SAT_image, SUN_image;
     public TextView MON_Min, TUE_Min, WED_Min, THU_Min, FRI_Min, SAT_Min, SUN_Min;
     public TextView MON_Max, TUE_Max, WED_Max, THU_Max, FRI_Max, SAT_Max, SUN_Max;
-    // 降雨機率
-    public TextView PoPh, MON_PoP, TUE_PoP, WED_PoP, THU_PoP, FRI_PoP, SAT_PoP, SUN_PoP;
+    public TextView PoP, PoPh, MON_PoP, TUE_PoP, WED_PoP, THU_PoP, FRI_PoP, SAT_PoP, SUN_PoP; // 降雨機率
 
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
@@ -118,6 +121,7 @@ public class weather extends AppCompatActivity {
                 String PoP = Description_array[1].substring(5,7);
                 PoPh.setText(PoP);
                 Temperature.setText(Tem);
+                Log.d("Temperature_pull", Temperature.getText().toString());
 
                 if(Description_array[0].equals("晴") || Description_array[0].equals("晴時多雲") || Description_array[0].equals("多雲時晴")){
                     weather_image.setImageDrawable(getResources().getDrawable( R.drawable.sunny));
@@ -222,12 +226,11 @@ public class weather extends AppCompatActivity {
                 Ob = new JSONObject(week_data);
                 JSONObject locations = Ob.getJSONObject("cwbopendata").getJSONObject("dataset").getJSONObject ("locations");
                 JSONArray location_array = locations.getJSONArray("location");
-
                 for (int i = 0; i < location_array .length (); i++) {
                     JSONObject JsonObject = location_array.getJSONObject(i);
                     String locationName = JsonObject.getString("locationName");
+                    location.setText(locationName);
                     Log.d("locationName", "城市 = " + locationName);
-
                     JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
                     Log.d("weatherElement", "weatherElement = " + weatherElement);
                     for (int j = 0; j < weatherElement.length(); j++) {
@@ -243,8 +246,10 @@ public class weather extends AppCompatActivity {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
                                     String startTime = jsonObject3.getString("startTime");
                                     String WD_startTime = startTime.substring(0, 10);
+                                    WD_Day.setText(WD_startTime);
                                     JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
                                     String value = WDelementValue.getString("value");
+                                    WeatherDescription_array.setText(value);
                                     String[] Description_array = value.split("。");
                                     Log.d("Description_array", Description_array[0]);
                                     switch (getWeek(WD_startTime)) {
@@ -406,12 +411,13 @@ public class weather extends AppCompatActivity {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
                                     String startTime = jsonObject3.getString("startTime");
                                     String PoP_startTime = startTime.substring(0,10);
+                                    PoP_Day.setText(PoP_startTime);
                                     JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
                                     String value = elementValue.getString("value");
                                     if(value == "null"){
                                         value = "0";
                                     }
-
+                                    PoP.setText(value + " % ");
                                     switch (getWeek(PoP_startTime)){
                                         case "天":
                                             SUN_PoP.setText(value + " % ");
@@ -442,6 +448,7 @@ public class weather extends AppCompatActivity {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
                                     String startTime = jsonObject3.getString("startTime");
                                     String MaxT_startTime = startTime.substring(0,10);
+                                    MaxT_Day.setText(MaxT_startTime);
                                     JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
                                     Log.d("MaxT_elementValue", " = " + elementValue);
                                     String value = elementValue.getString("value");
@@ -478,6 +485,7 @@ public class weather extends AppCompatActivity {
                                     JSONObject jsonObject3 = time.getJSONObject(k);
                                     String startTime = jsonObject3.getString("startTime");
                                     String MinT_startTime = startTime.substring(0,10);
+                                    MinT_Day.setText(MinT_startTime);
                                     JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
                                     Log.d("MinT_elementValue", " = " + elementValue);
                                     String value = elementValue.getString("value");
@@ -546,6 +554,21 @@ public class weather extends AppCompatActivity {
             Week += "六";
         }
         return Week;
+    }
+
+    //整理進入DB
+    public void CompleteAdd(){
+        getWeekWeather.setDay(Today_date.getText().toString());
+        getWeekWeather.setHour(Today_Time.getText().toString());
+        getWeekWeather.setCityName(location.getText().toString());
+        getWeekWeather.setWD_Day(WD_Day.getText().toString());
+        getWeekWeather.setWeatherDescription(WeatherDescription_array.getText().toString());
+        getWeekWeather.setPoP_Day(PoP_Day.getText().toString());
+        getWeekWeather.setPoPh(PoP.getText().toString());
+        getWeekWeather.setMaxT_Day(MaxT_Day.getText().toString());
+        getWeekWeather.setHighTemperature(HighTemperature.getText().toString());
+        getWeekWeather.setMinT_Day(MinT_Day.getText().toString());
+        getWeekWeather.setLowTemperature(LowTemperature.getText().toString());
     }
 
     // 回到主頁按鈕

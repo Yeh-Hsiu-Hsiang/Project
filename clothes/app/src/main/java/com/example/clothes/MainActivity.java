@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.clothes.database.getWeather;
 import com.example.clothes.database.weatherDAO;
 import com.example.viewclothes.viewclothes;
 import com.example.weather.weather;
@@ -40,6 +41,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     // 宣告資料庫功能類別欄位變數
     private weatherDAO dao;
+    getWeather getWeather = new getWeather();
 
     // GPS 定位
     public static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView CityName; // 顯示城市
     public TextView Today_Temperature; // 顯示氣溫
     public TextView TodayWeek; // 顯示星期
-    public TextView date, Today_Time, Today_date; // 顯示日期
+    public TextView date, Today_Time, Today_date, T_day, T_hour, WD_Day, WD_Hour, PoP_Day; // 顯示日期時間
     public TextView PoP; // 顯示降雨量
     public TextView Description, threehour_Description; // 顯示天氣敘述
 
@@ -68,10 +70,16 @@ public class MainActivity extends AppCompatActivity {
         Today_Time = (TextView) findViewById(R.id.Today_Time);
         Today_date = (TextView) findViewById(R.id.Today_date);
         threehour_Description = (TextView) findViewById(R.id.threehour_Description);
+        T_day = (TextView) findViewById(R.id.T_day);
+        T_hour = (TextView) findViewById(R.id.T_hour);
+        WD_Day = (TextView) findViewById(R.id.WD_Day);
+        WD_Hour = (TextView) findViewById(R.id.WD_Hour);
+        PoP_Day = (TextView) findViewById(R.id.PoP_Day);
 
         Today_Time.setText(new SimpleDateFormat("HH").format(new Date()));
         Today_date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
+
         //  獲取當前系統星期
         long time = System.currentTimeMillis();
         Date date = new Date(time);
@@ -230,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
                             CityName.setText("臺南市");
                             break;
                     }
-
                     if (locationName.equals(city)) {
                         Log.d("loaction = city","yes");
                         JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
@@ -247,6 +254,8 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String T_date = jsonObject3.getString("dataTime");
                                         String current_date = T_date.substring(0,10);
+                                        T_day.setText(current_date);
+                                        T_hour.setText(T_date.substring(11, 13));
                                         Integer T_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
                                         Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
                                         int quotients = Math.round(current_Time/3);
@@ -287,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                                             JSONObject TelementValue = jsonObject3.getJSONObject("elementValue");
                                             Log.d("TelementValue", " = " + TelementValue);
                                             String value = TelementValue.getString("value");
-                                            Log.d("T", " = " + value);
+                                            Log.d("Today_Temperature = ", value);
                                             Today_Temperature.setText(value + " °C ");
                                         }
                                     }
@@ -297,7 +306,9 @@ public class MainActivity extends AppCompatActivity {
                                     for (int k = 0; k < time.length(); k++) {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
-                                        String WD_startTime = startTime.substring(0,10);
+                                        String WD_startDate = startTime.substring(0,10);
+                                        WD_Day.setText(WD_startDate);
+                                        WD_Hour.setText(startTime.substring(11, 13));
                                         JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
                                         String value = WDelementValue.getString("value");
                                         threehour_Description.setText(value);
@@ -333,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
                                                 current_Time = 0;
                                                 break;
                                         }
-                                        if(WD_startTime.equals(Today_date.getText().toString()) && WD_time == current_Time) {
+                                        if(WD_startDate.equals(Today_date.getText().toString()) && WD_time == current_Time) {
                                             Description.setText(value);
                                             Log.d("DescriptionValue", " = " + Description.getText().toString());
                                         }
@@ -345,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject jsonObject3 = time.getJSONObject(k);
                                         String startTime = jsonObject3.getString("startTime");
                                         String PoP_startTime = startTime.substring(0,10);
+                                        PoP_Day.setText(PoP_startTime);
                                         Log.d("PoP_startTime", " = " + PoP_startTime);
                                         Log.d("Today_date", " = " + Today_date.getText().toString());
                                         if(PoP_startTime.equals(Today_date.getText().toString())) {
@@ -396,6 +408,27 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         Log.d("put","ok");
         startActivity(intent);
+    }
+
+    //整理進入DB
+    public void CompleteAdd(){
+        getWeather.setDay(Today_date.getText().toString());
+        getWeather.setHour(Today_Time.getText().toString());
+        getWeather.setCityName(CityName.getText().toString());
+        getWeather.setT_Day(T_day.getText().toString());
+        getWeather.setT_Hour(T_hour.getText().toString());
+        getWeather.setTemperature(Today_Temperature.getText().toString());
+        getWeather.setWD_Day(WD_Day.getText().toString());
+        getWeather.setWD_Hour(WD_Hour.getText().toString());
+        getWeather.setWeatherDescription(Description.getText().toString());
+        getWeather.setThreehour_Description(threehour_Description.getText().toString());
+        getWeather.setPoP_Day(PoP_Day.getText().toString());
+        getWeather.setPoPh(PoP.getText().toString());
+
+//        if((getWeather.getTemperature()).equals(" ")) {
+////        }
+        dao.insert(getWeather);
+        dao.close();
     }
 
     // 回到主頁按鈕
