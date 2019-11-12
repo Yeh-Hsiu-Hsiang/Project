@@ -259,170 +259,184 @@ public class MainActivity extends AppCompatActivity {
                             CityName.setText("臺南市");
                             break;
                     }
-                    if (locationName.equals(city)) {
-                        Log.d("loaction = city","yes");
-                        JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
-                        Log.d("weatherElement", " = " + weatherElement);
-                        for (int j = 0; j < weatherElement.length(); j++) {
-                            JSONObject jsonObject2 = weatherElement.getJSONObject(j);
-                            String elementName = jsonObject2.getString("elementName");
-                            Log.d("elementName", " = " + elementName);
-                            JSONArray time = jsonObject2.getJSONArray("time");
-                            Log.d("time", " = " + time);
-                            switch  (elementName) {
-                                case "T":
-                                    for (int k = 0; k < time.length(); k++) {
-                                        JSONObject jsonObject3 = time.getJSONObject(k);
-                                        String T_date = jsonObject3.getString("dataTime");
-                                        String current_date = T_date.substring(0,10);
-                                        T_day.setText(current_date);
-                                        T_hour.setText(T_date.substring(11, 13));
-                                        //
-                                        T_day_list.add(T_day.getText().toString());
-                                        T_hour_list.add(T_hour.getText().toString());
-                                        //
-                                        Integer T_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
-                                        Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
-                                        int quotients = Math.round(current_Time/3);
-                                        switch (quotients){
-                                            case 0:
-                                                current_Time = 0;
-                                                break;
-                                            case 1:
-                                                current_Time = 3;
-                                                break;
-                                            case 2:
-                                                current_Time = 6;
-                                                break;
-                                            case 3:
-                                                current_Time = 9;
-                                                break;
-                                            case 4:
-                                                current_Time = 12;
-                                                break;
-                                            case 5:
-                                                current_Time = 15;
-                                                break;
-                                            case 6:
-                                                current_Time = 18;
-                                                break;
-                                            case 7:
-                                                current_Time = 21;
-                                                break;
-                                            case 8:
-                                                current_Time = 0;
-                                                break;
-                                        }
-                                        Log.d("Today_date", " = " + Today_date.getText().toString());
-                                        Log.d("T_time", " = " + T_time);
-                                        Log.d("current_Time", " = " + current_Time);
-                                        Log.d("current_date", " = " + current_date);
-                                        if(current_date.equals(Today_date.getText().toString()) && T_time == current_Time) {
+
+                    for(int citycount=0; citycount < CityName_list.size() ; citycount++){
+
+                        if (locationName.equals(CityName_list.get(citycount))) {
+                            Log.d("loaction = city","yes");
+                            JSONArray weatherElement = JsonObject.getJSONArray("weatherElement");
+                            Log.d("weatherElement", " = " + weatherElement);
+                            for (int j = 0; j < weatherElement.length(); j++) {
+                                JSONObject jsonObject2 = weatherElement.getJSONObject(j);
+                                String elementName = jsonObject2.getString("elementName");
+                                Log.d("elementName", " = " + elementName);
+                                JSONArray time = jsonObject2.getJSONArray("time");
+                                Log.d("time", " = " + time);
+                                switch  (elementName) {
+                                    case "T":
+                                        for (int k = 0; k < time.length(); k++) {
+                                            JSONObject jsonObject3 = time.getJSONObject(k);
+                                            String T_date = jsonObject3.getString("dataTime");
+                                            String current_date = T_date.substring(0,10);
+                                            T_day.setText(current_date);
+                                            T_hour.setText(T_date.substring(11, 13));
+                                            //
+                                            T_day_list.add(T_day.getText().toString());
+                                            T_hour_list.add(T_hour.getText().toString());
+                                            //
+                                            Integer T_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
+                                            Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
+                                            int quotients = Math.round(current_Time/3);
+                                            switch (quotients){
+                                                case 0:
+                                                    current_Time = 0;
+                                                    break;
+                                                case 1:
+                                                    current_Time = 3;
+                                                    break;
+                                                case 2:
+                                                    current_Time = 6;
+                                                    break;
+                                                case 3:
+                                                    current_Time = 9;
+                                                    break;
+                                                case 4:
+                                                    current_Time = 12;
+                                                    break;
+                                                case 5:
+                                                    current_Time = 15;
+                                                    break;
+                                                case 6:
+                                                    current_Time = 18;
+                                                    break;
+                                                case 7:
+                                                    current_Time = 21;
+                                                    break;
+                                                case 8:
+                                                    current_Time = 0;
+                                                    break;
+                                            }
+                                            Log.d("Today_date", " = " + Today_date.getText().toString());
+                                            Log.d("T_time", " = " + T_time);
+                                            Log.d("current_Time", " = " + current_Time);
+                                            Log.d("current_date", " = " + current_date);
                                             JSONObject TelementValue = jsonObject3.getJSONObject("elementValue");
                                             Log.d("TelementValue", " = " + TelementValue);
                                             String value = TelementValue.getString("value");
-                                            Log.d("Today_Temperature = ", value);
-                                            Today_Temperature.setText(value + " °C ");
                                             //
-                                            Today_Temperature_list.add(Today_Temperature.getText().toString());
+                                            Today_Temperature_list.add(value);
                                             //
+                                            if(current_date.equals(Today_date.getText().toString()) && T_time == current_Time) {
+                                                Today_Temperature.setText(value + " °C ");
+                                                Log.d("Today_Temperature = ", value);
+                                                //
+                                                Today_Temperature_list.add(Today_Temperature.getText().toString());
+                                                //
+                                            }
                                         }
-                                    }
-                                    break;
-                                // 天氣現象
-                                case "WeatherDescription":
-                                    for (int k = 0; k < time.length(); k++) {
-                                        JSONObject jsonObject3 = time.getJSONObject(k);
-                                        String startTime = jsonObject3.getString("startTime");
-                                        String WD_startDate = startTime.substring(0,10);
-                                        WD_Day.setText(WD_startDate);
-                                        WD_Hour.setText(startTime.substring(11, 13));
-                                        //
-                                        WD_Day_list.add(WD_Day.getText().toString());
-                                        WD_Hour_list.add(WD_Hour.getText().toString());
-                                        //
-                                        JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
-                                        String value = WDelementValue.getString("value");
-                                        threehour_Description.setText(value);
-                                        Log.d("threehour_Description", threehour_Description.getText().toString());
-                                        //
-                                        threehour_Description_list.add(threehour_Description.getText().toString());
-                                        //
-                                        Integer WD_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
-                                        Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
-                                        int quotients = Math.round(current_Time/3);
-                                        switch (quotients){
-                                            case 0:
-                                                current_Time = 0;
-                                                break;
-                                            case 1:
-                                                current_Time = 3;
-                                                break;
-                                            case 2:
-                                                current_Time = 6;
-                                                break;
-                                            case 3:
-                                                current_Time = 9;
-                                                break;
-                                            case 4:
-                                                current_Time = 12;
-                                                break;
-                                            case 5:
-                                                current_Time = 15;
-                                                break;
-                                            case 6:
-                                                current_Time = 18;
-                                                break;
-                                            case 7:
-                                                current_Time = 21;
-                                                break;
-                                            case 8:
-                                                current_Time = 0;
-                                                break;
-                                        }
-                                        if(WD_startDate.equals(Today_date.getText().toString()) && WD_time == current_Time) {
-                                            Description.setText(value);
-                                            Log.d("DescriptionValue", " = " + Description.getText().toString());
+                                        break;
+                                    // 天氣現象
+                                    case "WeatherDescription":
+                                        for (int k = 0; k < time.length(); k++) {
+                                            JSONObject jsonObject3 = time.getJSONObject(k);
+                                            String startTime = jsonObject3.getString("startTime");
+                                            String WD_startDate = startTime.substring(0,10);
+                                            WD_Day.setText(WD_startDate);
+                                            WD_Hour.setText(startTime.substring(11, 13));
                                             //
-                                            Description_list.add(Description.getText().toString());
+                                            WD_Day_list.add(WD_Day.getText().toString());
+                                            WD_Hour_list.add(WD_Hour.getText().toString());
                                             //
+                                            JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
+                                            String value = WDelementValue.getString("value");
+                                            threehour_Description.setText(value);
+                                            Log.d("threehour_Description", threehour_Description.getText().toString());
+                                            //
+                                            threehour_Description_list.add(threehour_Description.getText().toString());
+                                            //
+                                            Integer WD_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
+                                            Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
+                                            int quotients = Math.round(current_Time/3);
+                                            switch (quotients){
+                                                case 0:
+                                                    current_Time = 0;
+                                                    break;
+                                                case 1:
+                                                    current_Time = 3;
+                                                    break;
+                                                case 2:
+                                                    current_Time = 6;
+                                                    break;
+                                                case 3:
+                                                    current_Time = 9;
+                                                    break;
+                                                case 4:
+                                                    current_Time = 12;
+                                                    break;
+                                                case 5:
+                                                    current_Time = 15;
+                                                    break;
+                                                case 6:
+                                                    current_Time = 18;
+                                                    break;
+                                                case 7:
+                                                    current_Time = 21;
+                                                    break;
+                                                case 8:
+                                                    current_Time = 0;
+                                                    break;
+                                            }
+                                            //
+                                            Description_list.add(value);
+                                            //
+                                            if(WD_startDate.equals(Today_date.getText().toString()) && WD_time == current_Time) {
+                                                Description.setText(value);
+                                                Log.d("DescriptionValue", " = " + Description.getText().toString());
+                                                //
+                                                Description_list.add(Description.getText().toString());
+                                                //
+                                            }
                                         }
-                                    }
-                                    break;
-                                // 降雨機率
-                                case "PoP12h":
-                                    for (int k = 0; k < time.length(); k++) {
-                                        JSONObject jsonObject3 = time.getJSONObject(k);
-                                        String startTime = jsonObject3.getString("startTime");
-                                        String PoP_startTime = startTime.substring(0,10);
-                                        PoP_Day.setText(PoP_startTime);
-                                        //
-                                        PoP_Day_list.add(PoP_Day.getText().toString());
-                                        //
-                                        Log.d("PoP_startTime", " = " + PoP_startTime);
-                                        Log.d("Today_date", " = " + Today_date.getText().toString());
-                                        if(PoP_startTime.equals(Today_date.getText().toString())) {
+                                        break;
+                                    // 降雨機率
+                                    case "PoP12h":
+                                        for (int k = 0; k < time.length(); k++) {
+                                            JSONObject jsonObject3 = time.getJSONObject(k);
+                                            String startTime = jsonObject3.getString("startTime");
+                                            String PoP_startTime = startTime.substring(0,10);
+                                            PoP_Day.setText(PoP_startTime);
+                                            //
+                                            PoP_Day_list.add(PoP_Day.getText().toString());
+                                            //
+                                            Log.d("PoP_startTime", " = " + PoP_startTime);
+                                            Log.d("Today_date", " = " + Today_date.getText().toString());
                                             JSONObject elementValue = jsonObject3.getJSONObject("elementValue");
                                             Log.d("PoPelementValue", " = " + elementValue);
                                             String value = elementValue.getString("value");
                                             Log.d("PoP", " = " + value);
-                                            PoP.setText(value + " % ");
-                                            Log.d("PoPValue", " = " + PoP.getText().toString());
                                             //
-                                            PoP_list.add(PoP.getText().toString());
+                                            PoP_list.add(value);
                                             //
+                                            if(PoP_startTime.equals(Today_date.getText().toString())) {
+                                                PoP.setText(value + " % ");
+                                                Log.d("PoPValue", " = " + PoP.getText().toString());
+                                                //
+                                                PoP_list.add(PoP.getText().toString());
+                                                //
+                                            }
                                         }
-                                    }
-                                    break;
+                                        break;
+                                }
                             }
                         }
+                        CompleteAdd(citycount);
                     }
                 }
             }
             catch(JSONException e) {
                 e.printStackTrace();
             }
-            CompleteAdd();
+
         }
     }
 
@@ -460,14 +474,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //整理進入DB
-    public void CompleteAdd(){
+    public void CompleteAdd(int citycount){
         getWeather.setDay(Today_date.getText().toString());
         getWeather.setHour(Today_Time.getText().toString());
+        getWeather.setCityName(CityName_list.get(citycount));
 
-        for (int a = 0; a < CityName_list.size(); a++) {
-
-            getWeather.setCityName(CityName_list.get(a));
-            Log.d("CityName_list", CityName_list.get(a));
+        for (int a = 0; a < T_day_list.size(); a++) {
+//            getWeather.setCityName(CityName_list.get(a));
+//            Log.d("CityName_list", CityName_list.get(a));
 
             getWeather.setT_Day(T_day_list.get(a));
             Log.d("T_day_list", T_day_list.get(a));
@@ -475,8 +489,8 @@ public class MainActivity extends AppCompatActivity {
             getWeather.setT_Hour(T_hour_list.get(a));
             Log.d("T_hour_list", T_hour_list.get(a));
 
-            getWeather.setTemperature(Today_Temperature_list.get(a));
-            Log.d("Today_Temperature_list", Today_Temperature_list.get(a));
+            getWeather.setTemperature(Today_Temperature_list.get(0));
+            Log.d("Today_Temperature_list", Today_Temperature_list.get(0));
 
             getWeather.setWD_Day(WD_Day_list.get(a));
             Log.d("WD_Day_list", WD_Day_list.get(a));
@@ -484,21 +498,71 @@ public class MainActivity extends AppCompatActivity {
             getWeather.setWD_Hour(WD_Hour_list.get(a));
             Log.d("WD_Hour_list", WD_Hour_list.get(a));
 
-            getWeather.setWeatherDescription(Description_list.get(a));
-            Log.d("Description_list", Description_list.get(a));
+            getWeather.setWeatherDescription(Description_list.get(0));
+            Log.d("Description_list", Description_list.get(0));
 
             getWeather.setThreehour_Description(threehour_Description_list.get(a));
             Log.d("three_Description_list", threehour_Description_list.get(a));
 
-            getWeather.setPoP_Day(PoP_Day_list.get(a));
-            Log.d("PoP_Day_list", PoP_Day_list.get(a));
+            switch (a){
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    getWeather.setPoP_Day(PoP_Day_list.get(0));
+                    Log.d("PoP_Day_list", PoP_Day_list.get(0));
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    getWeather.setPoP_Day(PoP_Day_list.get(1));
+                    Log.d("PoP_Day_list", PoP_Day_list.get(1));
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                    getWeather.setPoP_Day(PoP_Day_list.get(2));
+                    Log.d("PoP_Day_list", PoP_Day_list.get(2));
+                    break;
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                    getWeather.setPoP_Day(PoP_Day_list.get(3));
+                    Log.d("PoP_Day_list", PoP_Day_list.get(3));
+                    break;
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                    getWeather.setPoP_Day(PoP_Day_list.get(4));
+                    Log.d("PoP_Day_list", PoP_Day_list.get(4));
+                    break;
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                    getWeather.setPoP_Day(PoP_Day_list.get(5));
+                    Log.d("PoP_Day_list", PoP_Day_list.get(5));
+                    break;
+            }
 
-            getWeather.setPoPh(PoP_list.get(a));
-            Log.d("PoP_list", PoP_list.get(a));
+            getWeather.setPoPh(PoP_list.get(0));
+            Log.d("PoP_list", PoP_list.get(0));
 
             dao.insert(getWeather);
         }
-        dao.close();
+        T_day_list = new ArrayList<String>();
+        T_hour_list = new ArrayList<String>();
+        Today_Temperature_list = new ArrayList<String>();
+        WD_Day_list = new ArrayList<String>();
+        WD_Hour_list = new ArrayList<String>();
+        Description_list = new ArrayList<String>();
+        threehour_Description_list = new ArrayList<String>();
+        PoP_Day_list = new ArrayList<String>();
+        PoP_list = new ArrayList<String>();
     }
 
     // 回到主頁按鈕
