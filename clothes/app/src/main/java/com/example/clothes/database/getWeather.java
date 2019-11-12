@@ -71,9 +71,7 @@ public class getWeather implements Serializable {
     public String getPoP_Day() {
         return PoP_Day;
     }
-    public void setPoP_Day(String PoP_Day) {
-        this.PoP_Day = PoP_Day;
-    }
+    public void setPoP_Day(String PoP_Day) { this.PoP_Day = PoP_Day; }
 
     public String getHour() {
         return Hour;

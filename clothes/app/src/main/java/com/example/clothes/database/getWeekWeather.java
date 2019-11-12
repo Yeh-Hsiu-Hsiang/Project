@@ -16,8 +16,7 @@ public class getWeekWeather implements Serializable {
     }
 
     public getWeekWeather(Long id, String CityName, String Day, String MaxT_Day, String MinT_Day, String WD_Day, String PoP_Day,
-                      String Hour, String T_Hour, String HighTemperature,
-                      String LowTemperature, String PoPh , String WeatherDescription ) {
+                      String Hour, String HighTemperature, String LowTemperature, String PoPh , String WeatherDescription ) {
         this.id = id;
         this.CityName = CityName;
         this.Day = Day;

@@ -170,7 +170,7 @@
                 android:gravity="center_vertical"
                 android:visibility="invisible"/>
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/week_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -194,7 +194,7 @@
                 android:gravity="center_vertical"
                 android:visibility="invisible"/>
             <TextView
-                android:id="@+id/PoP"
+                android:id="@+id/week_PoP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

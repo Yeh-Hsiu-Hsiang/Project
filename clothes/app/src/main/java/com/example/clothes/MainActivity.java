@@ -34,6 +34,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,11 +56,29 @@ public class MainActivity extends AppCompatActivity {
     public TextView date, Today_Time, Today_date, T_day, T_hour, WD_Day, WD_Hour, PoP_Day; // 顯示日期時間
     public TextView PoP; // 顯示降雨量
     public TextView Description, threehour_Description; // 顯示天氣敘述
+    //
+    public ArrayList<String> CityName_list, T_day_list, T_hour_list, Today_Temperature_list, WD_Day_list, WD_Hour_list, Description_list, threehour_Description_list, PoP_Day_list, PoP_list;
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dao = new weatherDAO(getApplicationContext());
+
+        //
+        CityName_list = new ArrayList<String>();
+        T_day_list = new ArrayList<String>();
+        T_hour_list = new ArrayList<String>();
+        Today_Temperature_list = new ArrayList<String>();
+        WD_Day_list = new ArrayList<String>();
+        WD_Hour_list = new ArrayList<String>();
+        Description_list = new ArrayList<String>();
+        threehour_Description_list = new ArrayList<String>();
+        PoP_Day_list = new ArrayList<String>();
+        PoP_list = new ArrayList<String>();
+        //
 
         TodayWeek = (TextView) findViewById(R.id.week);
         date = (TextView) findViewById(R.id.date);
@@ -85,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
         Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("EEEE");
         TodayWeek.setText(format.format(date));
-
-        dao = new weatherDAO(getApplicationContext());
 
         // 鄉鎮天氣預報-臺灣未來 2 天天氣預報
         new TodayTask().execute ( "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-089?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON" );
@@ -188,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 BufferedReader in = new BufferedReader (new InputStreamReader( url.openStream () ) );
                 String line = in.readLine ();
                 while (line != null) {
-//                    Log.d ( "HTTP", line );
+                    Log.d ( "HTTP", line );
                     today_sb.append ( line );
                     line = in.readLine ();
                 }
@@ -202,11 +219,12 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String today_data) {
             super.onPostExecute ( today_data );
-//            Log.d ( "JSON", today_data );
+            Log.d ( "JSON", today_data );
             parseJSON ( today_data );
         }
 
         private void parseJSON(String week_data)  {
+            getWeather getWeather = new getWeather();
             JSONObject Ob;
             try{
                 Ob = new JSONObject(week_data);
@@ -217,6 +235,9 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject JsonObject = location_array.getJSONObject(i);
                     String locationName = JsonObject.getString("locationName");
                     Log.d("locationName", "城市 = " + locationName);
+                    //
+                    CityName_list.add(locationName);
+                    //
 //                    String city = CityName.getText().toString();
                     String city = "台北市";
                     Log.d(" city = ",city);
@@ -256,6 +277,10 @@ public class MainActivity extends AppCompatActivity {
                                         String current_date = T_date.substring(0,10);
                                         T_day.setText(current_date);
                                         T_hour.setText(T_date.substring(11, 13));
+                                        //
+                                        T_day_list.add(T_day.getText().toString());
+                                        T_hour_list.add(T_hour.getText().toString());
+                                        //
                                         Integer T_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
                                         Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
                                         int quotients = Math.round(current_Time/3);
@@ -298,6 +323,9 @@ public class MainActivity extends AppCompatActivity {
                                             String value = TelementValue.getString("value");
                                             Log.d("Today_Temperature = ", value);
                                             Today_Temperature.setText(value + " °C ");
+                                            //
+                                            Today_Temperature_list.add(Today_Temperature.getText().toString());
+                                            //
                                         }
                                     }
                                     break;
@@ -309,9 +337,17 @@ public class MainActivity extends AppCompatActivity {
                                         String WD_startDate = startTime.substring(0,10);
                                         WD_Day.setText(WD_startDate);
                                         WD_Hour.setText(startTime.substring(11, 13));
+                                        //
+                                        WD_Day_list.add(WD_Day.getText().toString());
+                                        WD_Hour_list.add(WD_Hour.getText().toString());
+                                        //
                                         JSONObject WDelementValue = jsonObject3.getJSONObject("elementValue");
                                         String value = WDelementValue.getString("value");
                                         threehour_Description.setText(value);
+                                        Log.d("threehour_Description", threehour_Description.getText().toString());
+                                        //
+                                        threehour_Description_list.add(threehour_Description.getText().toString());
+                                        //
                                         Integer WD_time = Integer.valueOf(startTime.substring(11, 13)).intValue();
                                         Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
                                         int quotients = Math.round(current_Time/3);
@@ -347,6 +383,9 @@ public class MainActivity extends AppCompatActivity {
                                         if(WD_startDate.equals(Today_date.getText().toString()) && WD_time == current_Time) {
                                             Description.setText(value);
                                             Log.d("DescriptionValue", " = " + Description.getText().toString());
+                                            //
+                                            Description_list.add(Description.getText().toString());
+                                            //
                                         }
                                     }
                                     break;
@@ -357,6 +396,9 @@ public class MainActivity extends AppCompatActivity {
                                         String startTime = jsonObject3.getString("startTime");
                                         String PoP_startTime = startTime.substring(0,10);
                                         PoP_Day.setText(PoP_startTime);
+                                        //
+                                        PoP_Day_list.add(PoP_Day.getText().toString());
+                                        //
                                         Log.d("PoP_startTime", " = " + PoP_startTime);
                                         Log.d("Today_date", " = " + Today_date.getText().toString());
                                         if(PoP_startTime.equals(Today_date.getText().toString())) {
@@ -366,6 +408,9 @@ public class MainActivity extends AppCompatActivity {
                                             Log.d("PoP", " = " + value);
                                             PoP.setText(value + " % ");
                                             Log.d("PoPValue", " = " + PoP.getText().toString());
+                                            //
+                                            PoP_list.add(PoP.getText().toString());
+                                            //
                                         }
                                     }
                                     break;
@@ -377,6 +422,7 @@ public class MainActivity extends AppCompatActivity {
             catch(JSONException e) {
                 e.printStackTrace();
             }
+            CompleteAdd();
         }
     }
 
@@ -405,6 +451,9 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("Temperature", Today_Temperature.getText().toString());
         bundle.putString("WeatherDescription", Description.getText().toString());
         bundle.putString("threehour_Description", threehour_Description.getText().toString());
+        //
+//        bundle.putSerializable("threehour_test", threehour_test.getText().toString());
+        //
         intent.putExtras(bundle);
         Log.d("put","ok");
         startActivity(intent);
@@ -414,20 +463,41 @@ public class MainActivity extends AppCompatActivity {
     public void CompleteAdd(){
         getWeather.setDay(Today_date.getText().toString());
         getWeather.setHour(Today_Time.getText().toString());
-        getWeather.setCityName(CityName.getText().toString());
-        getWeather.setT_Day(T_day.getText().toString());
-        getWeather.setT_Hour(T_hour.getText().toString());
-        getWeather.setTemperature(Today_Temperature.getText().toString());
-        getWeather.setWD_Day(WD_Day.getText().toString());
-        getWeather.setWD_Hour(WD_Hour.getText().toString());
-        getWeather.setWeatherDescription(Description.getText().toString());
-        getWeather.setThreehour_Description(threehour_Description.getText().toString());
-        getWeather.setPoP_Day(PoP_Day.getText().toString());
-        getWeather.setPoPh(PoP.getText().toString());
 
-//        if((getWeather.getTemperature()).equals(" ")) {
-////        }
-        dao.insert(getWeather);
+        for (int a = 0; a < CityName_list.size(); a++) {
+
+            getWeather.setCityName(CityName_list.get(a));
+            Log.d("CityName_list", CityName_list.get(a));
+
+            getWeather.setT_Day(T_day_list.get(a));
+            Log.d("T_day_list", T_day_list.get(a));
+
+            getWeather.setT_Hour(T_hour_list.get(a));
+            Log.d("T_hour_list", T_hour_list.get(a));
+
+            getWeather.setTemperature(Today_Temperature_list.get(a));
+            Log.d("Today_Temperature_list", Today_Temperature_list.get(a));
+
+            getWeather.setWD_Day(WD_Day_list.get(a));
+            Log.d("WD_Day_list", WD_Day_list.get(a));
+
+            getWeather.setWD_Hour(WD_Hour_list.get(a));
+            Log.d("WD_Hour_list", WD_Hour_list.get(a));
+
+            getWeather.setWeatherDescription(Description_list.get(a));
+            Log.d("Description_list", Description_list.get(a));
+
+            getWeather.setThreehour_Description(threehour_Description_list.get(a));
+            Log.d("three_Description_list", threehour_Description_list.get(a));
+
+            getWeather.setPoP_Day(PoP_Day_list.get(a));
+            Log.d("PoP_Day_list", PoP_Day_list.get(a));
+
+            getWeather.setPoPh(PoP_list.get(a));
+            Log.d("PoP_list", PoP_list.get(a));
+
+            dao.insert(getWeather);
+        }
         dao.close();
     }
 
