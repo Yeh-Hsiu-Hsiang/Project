@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class getWeather implements Serializable {
     private  Long id;
-    private  String CityName;
+    private  String CityName, NowCity;
     private  String Day, T_Day, WD_Day, PoP_Day;
     private  String Hour, T_Hour, WD_Hour;
     private  String Temperature;
@@ -16,10 +16,11 @@ public class getWeather implements Serializable {
     public getWeather() {
     }
 
-    public getWeather(Long id, String CityName, String Day, String T_Day, String WD_Day, String PoP_Day,
+    public getWeather(Long id, String CityName, String NowCity,String Day, String T_Day, String WD_Day, String PoP_Day,
                       String Hour, String T_Hour, String WD_Hour, String Temperature, String PoPh , String WeatherDescription, String Threehour_Description) {
         this.id = id;
         this.CityName = CityName;
+        this.NowCity = NowCity;
         this.Day = Day;
         this.T_Day = T_Day;
         this.WD_Day = WD_Day;
@@ -45,6 +46,13 @@ public class getWeather implements Serializable {
     }
     public void setCityName(String CityName) {
         this.CityName = CityName;
+    }
+
+    public String getNowCity() {
+        return NowCity;
+    }
+    public void setNowCity(String NowCity) {
+        this.NowCity = NowCity;
     }
 
     public String getDay() {

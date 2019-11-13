@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
     public TextView PoP; // 顯示降雨量
     public TextView Description, threehour_Description; // 顯示天氣敘述
     public ArrayList<String> CityName_list, T_day_list, T_hour_list, Today_Temperature_list, WD_Day_list, WD_Hour_list, Description_list, threehour_Description_list, PoP_Day_list, PoP_list;
-    String Hour_three;
+    String Hour_three,city;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -272,8 +273,8 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject JsonObject = location_array.getJSONObject(i);
                     String locationName = JsonObject.getString("locationName");
                      CityName_list.add(locationName);
-//                    String city = CityName.getText().toString();
-                    String city = "台北市";
+//                     city = CityName.getText().toString();
+                    city = "台北市";
                     Log.d(" city = ",city);
                     switch (city){
                         case "台北市":
@@ -460,13 +461,6 @@ public class MainActivity extends AppCompatActivity {
     public void Weekweather(View view) {
         Intent intent = new Intent();
         intent.setClass( MainActivity.this  , weather.class);
-        Bundle bundle = new Bundle();//建立一個bundle實體，將intent裡的所有資訊放在裡面
-        bundle.putString("locationName", CityName.getText().toString());
-        bundle.putString("Temperature", Today_Temperature.getText().toString());
-        bundle.putString("WeatherDescription", Description.getText().toString());
-        bundle.putString("threehour_Description", threehour_Description.getText().toString());
-        intent.putExtras(bundle);
-        Log.d("put","ok");
         startActivity(intent);
     }
 
@@ -475,6 +469,7 @@ public class MainActivity extends AppCompatActivity {
         getWeather.setDay(Today_date.getText().toString());
         getWeather.setHour(Today_Time.getText().toString());
         getWeather.setCityName(CityName_list.get(citycount));
+        getWeather.setNowCity(city);
 
         for (int a = 0; a < T_day_list.size(); a++) {
             getWeather.setT_Day(T_day_list.get(a));

@@ -17,6 +17,7 @@ public class weatherDAO {
 
     // 其它表格欄位名稱
     public static final String CityName = "CityName";
+    public static final String NowCity = "NowCity";
     public static final String Day = "Day";
     public static final String T_Day = "T_Day";
     public static final String WD_Day = "WD_Day";
@@ -34,6 +35,7 @@ public class weatherDAO {
             "CREATE TABLE " + TABLE_NAME + " (" +
                     KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     CityName + " TEXT NOT NULL, " +
+                    NowCity + " TEXT NOT NULL, " +
                     Day + " TEXT NOT NULL, " +
                     T_Day + " TEXT NOT NULL, " +
                     WD_Day + " TEXT NOT NULL, " +
@@ -65,6 +67,7 @@ public class weatherDAO {
         ContentValues cv = new ContentValues();
 
         cv.put(CityName, getweather.getCityName());
+        cv.put(NowCity, getweather.getNowCity());
         cv.put(Day, getweather.getDay());
         cv.put(T_Day, getweather.getT_Day());
         cv.put(WD_Day, getweather.getWD_Day());
@@ -90,6 +93,7 @@ public class weatherDAO {
         ContentValues cv = new ContentValues();
 
         cv.put(CityName, getweather.getCityName());
+        cv.put(NowCity, getweather.getNowCity());
         cv.put(Day, getweather.getDay());
         cv.put(T_Day, getweather.getT_Day());
         cv.put(WD_Day, getweather.getWD_Day());
@@ -134,11 +138,11 @@ public class weatherDAO {
         return getweather;
     }
 
-    //取得指定類別的多量資料 --- 取出合適溫度的上衣&連衣裙
-    public ArrayList<getWeather> getWDweather(String City, String Today, String Hour){
+    //取得指定類別的多量資料
+    public ArrayList<getWeather> getWDweather(String City){
         ArrayList<getWeather> result = new ArrayList<>();
 
-        String where = CityName + " = \"" + City + "\" and" + WD_Day + " = \"" + Today + "\" and" + WD_Hour + "=\"" + Hour + "\"";
+        String where = CityName + " = \"" + City + "\"" ;
         // 執行查詢
         Cursor cursor = db.query(
                 TABLE_NAME, null, where, null, null, null, null, null);
@@ -157,17 +161,18 @@ public class weatherDAO {
 
         result.setId(cursor.getLong(0));
         result.setCityName(cursor.getString(1));
-        result.setDay(cursor.getString(2));
-        result.setT_Day(cursor.getString(3));
-        result.setWD_Day(cursor.getString(4));
-        result.setPoP_Day(cursor.getString(5));
-        result.setHour(cursor.getString(6));
-        result.setT_Hour(cursor.getString(7));
-        result.setWD_Hour(cursor.getString(8));
-        result.setTemperature(cursor.getString(9));
-        result.setPoPh(cursor.getString(10));
-        result.setWeatherDescription(cursor.getString(11));
-        result.setThreehour_Description(cursor.getString(12));
+        result.setNowCity(cursor.getString(2));
+        result.setDay(cursor.getString(3));
+        result.setT_Day(cursor.getString(4));
+        result.setWD_Day(cursor.getString(5));
+        result.setPoP_Day(cursor.getString(6));
+        result.setHour(cursor.getString(7));
+        result.setT_Hour(cursor.getString(8));
+        result.setWD_Hour(cursor.getString(9));
+        result.setTemperature(cursor.getString(10));
+        result.setPoPh(cursor.getString(11));
+        result.setWeatherDescription(cursor.getString(12));
+        result.setThreehour_Description(cursor.getString(13));
 
         // 回傳結果
         return result;

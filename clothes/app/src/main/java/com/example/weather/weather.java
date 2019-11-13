@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.example.clothes.MainActivity;
 import com.example.clothes.R;
 import com.example.clothes.database.WeekWeatherDAO;
+import com.example.clothes.database.getWeather;
 import com.example.clothes.database.getWeekWeather;
+import com.example.clothes.database.weatherDAO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +39,8 @@ import java.util.Date;
 
 public class weather extends AppCompatActivity {
     // 宣告資料庫功能類別欄位變數
-    private WeekWeatherDAO dao;
+    private WeekWeatherDAO dao_Week;
+    private weatherDAO dao_Today;
     long dbcount = 1;
     getWeekWeather getWeekWeather = new getWeekWeather();
 
@@ -50,7 +53,7 @@ public class weather extends AppCompatActivity {
     public TextView MON_Max, TUE_Max, WED_Max, THU_Max, FRI_Max, SAT_Max, SUN_Max;
     public TextView week_PoP, PoPh, MON_PoP, TUE_PoP, WED_PoP, THU_PoP, FRI_PoP, SAT_PoP, SUN_PoP; // 降雨機率
     public ArrayList<String> locationList, WD_Day_list, PoP_Day_list, MaxT_Day_list, WeatherDescription_array_list, week_PoP_list, HighTemperature_list, MinT_Day_list, LowTemperature_list;
-
+    public ArrayList<getWeather> dao_Today_list;
     private HorizontalScrollView scrollView;
     private LinearLayout linear;
 
@@ -58,7 +61,8 @@ public class weather extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekweather);
-        dao = new WeekWeatherDAO(getApplicationContext());
+        dao_Week = new WeekWeatherDAO(getApplicationContext());
+        dao_Today = new weatherDAO(getApplicationContext());
         locationList = new ArrayList<String>();
         WD_Day_list = new ArrayList<String>();
         PoP_Day_list = new ArrayList<String>();
@@ -122,91 +126,79 @@ public class weather extends AppCompatActivity {
         // 讀取各縣市一週天氣預報
         new WeekTask().execute("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-091?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON");
 
-        //取得前面Activity傳過來的bundle物件
-        Bundle bundle = getIntent().getExtras();
-        Log.d("bundle", "get");
-        //從bundlet當中根據key取得value
-        if (bundle != null) {
-            try{
-                String city = bundle.getString("locationName");
-                String Tem = bundle.getString("Temperature");
-                String Description = bundle.getString("WeatherDescription");
-                String threehour_Description = bundle.getString("threehour_Description");
+            String city = dao_Today.getoneID(1).getNowCity();
+            Location.setText(city);
+            dao_Today_list = dao_Today.getWDweather(Location.getText().toString());
+            String Tem = dao_Today_list.get(0).getTemperature();
+            String Description = dao_Today_list.get(0).getWeatherDescription();
 
-                String[] Description_array = Description.split("。");
-                WeatherDescription.setText(Description_array[0] + "\n" + "\n" + Description_array[1] + "\n" + "\n" + Description_array[2] + "\n" + "\n" + Description_array[3] + "\n" + "\n" + Description_array[4] + "\n" + "\n" + Description_array[5]);
-                Location.setText(city);
-                String PoP = Description_array[1].substring(5,7);
-                PoPh.setText(PoP);
-                Temperature.setText(Tem);
-                Log.d("Temperature_pull", Temperature.getText().toString());
+            String[] Description_array = Description.split("。");
+            WeatherDescription.setText(Description_array[0] + "\n" + "\n" + Description_array[1] + "\n" + "\n" + Description_array[2] + "\n" + "\n" + Description_array[3] + "\n" + "\n" + Description_array[4] + "\n" + "\n" + Description_array[5]);
+            PoPh.setText(dao_Today_list.get(0).getPoPh() + " % ");
+            Temperature.setText(dao_Today_list.get(0).getTemperature() + "°C");
 
-                if(Description_array[0].equals("晴") || Description_array[0].equals("晴時多雲") || Description_array[0].equals("多雲時晴")){
-                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.sunny));
-                }else if(Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲") || Description_array[0].equals("陰天")){
-                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.cloudybackground));
-                }else if(Description_array[0].contains("雨")){
-                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.rainy));
-                }else if(Description_array[0].contains("雷")){
-                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.lightning));
-                }else if(Description_array[0].contains("雪")){
-                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.snowy));
-                }else if(Description_array[0].contains("霧")){
-                    weather_image.setImageDrawable(getResources().getDrawable( R.drawable.windy));
-                }
-
-                for (int n = 1; n < 24; n++) {
-                    String[] threehour_array = threehour_Description.split("。");
-                    Log.d("threehour_array", threehour_array[0] + threehour_array[2] );
-                    n = n + 2 ;
-                    LinearLayout.LayoutParams linearLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    LinearLayout myLinear = new LinearLayout(this);
-                    linearLp.setMargins(30, 50, 30, 50);
-                    myLinear.setOrientation(LinearLayout.VERTICAL);
-                    myLinear.setTag(n);
-                    linear.addView(myLinear, linearLp);
-                    // 小時
-                    LinearLayout.LayoutParams textViewLp = new LinearLayout.LayoutParams(150, 150);
-                    TextView textView = new TextView(this);
-                    textView.setText(n + " : 00 ");
-                    textView.setGravity(Gravity.CENTER);
-                    myLinear.addView(textView, textViewLp);
-                    // 天氣圖示
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(150, 150);
-                    ImageView imageView = new ImageView(this);
-                    if(threehour_array[0].equals("晴")){
-                        imageView.setBackgroundResource(R.drawable.sun);
-                    }else if(threehour_array[0].equals("晴時多雲") || threehour_array[0].equals("多雲時晴")){
-                        imageView.setBackgroundResource(R.drawable.sunpartlyclear);
-                    }else if(threehour_array[0].equals("多雲") || threehour_array[0].equals("多雲時陰") || threehour_array[0].equals("陰時多雲")){
-                        imageView.setBackgroundResource(R.drawable.mostlycloudy);
-                    }else if(threehour_array[0].equals("陰天")){
-                        imageView.setBackgroundResource(R.drawable.cloudy);
-                    }else if(threehour_array[0].equals("多雲陣雨") || threehour_array[0].equals("多雲短暫雨") || threehour_array[0].equals("多雲短暫陣雨") || threehour_array[0].equals("多雲時陰短暫雨") || threehour_array[0].equals("多雲時陰短暫陣雨") || threehour_array[0].equals("陰時多雲短暫雨") || threehour_array[0].equals("陰時多雲短暫陣雨") || threehour_array[0].equals("陰時多雲有雨") || threehour_array[0].equals("陰時多雲有陣雨") || threehour_array[0].equals("陰時多雲陣雨")){
-                        imageView.setBackgroundResource(R.drawable.cloudywithrain);
-                    }else if(threehour_array[0].equals("多雲時晴短暫陣雨") || threehour_array[0].equals("多雲時晴短暫雨") || threehour_array[0].equals("晴時多雲短暫陣雨") || threehour_array[0].equals("晴短暫陣雨") || threehour_array[0].equals("晴午後陰短暫雨") || threehour_array[0].equals("晴午後陰短暫陣雨") || threehour_array[0].equals("晴時多雲陣雨") || threehour_array[0].equals("多雲時晴陣雨")){
-                        imageView.setBackgroundResource(R.drawable.afternooncloudywithshowers);
-                    }else if(threehour_array[0].contains("雷") && threehour_array[0].contains("雨")){
-                        imageView.setBackgroundResource(R.drawable.thunderstorms);
-                    }else if(threehour_array[0].contains("霧")){
-                        imageView.setBackgroundResource(R.drawable.fog);
-                    }else if(threehour_array[0].contains("雪")){
-                        imageView.setBackgroundResource(R.drawable.snow);
-                    }
-                    imageView.setScaleType(ImageView.ScaleType. CENTER_CROP);
-                    myLinear.addView(imageView, lp);
-
-                    // 溫度
-                    LinearLayout.LayoutParams textTem = new LinearLayout.LayoutParams(150, 150);
-                    TextView threehour_Tem = new TextView(this);
-                    threehour_Tem.setText(threehour_array[2].substring(4,6) + "°C");
-                    threehour_Tem.setGravity(Gravity.CENTER);
-                    myLinear.addView(threehour_Tem, textTem);
-                }
-            } catch (Exception e) {
-                Toast.makeText(weather.this, "獲取資料錯誤", Toast.LENGTH_LONG).show();
+            if(Description_array[0].equals("晴") || Description_array[0].equals("晴時多雲") || Description_array[0].equals("多雲時晴")){
+                weather_image.setImageDrawable(getResources().getDrawable( R.drawable.sunny));
+            }else if(Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲") || Description_array[0].equals("陰天")){
+                weather_image.setImageDrawable(getResources().getDrawable( R.drawable.cloudybackground));
+            }else if(Description_array[0].contains("雨")){
+                weather_image.setImageDrawable(getResources().getDrawable( R.drawable.rainy));
+            }else if(Description_array[0].contains("雷")){
+                weather_image.setImageDrawable(getResources().getDrawable( R.drawable.lightning));
+            }else if(Description_array[0].contains("雪")){
+                weather_image.setImageDrawable(getResources().getDrawable( R.drawable.snowy));
+            }else if(Description_array[0].contains("霧")){
+                weather_image.setImageDrawable(getResources().getDrawable( R.drawable.windy));
             }
-        }
+
+            for (int n = 0; n < 8; n++) {
+                String[] threehour_array = dao_Today_list.get(n).getThreehour_Description().split("。");
+                Log.d("dao_Today_list", dao_Today_list.get(n).getThreehour_Description());
+                Log.d("threehour_array", threehour_array[0] + threehour_array[2] +n);
+                LinearLayout.LayoutParams linearLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout myLinear = new LinearLayout(this);
+                linearLp.setMargins(30, 30, 30, 30);
+                myLinear.setOrientation(LinearLayout.VERTICAL);
+                myLinear.setTag(n);
+                linear.addView(myLinear, linearLp);
+                // 小時
+                LinearLayout.LayoutParams textViewLp = new LinearLayout.LayoutParams(150, 150);
+                TextView textView = new TextView(this);
+                textView.setText(dao_Today_list.get(n).getWD_Hour() + ": 00");
+                textView.setGravity(Gravity.CENTER);
+                myLinear.addView(textView, textViewLp);
+                // 天氣圖示
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(150, 150);
+                ImageView imageView = new ImageView(this);
+                if(threehour_array[0].equals("晴")){
+                    imageView.setBackgroundResource(R.drawable.sun);
+                }else if(threehour_array[0].equals("晴時多雲") || threehour_array[0].equals("多雲時晴")){
+                    imageView.setBackgroundResource(R.drawable.sunpartlyclear);
+                }else if(threehour_array[0].equals("多雲") || threehour_array[0].equals("多雲時陰") || threehour_array[0].equals("陰時多雲")){
+                    imageView.setBackgroundResource(R.drawable.mostlycloudy);
+                }else if(threehour_array[0].equals("陰天")){
+                    imageView.setBackgroundResource(R.drawable.cloudy);
+                }else if(threehour_array[0].equals("多雲陣雨") || threehour_array[0].equals("多雲短暫雨") || threehour_array[0].equals("多雲短暫陣雨") || threehour_array[0].equals("多雲時陰短暫雨") || threehour_array[0].equals("多雲時陰短暫陣雨") || threehour_array[0].equals("陰時多雲短暫雨") || threehour_array[0].equals("陰時多雲短暫陣雨") || threehour_array[0].equals("陰時多雲有雨") || threehour_array[0].equals("陰時多雲有陣雨") || threehour_array[0].equals("陰時多雲陣雨")){
+                    imageView.setBackgroundResource(R.drawable.cloudywithrain);
+                }else if(threehour_array[0].equals("多雲時晴短暫陣雨") || threehour_array[0].equals("多雲時晴短暫雨") || threehour_array[0].equals("晴時多雲短暫陣雨") || threehour_array[0].equals("晴短暫陣雨") || threehour_array[0].equals("晴午後陰短暫雨") || threehour_array[0].equals("晴午後陰短暫陣雨") || threehour_array[0].equals("晴時多雲陣雨") || threehour_array[0].equals("多雲時晴陣雨")){
+                    imageView.setBackgroundResource(R.drawable.afternooncloudywithshowers);
+                }else if(threehour_array[0].contains("雷") && threehour_array[0].contains("雨")){
+                    imageView.setBackgroundResource(R.drawable.thunderstorms);
+                }else if(threehour_array[0].contains("霧")){
+                    imageView.setBackgroundResource(R.drawable.fog);
+                }else if(threehour_array[0].contains("雪")){
+                    imageView.setBackgroundResource(R.drawable.snow);
+                }
+                imageView.setScaleType(ImageView.ScaleType. CENTER_CROP);
+                myLinear.addView(imageView, lp);
+
+                // 溫度
+                LinearLayout.LayoutParams textTem = new LinearLayout.LayoutParams(150, 150);
+                TextView threehour_Tem = new TextView(this);
+                threehour_Tem.setText(threehour_array[2].substring(4,6) + "°C");
+                threehour_Tem.setGravity(Gravity.CENTER);
+                myLinear.addView(threehour_Tem, textTem);
+            }
     }
 
     //  取得伺服端傳來回應
@@ -598,11 +590,11 @@ public class weather extends AppCompatActivity {
             getWeekWeather.setMinT_Day(MinT_Day_list.get(a));
             getWeekWeather.setLowTemperature(LowTemperature_list.get(a));
 
-            if(dao.getCount() != 308){
-                dao.insert(getWeekWeather);
+            if(dao_Week.getCount() != 308){
+                dao_Week.insert(getWeekWeather);
             }else{
                 getWeekWeather.setId(dbcount);
-                dao.update(getWeekWeather);
+                dao_Week.update(getWeekWeather);
                 dbcount++;
             }
 
