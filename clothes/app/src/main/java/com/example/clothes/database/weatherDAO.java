@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 // 資料功能類別
 public class weatherDAO {
 
@@ -132,6 +134,21 @@ public class weatherDAO {
         return getweather;
     }
 
+    //取得指定類別的多量資料 --- 取出合適溫度的上衣&連衣裙
+    public ArrayList<getWeather> getWDweather(String City, String Today, String Hour){
+        ArrayList<getWeather> result = new ArrayList<>();
+
+        String where = CityName + " = \"" + City + "\" and" + WD_Day + " = \"" + Today + "\" and" + WD_Hour + "=\"" + Hour + "\"";
+        // 執行查詢
+        Cursor cursor = db.query(
+                TABLE_NAME, null, where, null, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            result.add(getRecord(cursor));
+        }
+        cursor.close();
+        return result;
+    }
 
     // 把Cursor目前的資料包裝為物件
     public getWeather getRecord(Cursor cursor) {
@@ -156,9 +173,7 @@ public class weatherDAO {
         return result;
     }
 
-    // 建立範例資料
-    public void sample() {
-    }
+
 
     // 取得資料數量
     public int getCount() {
