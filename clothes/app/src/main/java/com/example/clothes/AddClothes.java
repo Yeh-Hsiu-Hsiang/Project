@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -25,14 +24,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddClothes extends AppCompatActivity {
-    //傳入衣服id
     public static Long clothesID ;
     private ImageView imageView;
-
     Bitmap bitmap = null;
     String filepath;
 
-    //在別的activity中關閉自己的方法
     public static AddClothes finishself = null;
 
     @Override
@@ -49,8 +45,7 @@ public class AddClothes extends AppCompatActivity {
                     .start(this);
         });
 
-        if(clothesID == null){
-             //去新增衣服(頁面)
+        if(clothesID == null){  //去新增衣服(頁面)
             Button updata = (Button) findViewById( R.id.updata);
             updata.setOnClickListener(v -> {
                 newclothes.PicPath = filepath;
@@ -58,8 +53,7 @@ public class AddClothes extends AppCompatActivity {
                 intent.setClass( AddClothes.this, newclothes.class);
                 startActivity(intent);
             });
-        }else{
-            //去修改衣服(頁面)
+        }else{              //去修改衣服(頁面)
             Button updata = (Button) findViewById( R.id.updata);
             updata.setOnClickListener(v -> {
                 editclothes.PicPath = filepath;
@@ -74,11 +68,9 @@ public class AddClothes extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == CutOut.CUTOUT_ACTIVITY_REQUEST_CODE) {
-
             switch (resultCode) {
                 case Activity.RESULT_OK:
                     Uri Uri = CutOut.getUri(data);
-
                     //存圖到 指定資料夾-----------------------------------------------------------
                     try {
                         bitmap = getBitmapFromUri(Uri);
@@ -88,7 +80,6 @@ public class AddClothes extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     //------------------------------------------------------------------------------------
-
                     break;
                 case CutOut.CUTOUT_ACTIVITY_RESULT_ERROR_CODE:
                     Exception ex = CutOut.getError(data);
@@ -137,7 +128,6 @@ public class AddClothes extends AppCompatActivity {
                 Uri uri = Uri.fromFile(file);
                 intent.setData(uri);
                 this.sendBroadcast(intent);
-
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

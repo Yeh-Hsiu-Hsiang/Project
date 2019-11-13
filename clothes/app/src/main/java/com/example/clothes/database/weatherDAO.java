@@ -178,8 +178,6 @@ public class weatherDAO {
         return result;
     }
 
-
-
     // 取得資料數量
     public int getCount() {
         int result = 0;

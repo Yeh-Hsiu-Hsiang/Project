@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -16,9 +17,6 @@ import com.example.clothes.fragment.clothes5Fragment;
 import com.example.clothes.fragment.clothes6Fragment;
 import com.example.clothes.fragment.clothes7Fragment;
 import com.example.clothes.fragment.clothes8Fragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +44,8 @@ public class Manageclothes extends AppCompatActivity {
                 Intent intent = new Intent ();
                 intent.setClass( Manageclothes.this  , newclothes.class);
                 startActivity(intent);
-
             }
         });
-
         processView();
     }
     public void processView(){
@@ -64,7 +60,6 @@ public class Manageclothes extends AppCompatActivity {
         for(int i =0; i < IconResID.length;i++){
             tabLayout.getTabAt(i).setIcon(IconResID[i]);
         }
-
     }
     private void setViewPager(){
         //新增各Fragment到ViewPager----需同步更動PagerAdapter.java
@@ -96,13 +91,19 @@ public class Manageclothes extends AppCompatActivity {
         startActivity(intent);
         Manageclothes.this.finish();
     }
-
     // 重新整理按鈕
     public void reLoad(View view) {
         Intent intent=new Intent(this, Manageclothes.class);
         startActivity(intent);
         finish(); // 關閉此檔案
         overridePendingTransition(0, 0);
+    }
+    //禁用原生返回鍵
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return false;
     }
 }
 

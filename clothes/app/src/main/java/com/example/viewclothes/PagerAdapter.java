@@ -54,7 +54,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
         }
         return null;
     }
-
     @Override
     public int getCount() {
         return fragmentList.size();

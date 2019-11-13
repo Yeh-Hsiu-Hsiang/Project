@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getWeather;
 import com.example.clothes.database.weatherDAO;
 import com.example.viewclothes.viewclothes;
@@ -42,6 +43,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     // 宣告資料庫功能類別欄位變數
     private weatherDAO dao;
+    private clothesDAO clothesDAO;
     getWeather getWeather = new getWeather();
     long dbcount = 1;
     // GPS 定位
@@ -59,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> CityName_list, T_day_list, T_hour_list, Today_Temperature_list, WD_Day_list, WD_Hour_list, Description_list, threehour_Description_list, PoP_Day_list, PoP_list;
     String Hour_three,city;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         dao = new weatherDAO(getApplicationContext());
+        clothesDAO = new clothesDAO(getApplicationContext());
         CityName_list = new ArrayList<String>();
         T_day_list = new ArrayList<String>();
         T_hour_list = new ArrayList<String>();
@@ -145,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
         // 鄉鎮天氣預報-臺灣未來 2 天天氣預報
         new TodayTask().execute ( "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-D0047-089?Authorization=CWB-6BB38BEE-559E-42AB-9AAD-698C12D12E22&downloadType=WEB&format=JSON" );
-
         if (!GPSIsOpen()) {
             return;
         }
@@ -259,6 +260,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute ( today_data );
             Log.d ( "JSON", today_data );
             parseJSON ( today_data );
+            if(Today_Temperature.getText().equals("°C"))
+                Today_Temperature.setText(dao.getWDweather(city).get(0).getTemperature() + " °C ");
         }
 
         private void parseJSON(String week_data)  {
@@ -273,8 +276,8 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject JsonObject = location_array.getJSONObject(i);
                     String locationName = JsonObject.getString("locationName");
                      CityName_list.add(locationName);
-//                     city = CityName.getText().toString();
-                    city = "台北市";
+                     city = CityName.getText().toString();
+//                    city = "台北市";
                     Log.d(" city = ",city);
                     switch (city){
                         case "台北市":
@@ -437,7 +440,6 @@ public class MainActivity extends AppCompatActivity {
             } catch(JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -450,11 +452,15 @@ public class MainActivity extends AppCompatActivity {
 
     // 預覽穿衣
     public void View_wearing(View view) {
-        Intent intent = new Intent();
-        intent.setClass( MainActivity.this  , viewclothes.class);
-        intent.putExtra("Today_Temperature", Today_Temperature.getText().toString());
-        intent.putExtra("PoP", PoP.getText().toString());
-        startActivity(intent);
+        if(clothesDAO.getUPCount() == 0 || clothesDAO.getDOWNCount() == 0){
+            Toast.makeText( MainActivity.this, "請先新增上衣及下衣至少各一件，才能進行預覽喔！" , Toast.LENGTH_LONG).show();
+        }else {
+            clothesDAO.close();
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, viewclothes.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     // 去天氣
@@ -534,7 +540,6 @@ public class MainActivity extends AppCompatActivity {
                     dbcount++;
                 }
             }
-
         }
         T_day_list = new ArrayList<String>();
         T_hour_list = new ArrayList<String>();

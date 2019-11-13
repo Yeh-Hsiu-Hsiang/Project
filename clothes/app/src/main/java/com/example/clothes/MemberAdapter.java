@@ -3,17 +3,13 @@ package com.example.clothes;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
-import com.goyourfly.multiple.adapter.MultipleSelect;
-
 import java.util.ArrayList;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>{
@@ -21,7 +17,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private Context context;
     private ArrayList<getClothesMember> ClothesList;
     private LayoutInflater inflater;
-
     // 宣告資料庫功能類別欄位變數
     private clothesDAO dao;
 
@@ -31,13 +26,9 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         dao = new clothesDAO(context);
         inflater = LayoutInflater.from(context);
     }
-
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //View itemView = View.inflate(context, R.layout.cardviewlayout,null);
         View itemView = inflater.inflate( R.layout.cardviewlayout,parent,false);
-
         return new ViewHolder(itemView);
     }
 
@@ -47,9 +38,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         holder.imageId.setImageBitmap( BitmapFactory.decodeFile(member.getImgPath()));
         holder.textId.setText(member.getId().toString());
         holder.textName.setText(member.getName());
-
     }
-
 
     public void getMultipleSelect(int position){
         getClothesMember member = ClothesList.get(position);
@@ -59,7 +48,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        Log.e("count", "Adapter"+ String.valueOf(ClothesList.size()));
         return ClothesList.size();
     }
 
@@ -73,29 +61,22 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
             textId = (TextView) itemView.findViewById(R.id.textId);
             textName = (TextView) itemView.findViewById(R.id.textName);
 
-
             //在adapter中设置点击事件(長按)
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    //可以选择直接在本位置直接写业务处理
-                    //此处回传点击监听事件
                     if(onItemLongClickListener!=null){
                         onItemLongClickListener.OnItemLongClick(v, ClothesList.get(getLayoutPosition()));
                     }
                     return false;
                 }
             });
-
             //在adapter中设置点击事件(短按)
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //可以选择直接在本位置直接写业务处理
-                    //此处回传点击监听事件
                     if(onItemClickListener!=null){
                         onItemClickListener.OnItemClick(v, ClothesList.get(getLayoutPosition()));
-
                     }
                     return;
                 }
@@ -103,34 +84,20 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         }
     }
 
-    /**
-     * 设置item的监听事件的接口(長)
-     */
+    //设置item的监听事件的接口(長)
     public interface OnItemLongClickListener {
-
         public void OnItemLongClick(View view, getClothesMember data);
-
     }
-
-    //需要外部访问，所以需要设置set方法，方便调用
     private OnItemLongClickListener onItemLongClickListener;
-
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    /**
-     * 设置item的监听事件的接口(短)
-     */
+    //设置item的监听事件的接口(短)
     public interface OnItemClickListener {
-
         public void OnItemClick(View view, getClothesMember data);
-
     }
-
-    //需要外部访问，所以需要设置set方法，方便调用
     private OnItemClickListener onItemClickListener;
-
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }

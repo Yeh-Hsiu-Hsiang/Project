@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,10 +32,8 @@ import java.util.Locale;
 public class editclothes extends AppCompatActivity {
     //傳入衣服id
     public static Long clothesID ;
-
     //傳入照片
     protected static String PicPath ;
-
     // 宣告資料庫功能類別欄位變數
     private clothesDAO dao;
     public static boolean load = true;
@@ -54,8 +51,6 @@ public class editclothes extends AppCompatActivity {
     boolean spring, summer, autumn, winter = false;
     String[] mType;
     String[] mStyle;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +108,6 @@ public class editclothes extends AppCompatActivity {
                 finish();
             }
         });
-        Log.e("PIC",PicPath+" "+load);
         showPic(PicPath);
         if(PicPath != tempDBpic) AddClothes.finishself.finish();
         //溫度區間--定義資料
@@ -135,8 +129,6 @@ public class editclothes extends AppCompatActivity {
         Summer.setOnCheckedChangeListener(seasonCheckedChangeListener);
         Autumn.setOnCheckedChangeListener(seasonCheckedChangeListener);
         Winter.setOnCheckedChangeListener(seasonCheckedChangeListener);
-
-
 
         //建立選擇器資料(溫度區間)
         initOptionData();
@@ -166,8 +158,6 @@ public class editclothes extends AppCompatActivity {
                 .setBackgroundId(0x66000000) //設定外部遮罩顏色
                 .build();
         pvOptions.setPicker(options1Items);
-
-
     }
 
     //顯示圖片
@@ -291,13 +281,10 @@ public class editclothes extends AppCompatActivity {
                 }
             }
         }
-
-        //dao.close();
         load = false;
     }
     //完成選項
     private View.OnClickListener EditOrDel = new View.OnClickListener() {
-
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -364,7 +351,6 @@ public class editclothes extends AppCompatActivity {
         //9建立日期<<timeStamp>>
         String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date());
         getclothesmember.setUpdateTime(timeStamp);
-
 
         if(clothesSeason == ""){
             Toast.makeText( editclothes.this, "請至少選擇一個季節" , Toast.LENGTH_LONG).show();
