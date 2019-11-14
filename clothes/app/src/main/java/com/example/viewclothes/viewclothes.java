@@ -12,7 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +21,7 @@ import com.example.clothes.MainActivity;
 import com.example.clothes.R;
 import com.example.clothes.database.clothesDAO;
 import com.example.clothes.database.getClothesMember;
+import com.example.clothes.database.weatherDAO;
 import com.example.viewclothes.fragment.clothes1Fragment;
 import com.example.viewclothes.fragment.clothes2Fragment;
 import com.example.viewclothes.fragment.clothes3Fragment;
@@ -46,16 +47,15 @@ public class viewclothes extends AppCompatActivity {
 
     // 宣告資料庫功能類別欄位變數
     private static clothesDAO dao;
+    private static weatherDAO weatherDAO;
 
     private static DrawingView mView;
-
     private ViewPager myViewPager;
     private TabLayout tabLayout;
     private int[] IconResID = {R.drawable.selector_one, R.drawable.selector_two, R.drawable.selector_three,
             R.drawable.selector_four, R.drawable.selector_five, R.drawable.selector_six,
             R.drawable.selector_seven, R.drawable.selector_eight};
     private TextView hinttext;
-
     public static ArrayList wearlist = new ArrayList<>();
 
     Integer PoP,Tem;
@@ -70,34 +70,26 @@ public class viewclothes extends AppCompatActivity {
         setContentView(R.layout.activity_viewclothes);
         mView = findViewById(R.id.drawingView);
         dao = new clothesDAO(getApplicationContext());
+        weatherDAO = new weatherDAO(getApplicationContext());
         WEAR = getSharedPreferences("WEAR", MODE_PRIVATE);
         initdata();
-
         for(int i=0 ;i < wearlist.size() ; i++){
             getpicture((Long) wearlist.get(i),getApplicationContext());
         }
-
         processView();
     }
 
     public void initdata(){
-        //抓取主頁天氣資訊
-        Intent intent = getIntent();
-        if(intent != null){
-            try {
-                Tem = Integer.valueOf(intent.getStringExtra("Today_Temperature").substring
-                        (0,intent.getStringExtra("Today_Temperature").indexOf(" ")));
-            }catch (StringIndexOutOfBoundsException e){
-                Toast.makeText( viewclothes.this, "獲取天氣資料錯誤" , Toast.LENGTH_LONG).show();
-                Tem = 32;   //測試用
-            }
-            try {
-                PoP = Integer.valueOf(intent.getStringExtra("PoP").substring
-                        (0,intent.getStringExtra("PoP").indexOf(" ")));
-            }catch (StringIndexOutOfBoundsException e){
-                Toast.makeText( viewclothes.this, "獲取天氣資料錯誤" , Toast.LENGTH_LONG).show();
-                PoP = 60;   //測試用
-            }
+        //抓取天氣db
+        try {
+            Tem = Integer.valueOf(weatherDAO.getWDweather(weatherDAO.getoneID(1).getNowCity()).get(0).getTemperature());
+        }catch (StringIndexOutOfBoundsException e){
+            Toast.makeText( viewclothes.this, "獲取天氣資料錯誤" , Toast.LENGTH_LONG).show();
+        }
+        try {
+            PoP = Integer.valueOf(weatherDAO.getWDweather(weatherDAO.getoneID(1).getNowCity()).get(0).getPoPh());
+        }catch (StringIndexOutOfBoundsException e){
+            Toast.makeText( viewclothes.this, "獲取天氣資料錯誤" , Toast.LENGTH_LONG).show();
         }
 
         //抓取db資料
@@ -155,7 +147,6 @@ public class viewclothes extends AppCompatActivity {
             }else{ //是連衣直接加入
                 wearlist.add(UPclothes.get(index).getId());
             }
-
         }else {
             if(wearlist != null)wearlist = null;
             wearlist = new ArrayList<>();
@@ -166,10 +157,7 @@ public class viewclothes extends AppCompatActivity {
                     wearlist.add(Long.parseLong(data[i]));
                 }
             }
-
         }
-
-
     }
 
     public void processView(){
@@ -192,7 +180,6 @@ public class viewclothes extends AppCompatActivity {
         for(int i =0; i < IconResID.length;i++){
             tabLayout.getTabAt(i).setIcon(IconResID[i]);
         }
-
     }
     private void setViewPager(){
         //新增各Fragment到ViewPager----需同步更動PagerAdapter.java
@@ -223,14 +210,12 @@ public class viewclothes extends AppCompatActivity {
         CustomBitmap customBitmap = new CustomBitmap(bmp);
         customBitmap.setId(id);
         if (getSavedMatrix(id,ctxt) != null){
-            Log.e("tag", "matrix "+ id +" is not null");
             customBitmap.setMatrix(getSavedMatrix(id,ctxt));
         }
         mView.addBitmap(customBitmap);
         mView.refresh();
     }
     private void saveMatrix(CustomBitmap customBitmap){
-        Log.e("tag", "save matrix" + customBitmap.getId());
         SharedPreferences.Editor editor = getSharedPreferences("matrix",Context.MODE_PRIVATE).edit();
         Matrix matrix = customBitmap.matrix;
         float[] values = new float[9];
@@ -245,17 +230,12 @@ public class viewclothes extends AppCompatActivity {
         }
         editor.putString(String.valueOf(customBitmap.getId()), array.toString());
         editor.commit();
-        Log.e("tag", "save matrix id:" + customBitmap.getId() + "---------"+
-                values[Matrix.MSCALE_X] + " , " + values[Matrix.MSKEW_X] + " , " + values[Matrix.MTRANS_X] + " , " +
-                values[Matrix.MSKEW_Y] + " , " +values[Matrix.MSCALE_Y] + " , " + values[Matrix.MTRANS_Y] + " , " +
-                values[Matrix.MPERSP_0] + " , " +values[Matrix.MPERSP_1] + " , " + values[Matrix.MPERSP_2]);
     }
 
     //獲取matrix
     private static Matrix getSavedMatrix(long id ,Context ctxt){
         SharedPreferences sp = ctxt.getSharedPreferences("matrix", Context.MODE_PRIVATE);
         String result = sp.getString(String.valueOf(id), null);
-        Log.e("getstring",result);
         if (result != null){
             float[] values = new float[9];
             Matrix matrix = new Matrix();
@@ -265,21 +245,10 @@ public class viewclothes extends AppCompatActivity {
                     values[i] = Float.valueOf(String.valueOf(array.getDouble(i)));
 
                 }
-                //位置重定位
-//                 if(values[2]> 250.0 ||  values[5] < -250.0){
-//                     Log.e("RE:" ,"RE");
-//                     values[2] = (float) 150.0;
-//                     values[5] = (float) -150.0;
-//                 }
                 matrix.setValues(values);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.e("tag", "get matrix id:" + id + "---------"+
-                    values[Matrix.MSCALE_X] + " , " + values[Matrix.MSKEW_X] + " , " + values[Matrix.MTRANS_X] + " , " +
-                    values[Matrix.MSKEW_Y] + " , " +values[Matrix.MSCALE_Y] + " , " + values[Matrix.MTRANS_Y] + " , " +
-                    values[Matrix.MPERSP_0] + " , " +values[Matrix.MPERSP_1] + " , " + values[Matrix.MPERSP_2]);
-
             return matrix ;
         }
         return null;
@@ -290,7 +259,6 @@ public class viewclothes extends AppCompatActivity {
         for (CustomBitmap customBitmap:list){
             saveMatrix(customBitmap);
         }
-
         wearSet = new HashSet<String>();
         WEAR.edit().clear();
         WEAR.edit().remove("wearSet");
@@ -298,9 +266,9 @@ public class viewclothes extends AppCompatActivity {
             wearSet.add(wearlist.get(i).toString());
         }
         Set<String> result = new HashSet<>(wearSet);
-        Log.e("wearsset", String.valueOf(wearSet.size()));
         WEAR.edit().putStringSet("wearSet",result).commit();
     }
+
     public void deletepic(View view){
         try {
             mView.delectpic();
@@ -315,19 +283,26 @@ public class viewclothes extends AppCompatActivity {
         startActivity(intent);
         viewclothes.this.finish();
     }
-
-    // 重新整理按鈕,溫度跟氣溫會重抓 需等待修改
+    // 重新整理按鈕
     public void reLoad(View view) {
         Intent intent=new Intent(this, viewclothes.class);
         startActivity(intent);
         finish(); // 關閉此檔案
         overridePendingTransition(0, 0);
     }
-
     @Override
     public void finish() {
+        dao.close();
+        weatherDAO.close();
         save(getCurrentFocus());
         super.finish();
+    }
+    //禁用原生返回鍵
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return false;
     }
 
 }

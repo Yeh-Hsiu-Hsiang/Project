@@ -7,11 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +21,6 @@ public class DrawingView extends View{
 
     private Matrix currentMatrix = new Matrix();
 
-    /**
-     * 模式 NONE：无 DRAG：拖拽. ZOOM:缩放
-     *
-     *
-     */
     private enum MODE {
         NONE, DRAG, ZOOM
 
@@ -60,30 +52,16 @@ public class DrawingView extends View{
         }
     }
 
-    /**
-     * 计算两点之间的距离
-     *
-     * @param event
-     * @return
-     */
     public float distance(MotionEvent event) {
         float dx = event.getX(1) - event.getX(0);
         float dy = event.getY(1) - event.getY(0);
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
-
-    /**
-     * 计算两点之间的中间点
-     *
-     * @param event
-     * @return
-     */
     public PointF mid(MotionEvent event) {
         float midX = (event.getX(1) + event.getX(0)) / 2;
         float midY = (event.getY(1) + event.getY(0)) / 2;
         return new PointF(midX, midY);
     }
-
     public float rotation(MotionEvent event) {
         double delta_x = (event.getX(0) - event.getX(1));
         double delta_y = (event.getY(0) - event.getY(1));
@@ -108,10 +86,7 @@ public class DrawingView extends View{
                     float globalY = values[Matrix.MTRANS_Y];
                     float width = values[Matrix.MSCALE_X]*bitmap.getBitmap().getWidth();
                     float height = values[Matrix.MSCALE_Y]*bitmap.getBitmap().getWidth();
-                    Log.e("tag", "globalX: " + globalX + " ,globalY: " + globalY + " ,t: " + width + " ,b: " + height);
-
                     Rect rect = new Rect((int)globalX, (int)globalY, (int)(globalX+width), (int)(globalY+height));
-                    Log.e("tag", "l: " + rect.left + " ,r: " + rect.right + " ,t: " + rect.top + " ,b: " + rect.bottom);
                     if(rect.contains((int)event.getX(), (int)event.getY())){
                         _curCustomBitmap = bitmap;
                         isChanged = true;

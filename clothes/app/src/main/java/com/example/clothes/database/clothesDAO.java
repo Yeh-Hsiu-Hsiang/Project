@@ -187,5 +187,26 @@ public class clothesDAO {
         // 回傳結果
         return result;
     }
-
+    // 取得上衣數量
+    public int getUPCount() {
+        int result = 0;
+        String where = ""+TYPE_COLUMN + "=\"短袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"長袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"連衣裙\"";
+        Cursor cursor = db.query(
+                TABLE_NAME, null, where, null, null, null, null, null);
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+        return result;
+    }
+    // 取得下衣數量
+    public int getDOWNCount() {
+        int result = 0;
+        String where = TYPE_COLUMN + "=\"短褲\"" +" OR "+ TYPE_COLUMN + "=\"長褲\"" +" OR "+ TYPE_COLUMN + "=\"裙子\"" ;
+        Cursor cursor = db.query(
+                TABLE_NAME, null, where, null, null, null, null, null);
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+        return result;
+    }
 }

@@ -169,6 +169,48 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/week_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/WD_Day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/WeatherDescription_array"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/PoP_Day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/week_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/MaxT_Day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/MinT_Day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <HorizontalScrollView
@@ -178,8 +220,10 @@
             android:layout_below="@+id/content">
             <LinearLayout
                 android:id="@+id/linear"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="50dp"
                 android:orientation="horizontal">
             </LinearLayout>
         </HorizontalScrollView>
@@ -193,18 +237,22 @@
             android:gravity="center_vertical">
             <TextView
                 android:id="@+id/MON"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="星期一"
                 android:textStyle="bold"
                 android:textSize = "16sp"
                 android:gravity="left"/>
             <ImageView
                 android:id="@+id/MON_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="50dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-7dp"
                 android:layout_toRightOf="@id/MON"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/weather" />
@@ -214,36 +262,74 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/MON_image"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Min"
+                android:gravity="right"/>
+            <TextView
+                android:id="@+id/MON_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/MON_Min"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="-"
+                android:textStyle="bold"
                 android:gravity="right"/>
             <TextView
                 android:id="@+id/MON_Max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MON_Min"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/MON_line"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Max"
+                android:gravity="right"/>
+            <ImageView
+                android:id="@+id/MON_PoP_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/MON_Max"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/precipitations" />
+            <TextView
+                android:id="@+id/MON_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/MON_PoP_image"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:text="%"
                 android:gravity="right"/>
 
             <TextView
                 android:id="@+id/TUE"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/MON"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="星期二"
                 android:textStyle="bold"
                 android:textSize = "16sp"
                 android:gravity="left"/>
             <ImageView
                 android:id="@+id/TUE_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/MON"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-7dp"
                 android:layout_toRightOf="@id/TUE"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/weather" />
@@ -253,38 +339,79 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/TUE_image"
                 android:layout_below="@+id/MON"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Min"
+                android:gravity="right"/>
+            <TextView
+                android:id="@+id/TUE_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/TUE_Min"
+                android:layout_below="@+id/MON"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="-"
+                android:textStyle="bold"
                 android:gravity="right"/>
             <TextView
                 android:id="@+id/TUE_Max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/TUE_Min"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/TUE_line"
                 android:layout_below="@+id/MON"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Max"
+                android:gravity="right"/>
+            <ImageView
+                android:id="@+id/TUE_PoP_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/TUE_Max"
+                android:layout_below="@+id/MON"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/precipitations" />
+            <TextView
+                android:id="@+id/TUE_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/TUE_PoP_image"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/MON"
+                android:text="%"
                 android:gravity="right"/>
 
             <TextView
                 android:id="@+id/WED"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/TUE"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="星期三"
                 android:textStyle="bold"
                 android:textSize = "16sp"
                 android:gravity="left"/>
             <ImageView
                 android:id="@+id/WED_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/TUE"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-7dp"
                 android:layout_toRightOf="@id/WED"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/weather" />
@@ -294,38 +421,79 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/WED_image"
                 android:layout_below="@+id/TUE"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Min"
+                android:gravity="right"/>
+            <TextView
+                android:id="@+id/WED_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/WED_Min"
+                android:layout_below="@+id/TUE"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="-"
+                android:textStyle="bold"
                 android:gravity="right"/>
             <TextView
                 android:id="@+id/WED_Max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/WED_Min"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/WED_line"
                 android:layout_below="@+id/TUE"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Max"
+                android:gravity="right"/>
+            <ImageView
+                android:id="@+id/WED_PoP_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/WED_Max"
+                android:layout_below="@+id/TUE"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/precipitations" />
+            <TextView
+                android:id="@+id/WED_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/WED_PoP_image"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/TUE"
+                android:text="%"
                 android:gravity="right"/>
 
             <TextView
                 android:id="@+id/THU"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/WED"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="星期四"
                 android:textStyle="bold"
                 android:textSize = "16sp"
                 android:gravity="left"/>
             <ImageView
                 android:id="@+id/THU_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/WED"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-7dp"
                 android:layout_toRightOf="@id/WED"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/weather" />
@@ -335,38 +503,79 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/THU_image"
                 android:layout_below="@+id/WED"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Min"
+                android:gravity="right"/>
+            <TextView
+                android:id="@+id/THU_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/THU_Min"
+                android:layout_below="@+id/WED"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="-"
+                android:textStyle="bold"
                 android:gravity="right"/>
             <TextView
                 android:id="@+id/THU_Max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/THU_Min"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/THU_line"
                 android:layout_below="@+id/WED"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Max"
+                android:gravity="right"/>
+            <ImageView
+                android:id="@+id/THU_PoP_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/THU_Max"
+                android:layout_below="@+id/WED"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/precipitations" />
+            <TextView
+                android:id="@+id/THU_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/THU_PoP_image"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/WED"
+                android:text="%"
                 android:gravity="right"/>
 
             <TextView
                 android:id="@+id/FRI"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/THU"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="星期五"
                 android:textStyle="bold"
                 android:textSize = "16sp"
                 android:gravity="left"/>
             <ImageView
                 android:id="@+id/FRI_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/THU"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-7dp"
                 android:layout_toRightOf="@id/WED"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/weather" />
@@ -376,38 +585,79 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/FRI_image"
                 android:layout_below="@+id/THU"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Min"
+                android:gravity="right"/>
+            <TextView
+                android:id="@+id/FRI_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/FRI_Min"
+                android:layout_below="@+id/THU"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="-"
+                android:textStyle="bold"
                 android:gravity="right"/>
             <TextView
                 android:id="@+id/FRI_Max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/FRI_Min"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/FRI_line"
                 android:layout_below="@+id/THU"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Max"
+                android:gravity="right"/>
+            <ImageView
+                android:id="@+id/FRI_PoP_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/FRI_Max"
+                android:layout_below="@+id/THU"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/precipitations" />
+            <TextView
+                android:id="@+id/FRI_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/FRI_PoP_image"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/THU"
+                android:text="%"
                 android:gravity="right"/>
 
             <TextView
                 android:id="@+id/SAT"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/FRI"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="星期六"
                 android:textStyle="bold"
                 android:textSize = "16sp"
                 android:gravity="left"/>
             <ImageView
                 android:id="@+id/SAT_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/FRI"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-7dp"
                 android:layout_toRightOf="@id/SAT"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/weather" />
@@ -417,38 +667,79 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/SAT_image"
                 android:layout_below="@+id/FRI"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Min"
+                android:gravity="right"/>
+            <TextView
+                android:id="@+id/SAT_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/SAT_Min"
+                android:layout_below="@+id/FRI"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="-"
+                android:textStyle="bold"
                 android:gravity="right"/>
             <TextView
                 android:id="@+id/SAT_Max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/SAT_Min"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/SAT_line"
                 android:layout_below="@+id/FRI"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Max"
+                android:gravity="right"/>
+            <ImageView
+                android:id="@+id/SAT_PoP_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/SAT_Max"
+                android:layout_below="@+id/FRI"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/precipitations" />
+            <TextView
+                android:id="@+id/SAT_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/SAT_PoP_image"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/FRI"
+                android:text="%"
                 android:gravity="right"/>
 
             <TextView
                 android:id="@+id/SUN"
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/SAT"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="星期日"
                 android:textStyle="bold"
                 android:textSize = "16sp"
                 android:gravity="left"/>
             <ImageView
                 android:id="@+id/SUN_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/SAT"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-7dp"
                 android:layout_toRightOf="@id/SUN"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/weather" />
@@ -458,20 +749,57 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/SUN_image"
                 android:layout_below="@+id/SAT"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Min"
+                android:gravity="right"/>
+            <TextView
+                android:id="@+id/SUN_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/SUN_Min"
+                android:layout_below="@+id/SAT"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="-"
+                android:textStyle="bold"
                 android:gravity="right"/>
             <TextView
                 android:id="@+id/SUN_Max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/SUN_Min"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/SUN_line"
                 android:layout_below="@+id/SAT"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="Max"
+                android:gravity="right"/>
+            <ImageView
+                android:id="@+id/SUN_PoP_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/SUN_Max"
+                android:layout_below="@+id/SAT"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/precipitations" />
+            <TextView
+                android:id="@+id/SUN_PoP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/SUN_PoP_image"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/SAT"
+                android:text="%"
                 android:gravity="right"/>
         </RelativeLayout>
     </RelativeLayout>

@@ -32,10 +32,8 @@ import java.util.Locale;
 public class newclothes extends AppCompatActivity {
     //傳入照片
     protected static String PicPath ;
-
     // 宣告資料庫功能類別欄位變數
     private clothesDAO dao;
-
     //溫度區間_宣告
     private ArrayList<String> options1Items = new ArrayList<> ();
     private OptionsPickerView pvOptions;
@@ -153,8 +151,6 @@ public class newclothes extends AppCompatActivity {
                 .setBackgroundId(0x66000000) //設定外部遮罩顏色
                 .build();
         pvOptions.setPicker(options1Items);
-
-
         dao = new clothesDAO(getApplicationContext());
     }
 
@@ -182,7 +178,6 @@ public class newclothes extends AppCompatActivity {
                             break;
                         case R.id.keepadd:
                             //回到新增衣服頁面
-                            //Manageclothes.finishself.finish();
                             intent.setClass(newclothes.this, newclothes.class);
                             startActivity(intent);
                             newclothes.this.finish();
@@ -217,8 +212,7 @@ public class newclothes extends AppCompatActivity {
         }
     };
 
-    private void initOptionData() {
-        //穿衣溫度-選項
+    private void initOptionData() {//穿衣溫度-選項
         for (int i = -100; i < 100; i++) {
             options1Items.add( String.valueOf(i) + "℃");
         }
@@ -254,38 +248,29 @@ public class newclothes extends AppCompatActivity {
                     break;
             }
         }
-
     };
 
     //整理進入DB
     public void CompleteAdd(){
         getClothesMember getclothesmember = new getClothesMember();
-
         //1衣服編號
-
         //2衣服照片(路徑)<<PicPath>>
         getclothesmember.setImgPath(PicPath);
-
         //3衣服名稱<<clothesName>>
         String clothesName = ((EditText)findViewById( R.id.clothesname)).getText().toString();
         getclothesmember.setName(clothesName);
-
         //4衣服類型<<clothesType>>
         getclothesmember.setType(clothesType);
-
         //5衣服類型<<clothesStyle>>
         getclothesmember.setStyle(clothesStyle);
-
         //6溫度下限<<tempLower>>
         String tempL = ((TextView)findViewById( R.id.TempRange_Lower)).getText().toString();
         Long tempLower = Long.parseLong(tempL.substring(0,tempL.indexOf("℃")));
         getclothesmember.setTempLower(tempLower);
-
         //7溫度上限<<tempUpper>>
         String tempU = ((TextView)findViewById( R.id.TempRange_Upper)).getText().toString();
         Long tempUpper = Long.parseLong(tempU.substring(0,tempU.indexOf("℃")));
         getclothesmember.setTempUpper(tempUpper);
-
         //8衣服季節<<clothesSeason>>
         clothesSeason = "";
         if (spring) clothesSeason = clothesSeason + "春";
@@ -293,11 +278,9 @@ public class newclothes extends AppCompatActivity {
         if (autumn) clothesSeason = clothesSeason + "秋";
         if (winter) clothesSeason = clothesSeason + "冬";
         getclothesmember.setSeason(clothesSeason);
-
         //9建立日期<<timeStamp>>
         String timeStamp = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(new Date ());
         getclothesmember.setUpdateTime(timeStamp);
-
 
         if(clothesSeason == ""){
             Toast.makeText( newclothes.this, "請至少選擇一個季節" , Toast.LENGTH_LONG).show();
@@ -306,7 +289,5 @@ public class newclothes extends AppCompatActivity {
             PicPath = null;
             dao.close();
         }
-
     }
-
 }
