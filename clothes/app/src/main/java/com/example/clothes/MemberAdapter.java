@@ -36,7 +36,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         getClothesMember member = ClothesList.get(position);
         holder.imageId.setImageBitmap( BitmapFactory.decodeFile(member.getImgPath()));
-        holder.textId.setText(member.getId().toString());
         holder.textName.setText(member.getName());
     }
 
@@ -54,11 +53,10 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     //Adapter 需要一個 ViewHolder，只要實作它的 constructor 就好，保存起來的view會放在itemView裡面
     class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView imageId;
-        private TextView textId, textName;
+        private TextView textName;
         public ViewHolder(View itemView) {
             super(itemView);
             imageId = (ImageView) itemView.findViewById(R.id.imageId);
-            textId = (TextView) itemView.findViewById(R.id.textId);
             textName = (TextView) itemView.findViewById(R.id.textName);
 
             //在adapter中设置点击事件(長按)
