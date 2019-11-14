@@ -141,7 +141,7 @@ public class weather extends AppCompatActivity {
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.sunny));
             }else if(Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲") || Description_array[0].contains("陰")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.cloudybackground));
-            }else if(Description_array[0].contains("雨")){
+            }else if(Description_array[0].contains("陰")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.rainy));
             }else if(Description_array[0].contains("雷") || Description_array[0].contains("雷") && Description_array[0].contains("雨")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.lightning));
