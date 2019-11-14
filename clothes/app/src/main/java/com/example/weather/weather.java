@@ -139,11 +139,11 @@ public class weather extends AppCompatActivity {
 
             if(Description_array[0].equals("晴") || Description_array[0].equals("晴時多雲") || Description_array[0].equals("多雲時晴")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.sunny));
-            }else if(Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲") || Description_array[0].equals("陰天")){
+            }else if(Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲") || Description_array[0].contains("陰")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.cloudybackground));
             }else if(Description_array[0].contains("雨")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.rainy));
-            }else if(Description_array[0].contains("雷")){
+            }else if(Description_array[0].contains("雷") || Description_array[0].contains("雷") && Description_array[0].contains("雨")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.lightning));
             }else if(Description_array[0].contains("雪")){
                 weather_image.setImageDrawable(getResources().getDrawable( R.drawable.snowy));
@@ -174,15 +174,15 @@ public class weather extends AppCompatActivity {
                     imageView.setBackgroundResource(R.drawable.sun);
                 }else if(threehour_array[0].equals("晴時多雲") || threehour_array[0].equals("多雲時晴")){
                     imageView.setBackgroundResource(R.drawable.sunpartlyclear);
-                }else if(threehour_array[0].equals("多雲") || threehour_array[0].equals("多雲時陰") || threehour_array[0].equals("陰時多雲")){
+                }else if(threehour_array[0].contains("多雲") || threehour_array[0].contains("多雲時陰") || threehour_array[0].contains("陰時多雲")){
                     imageView.setBackgroundResource(R.drawable.mostlycloudy);
-                }else if(threehour_array[0].equals("陰天")){
+                }else if(threehour_array[0].contains("陰") ){
                     imageView.setBackgroundResource(R.drawable.cloudy);
                 }else if(threehour_array[0].equals("多雲陣雨") || threehour_array[0].equals("多雲短暫雨") || threehour_array[0].equals("多雲短暫陣雨") || threehour_array[0].equals("多雲時陰短暫雨") || threehour_array[0].equals("多雲時陰短暫陣雨") || threehour_array[0].equals("陰時多雲短暫雨") || threehour_array[0].equals("陰時多雲短暫陣雨") || threehour_array[0].equals("陰時多雲有雨") || threehour_array[0].equals("陰時多雲有陣雨") || threehour_array[0].equals("陰時多雲陣雨")){
                     imageView.setBackgroundResource(R.drawable.cloudywithrain);
                 }else if(threehour_array[0].equals("多雲時晴短暫陣雨") || threehour_array[0].equals("多雲時晴短暫雨") || threehour_array[0].equals("晴時多雲短暫陣雨") || threehour_array[0].equals("晴短暫陣雨") || threehour_array[0].equals("晴午後陰短暫雨") || threehour_array[0].equals("晴午後陰短暫陣雨") || threehour_array[0].equals("晴時多雲陣雨") || threehour_array[0].equals("多雲時晴陣雨")){
                     imageView.setBackgroundResource(R.drawable.afternooncloudywithshowers);
-                }else if(threehour_array[0].contains("雷") && threehour_array[0].contains("雨")){
+                } else if (threehour_array[0].contains("雷") && threehour_array[0].contains("雨") || threehour_array[0].contains("雷")) {
                     imageView.setBackgroundResource(R.drawable.thunderstorms);
                 }else if(threehour_array[0].contains("霧")){
                     imageView.setBackgroundResource(R.drawable.fog);
@@ -273,13 +273,13 @@ public class weather extends AppCompatActivity {
                                                         SUN_image.setImageDrawable(getResources().getDrawable(R.drawable.sunpartlyclear));
                                                     } else if (Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲")) {
                                                         SUN_image.setImageDrawable(getResources().getDrawable(R.drawable.mostlycloudy));
-                                                    } else if (Description_array[0].equals("陰天")) {
+                                                    } else if (Description_array[0].contains("陰")) {
                                                         SUN_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
                                                     } else if (Description_array[0].equals("多雲陣雨") || Description_array[0].equals("多雲短暫雨") || Description_array[0].equals("多雲短暫陣雨") || Description_array[0].equals("多雲時陰短暫雨") || Description_array[0].equals("多雲時陰短暫陣雨") || Description_array[0].equals("陰時多雲短暫雨") || Description_array[0].equals("陰時多雲短暫陣雨") || Description_array[0].equals("陰時多雲有雨") || Description_array[0].equals("陰時多雲有陣雨") || Description_array[0].equals("陰時多雲陣雨")) {
                                                         SUN_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudywithrain));
                                                     } else if (Description_array[0].equals("多雲時晴短暫陣雨") || Description_array[0].equals("多雲時晴短暫雨") || Description_array[0].equals("晴時多雲短暫陣雨") || Description_array[0].equals("晴短暫陣雨") || Description_array[0].equals("晴午後陰短暫雨") || Description_array[0].equals("晴午後陰短暫陣雨") || Description_array[0].equals("晴時多雲陣雨") || Description_array[0].equals("多雲時晴陣雨")) {
                                                         SUN_image.setImageDrawable(getResources().getDrawable(R.drawable.afternooncloudywithshowers));
-                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨")) {
+                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨") || Description_array[0].contains("雷")) {
                                                         SUN_image.setImageDrawable(getResources().getDrawable(R.drawable.thunderstorms));
                                                     } else if (Description_array[0].contains("霧")) {
                                                         SUN_image.setImageDrawable(getResources().getDrawable(R.drawable.fog));
@@ -294,13 +294,13 @@ public class weather extends AppCompatActivity {
                                                         MON_image.setImageDrawable(getResources().getDrawable(R.drawable.sunpartlyclear));
                                                     } else if (Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲")) {
                                                         MON_image.setImageDrawable(getResources().getDrawable(R.drawable.mostlycloudy));
-                                                    } else if (Description_array[0].equals("陰天")) {
+                                                    } else if (Description_array[0].contains("陰")) {
                                                         MON_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
                                                     } else if (Description_array[0].equals("多雲陣雨") || Description_array[0].equals("多雲短暫雨") || Description_array[0].equals("多雲短暫陣雨") || Description_array[0].equals("多雲時陰短暫雨") || Description_array[0].equals("多雲時陰短暫陣雨") || Description_array[0].equals("陰時多雲短暫雨") || Description_array[0].equals("陰時多雲短暫陣雨") || Description_array[0].equals("陰時多雲有雨") || Description_array[0].equals("陰時多雲有陣雨") || Description_array[0].equals("陰時多雲陣雨")) {
                                                         MON_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudywithrain));
                                                     } else if (Description_array[0].equals("多雲時晴短暫陣雨") || Description_array[0].equals("多雲時晴短暫雨") || Description_array[0].equals("晴時多雲短暫陣雨") || Description_array[0].equals("晴短暫陣雨") || Description_array[0].equals("晴午後陰短暫雨") || Description_array[0].equals("晴午後陰短暫陣雨") || Description_array[0].equals("晴時多雲陣雨") || Description_array[0].equals("多雲時晴陣雨")) {
                                                         MON_image.setImageDrawable(getResources().getDrawable(R.drawable.afternooncloudywithshowers));
-                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨")) {
+                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨") || Description_array[0].contains("雷")) {
                                                         MON_image.setImageDrawable(getResources().getDrawable(R.drawable.thunderstorms));
                                                     } else if (Description_array[0].contains("霧")) {
                                                         MON_image.setImageDrawable(getResources().getDrawable(R.drawable.fog));
@@ -315,13 +315,13 @@ public class weather extends AppCompatActivity {
                                                         TUE_image.setImageDrawable(getResources().getDrawable(R.drawable.sunpartlyclear));
                                                     } else if (Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲")) {
                                                         TUE_image.setImageDrawable(getResources().getDrawable(R.drawable.mostlycloudy));
-                                                    } else if (Description_array[0].equals("陰天")) {
+                                                    } else if (Description_array[0].contains("陰")) {
                                                         TUE_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
                                                     } else if (Description_array[0].equals("多雲陣雨") || Description_array[0].equals("多雲短暫雨") || Description_array[0].equals("多雲短暫陣雨") || Description_array[0].equals("多雲時陰短暫雨") || Description_array[0].equals("多雲時陰短暫陣雨") || Description_array[0].equals("陰時多雲短暫雨") || Description_array[0].equals("陰時多雲短暫陣雨") || Description_array[0].equals("陰時多雲有雨") || Description_array[0].equals("陰時多雲有陣雨") || Description_array[0].equals("陰時多雲陣雨")) {
                                                         TUE_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudywithrain));
                                                     } else if (Description_array[0].equals("多雲時晴短暫陣雨") || Description_array[0].equals("多雲時晴短暫雨") || Description_array[0].equals("晴時多雲短暫陣雨") || Description_array[0].equals("晴短暫陣雨") || Description_array[0].equals("晴午後陰短暫雨") || Description_array[0].equals("晴午後陰短暫陣雨") || Description_array[0].equals("晴時多雲陣雨") || Description_array[0].equals("多雲時晴陣雨")) {
                                                         TUE_image.setImageDrawable(getResources().getDrawable(R.drawable.afternooncloudywithshowers));
-                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨")) {
+                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨") || Description_array[0].contains("雷")) {
                                                         TUE_image.setImageDrawable(getResources().getDrawable(R.drawable.thunderstorms));
                                                     } else if (Description_array[0].contains("霧")) {
                                                         TUE_image.setImageDrawable(getResources().getDrawable(R.drawable.fog));
@@ -336,13 +336,13 @@ public class weather extends AppCompatActivity {
                                                         WED_image.setImageDrawable(getResources().getDrawable(R.drawable.sunpartlyclear));
                                                     } else if (Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲")) {
                                                         WED_image.setImageDrawable(getResources().getDrawable(R.drawable.mostlycloudy));
-                                                    } else if (Description_array[0].equals("陰天")) {
+                                                    } else if (Description_array[0].contains("陰")) {
                                                         WED_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
                                                     } else if (Description_array[0].equals("多雲陣雨") || Description_array[0].equals("多雲短暫雨") || Description_array[0].equals("多雲短暫陣雨") || Description_array[0].equals("多雲時陰短暫雨") || Description_array[0].equals("多雲時陰短暫陣雨") || Description_array[0].equals("陰時多雲短暫雨") || Description_array[0].equals("陰時多雲短暫陣雨") || Description_array[0].equals("陰時多雲有雨") || Description_array[0].equals("陰時多雲有陣雨") || Description_array[0].equals("陰時多雲陣雨")) {
                                                         WED_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudywithrain));
                                                     } else if (Description_array[0].equals("多雲時晴短暫陣雨") || Description_array[0].equals("多雲時晴短暫雨") || Description_array[0].equals("晴時多雲短暫陣雨") || Description_array[0].equals("晴短暫陣雨") || Description_array[0].equals("晴午後陰短暫雨") || Description_array[0].equals("晴午後陰短暫陣雨") || Description_array[0].equals("晴時多雲陣雨") || Description_array[0].equals("多雲時晴陣雨")) {
                                                         WED_image.setImageDrawable(getResources().getDrawable(R.drawable.afternooncloudywithshowers));
-                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨")) {
+                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨") || Description_array[0].contains("雷")) {
                                                         WED_image.setImageDrawable(getResources().getDrawable(R.drawable.thunderstorms));
                                                     } else if (Description_array[0].contains("霧")) {
                                                         WED_image.setImageDrawable(getResources().getDrawable(R.drawable.fog));
@@ -357,13 +357,13 @@ public class weather extends AppCompatActivity {
                                                         THU_image.setImageDrawable(getResources().getDrawable(R.drawable.sunpartlyclear));
                                                     } else if (Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲")) {
                                                         THU_image.setImageDrawable(getResources().getDrawable(R.drawable.mostlycloudy));
-                                                    } else if (Description_array[0].equals("陰天")) {
+                                                    } else if (Description_array[0].contains("陰")) {
                                                         THU_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
                                                     } else if (Description_array[0].equals("多雲陣雨") || Description_array[0].equals("多雲短暫雨") || Description_array[0].equals("多雲短暫陣雨") || Description_array[0].equals("多雲時陰短暫雨") || Description_array[0].equals("多雲時陰短暫陣雨") || Description_array[0].equals("陰時多雲短暫雨") || Description_array[0].equals("陰時多雲短暫陣雨") || Description_array[0].equals("陰時多雲有雨") || Description_array[0].equals("陰時多雲有陣雨") || Description_array[0].equals("陰時多雲陣雨")) {
                                                         THU_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudywithrain));
                                                     } else if (Description_array[0].equals("多雲時晴短暫陣雨") || Description_array[0].equals("多雲時晴短暫雨") || Description_array[0].equals("晴時多雲短暫陣雨") || Description_array[0].equals("晴短暫陣雨") || Description_array[0].equals("晴午後陰短暫雨") || Description_array[0].equals("晴午後陰短暫陣雨") || Description_array[0].equals("晴時多雲陣雨") || Description_array[0].equals("多雲時晴陣雨")) {
                                                         THU_image.setImageDrawable(getResources().getDrawable(R.drawable.afternooncloudywithshowers));
-                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨")) {
+                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨") || Description_array[0].contains("雷")) {
                                                         THU_image.setImageDrawable(getResources().getDrawable(R.drawable.thunderstorms));
                                                     } else if (Description_array[0].contains("霧")) {
                                                         THU_image.setImageDrawable(getResources().getDrawable(R.drawable.fog));
@@ -378,7 +378,7 @@ public class weather extends AppCompatActivity {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.sunpartlyclear));
                                                     } else if (Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲")) {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.mostlycloudy));
-                                                    } else if (Description_array[0].equals("陰天")) {
+                                                    } else if (Description_array[0].contains("陰")) {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
                                                     } else if (Description_array[0].contains("短暫陣雨") || Description_array[0].contains("陣雨") || Description_array[0].contains("短暫雨") || Description_array[0].contains("雨")) {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.rain));
@@ -386,7 +386,7 @@ public class weather extends AppCompatActivity {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudywithrain));
                                                     } else if (Description_array[0].contains("晴午後") || Description_array[0].equals("多雲時晴短暫陣雨") || Description_array[0].equals("多雲時晴短暫雨") || Description_array[0].equals("晴時多雲短暫陣雨") || Description_array[0].equals("晴短暫陣雨") || Description_array[0].equals("晴午後陰短暫雨") || Description_array[0].equals("晴午後陰短暫陣雨") || Description_array[0].equals("晴時多雲陣雨") || Description_array[0].equals("多雲時晴陣雨")) {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.afternooncloudywithshowers));
-                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨")) {
+                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨") || Description_array[0].contains("雷")) {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.thunderstorms));
                                                     } else if (Description_array[0].contains("霧")) {
                                                         FRI_image.setImageDrawable(getResources().getDrawable(R.drawable.fog));
@@ -401,13 +401,13 @@ public class weather extends AppCompatActivity {
                                                         SAT_image.setImageDrawable(getResources().getDrawable(R.drawable.sunpartlyclear));
                                                     } else if (Description_array[0].equals("多雲") || Description_array[0].equals("多雲時陰") || Description_array[0].equals("陰時多雲")) {
                                                         SAT_image.setImageDrawable(getResources().getDrawable(R.drawable.mostlycloudy));
-                                                    } else if (Description_array[0].equals("陰天")) {
+                                                    } else if (Description_array[0].contains("陰")) {
                                                         SAT_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
                                                     } else if (Description_array[0].equals("多雲陣雨") || Description_array[0].equals("多雲短暫雨") || Description_array[0].equals("多雲短暫陣雨") || Description_array[0].equals("多雲時陰短暫雨") || Description_array[0].equals("多雲時陰短暫陣雨") || Description_array[0].equals("陰時多雲短暫雨") || Description_array[0].equals("陰時多雲短暫陣雨") || Description_array[0].equals("陰時多雲有雨") || Description_array[0].equals("陰時多雲有陣雨") || Description_array[0].equals("陰時多雲陣雨")) {
                                                         SAT_image.setImageDrawable(getResources().getDrawable(R.drawable.cloudywithrain));
                                                     } else if (Description_array[0].equals("多雲時晴短暫陣雨") || Description_array[0].equals("多雲時晴短暫雨") || Description_array[0].equals("晴時多雲短暫陣雨") || Description_array[0].equals("晴短暫陣雨") || Description_array[0].equals("晴午後陰短暫雨") || Description_array[0].equals("晴午後陰短暫陣雨") || Description_array[0].equals("晴時多雲陣雨") || Description_array[0].equals("多雲時晴陣雨")) {
                                                         SAT_image.setImageDrawable(getResources().getDrawable(R.drawable.afternooncloudywithshowers));
-                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨")) {
+                                                    } else if (Description_array[0].contains("雷") && Description_array[0].contains("雨") || Description_array[0].contains("雷")) {
                                                         SAT_image.setImageDrawable(getResources().getDrawable(R.drawable.thunderstorms));
                                                     } else if (Description_array[0].contains("霧")) {
                                                         SAT_image.setImageDrawable(getResources().getDrawable(R.drawable.fog));

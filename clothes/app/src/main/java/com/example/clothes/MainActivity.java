@@ -276,8 +276,8 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject JsonObject = location_array.getJSONObject(i);
                     String locationName = JsonObject.getString("locationName");
                      CityName_list.add(locationName);
-                     city = CityName.getText().toString();
-//                    city = "台北市";
+//                     city = CityName.getText().toString();
+                    city = "台北市";
                     Log.d(" city = ",city);
                     switch (city){
                         case "台北市":
