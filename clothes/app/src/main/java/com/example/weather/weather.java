@@ -553,15 +553,17 @@ public class weather extends AppCompatActivity {
     public void setTemperatureText(){
         Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
         String S_current_Time = "";
-        if(current_Time >= 12 && current_Time < 18){
+
+        if(current_Time >= 6 && current_Time < 18){
             if(dao_Week.getWDweather(Location.getText().toString()).get(0).getHour().equals("12"))
                 S_current_Time = "12";
             else
                 S_current_Time = "06";
-        }else if(current_Time >= 18 || current_Time < 6){
-            S_current_Time = "18";
-        }else if(current_Time >=6 && current_Time < 12){
-            S_current_Time = "06";
+        }else{
+            if(dao_Week.getWDweather(Location.getText().toString()).get(0).getHour().equals("00"))
+                S_current_Time = "00";
+            else
+                S_current_Time = "18";
         }
         for(int y = 0 ; y < dao_Week.getWDweather(Location.getText().toString()).size() ; y++) {
             if (dao_Week.getWDweather(Location.getText().toString()).get(y).getDay().equals(dao_Week.getWDweather(Location.getText().toString()).get(y).getMaxT_Day()) &&

@@ -93,26 +93,27 @@ public class MainActivity extends AppCompatActivity {
         PoP_Day = (TextView) findViewById(R.id.PoP_Day);
 
         Today_Time.setText(new SimpleDateFormat("HH").format(new Date()));
+
         switch (Today_Time.getText().toString()){
-            case "0":
-            case "1":
-            case "2":
-                Hour_three ="0";
+            case "00":
+            case "01":
+            case "02":
+                Hour_three ="00";
                 break;
-            case "3":
-            case "4":
-            case "5":
-                Hour_three ="3";
+            case "03":
+            case "04":
+            case "05":
+                Hour_three ="03";
                 break;
-            case "6":
-            case "7":
-            case "8":
-                Hour_three ="6";
+            case "06":
+            case "07":
+            case "08":
+                Hour_three ="06";
                 break;
-            case "9":
+            case "09":
             case "10":
             case "11":
-                Hour_three ="9";
+                Hour_three ="09";
                 break;
             case "12":
             case "13":
@@ -493,13 +494,25 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
+            String[] Tdaylist_array,Today_date_array;
+            Integer Tdaylist_Y ,Tdaylist_MM ,Tdaylist_DD ,Today_date_Y ,Today_date_MM ,Today_date_DD;
+            Tdaylist_array = T_day_list.get(0).split("-");
+            Today_date_array =Today_date.getText().toString().split("-");
+            Tdaylist_Y = Integer.valueOf(Tdaylist_array[0]);
+            Tdaylist_MM = Integer.valueOf(Tdaylist_array[1]);
+            Tdaylist_DD = Integer.valueOf(Tdaylist_array[2]);
+            Today_date_Y = Integer.valueOf(Today_date_array[0]);
+            Today_date_MM = Integer.valueOf(Today_date_array[1]);
+            Today_date_DD = Integer.valueOf(Today_date_array[2]);
             if(dao.getCount() != 528){
                 dao.insert(getWeather);
             }else {
-                if(!T_day_list.get(0).equals(Today_date.getText().toString()) && !T_hour_list.get(0).equals(Hour_three)){
-                    getWeather.setId(dbcount);
-                    dao.update(getWeather);
-                    dbcount++;
+                if(Today_date_Y >= Tdaylist_Y && Today_date_MM >= Tdaylist_MM && Today_date_DD >= Tdaylist_DD){
+                    if(Integer.valueOf(Hour_three) >= Integer.valueOf(T_hour_list.get(0))){
+                        getWeather.setId(dbcount);
+                        dao.update(getWeather);
+                        dbcount++;
+                    }
                 }
             }
         }
