@@ -130,7 +130,7 @@ public class WeekWeatherDAO {
     }
 
     //取得指定類別的多量資料
-    public ArrayList<getWeekWeather> getWeekWeather(String City){
+    public ArrayList<getWeekWeather> getWDweather(String City){
         ArrayList<getWeekWeather> result = new ArrayList<>();
 
         String where = CityName + " = \"" + City + "\"" ;
@@ -165,10 +165,6 @@ public class WeekWeatherDAO {
 
         // 回傳結果
         return result;
-    }
-
-    // 建立範例資料
-    public void sample() {
     }
 
     // 取得資料數量

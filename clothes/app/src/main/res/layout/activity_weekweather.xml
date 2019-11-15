@@ -211,6 +211,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/MaxT_Hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <HorizontalScrollView
