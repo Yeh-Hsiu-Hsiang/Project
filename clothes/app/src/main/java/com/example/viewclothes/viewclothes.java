@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -116,11 +117,23 @@ public class viewclothes extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
 
         if(!timeStamp.equals(DATE.getString("todayis",null)) ||
-                Tem != DATE.getInt("todayTem",0)){
+                Tem != DATE.getInt("todayTem",0) ||
+                !String.valueOf(dao.getlastID().get(0).getId()).equals(DATE.getString("Lastclothes",null)) ||
+                dao.getUPCount() != DATE.getInt("getUPCount",0) ||
+                dao.getDOWNCount() != DATE.getInt("getDOWNCount",0)){
             //修改成今天日期跟現在溫度
+            DATE.edit().clear();
+            DATE.edit().remove("todayis");
+            DATE.edit().remove("Lastclothes");
+            DATE.edit().remove("todayTem");
+            DATE.edit().remove("getUPCount");
+            DATE.edit().remove("getDOWNCount");
             DATE.edit()
                     .putString("todayis",timeStamp)
-                    .putInt("todayTem",Tem)
+                    .putString("Lastclothes", dao.getlastID().get(0).getId().toString())
+                    .putInt("todayTem", Tem)
+                    .putInt("getUPCount", dao.getUPCount())
+                    .putInt("getDOWNCount", dao.getDOWNCount())
                     .commit();
 
             if(wearlist != null)wearlist = null;

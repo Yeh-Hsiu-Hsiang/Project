@@ -209,4 +209,17 @@ public class clothesDAO {
         }
         return result;
     }
+    //取出最後一筆id
+    public ArrayList<getClothesMember> getlastID(){
+        ArrayList<getClothesMember> result = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM ManageClothes ORDER by _id  desc limit 1",null);
+
+        while (cursor.moveToNext()) {
+            result.add(getRecord(cursor));
+        }
+        cursor.close();
+        return result;
+    }
 }
