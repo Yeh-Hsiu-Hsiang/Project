@@ -496,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
             if(dao.getCount() != 528){
                 dao.insert(getWeather);
             }else {
-                if(T_day_list.get(0) != Today_date.getText().toString() && T_hour_list.get(0) != Hour_three){
+                if(!T_day_list.get(0).equals(Today_date.getText().toString()) && !T_hour_list.get(0).equals(Hour_three)){
                     getWeather.setId(dbcount);
                     dao.update(getWeather);
                     dbcount++;
