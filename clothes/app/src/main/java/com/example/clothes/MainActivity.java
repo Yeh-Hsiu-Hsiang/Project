@@ -14,7 +14,6 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -136,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 Hour_three ="21";
                 break;
         }
+        Today_Time.setText(Hour_three);
         Today_date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         date.setText(new SimpleDateFormat("yyyy / MM / dd").format(new Date()));
 
@@ -244,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
                 BufferedReader in = new BufferedReader (new InputStreamReader( url.openStream () ) );
                 String line = in.readLine ();
                 while (line != null) {
-                    Log.d ( "HTTP", line );
                     today_sb.append ( line );
                     line = in.readLine ();
                 }
@@ -258,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String today_data) {
             super.onPostExecute ( today_data );
-            Log.d ( "JSON", today_data );
             parseJSON ( today_data );
             if(Today_Temperature.getText().equals("°C"))
                 Today_Temperature.setText(dao.getWDweather(city).get(0).getTemperature() + " °C ");
@@ -275,28 +273,24 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < location_array .length (); i++) {
                     JSONObject JsonObject = location_array.getJSONObject(i);
                     String locationName = JsonObject.getString("locationName");
-                     CityName_list.add(locationName);
-//                     city = CityName.getText().toString();
-                    city = "台北市";
-                    Log.d(" city = ",city);
+                    CityName_list.add(locationName);
+                    city = CityName.getText().toString();
+//                    city = "台北市";
                     switch (city){
                         case "台北市":
                             city = "臺北市";
-                            CityName.setText("臺北市");
                             break;
                         case "台中市":
                             city = "臺中市";
-                            CityName.setText("臺中市");
                             break;
                         case "台東市":
                             city = "臺東市";
-                            CityName.setText("臺東市");
                             break;
                         case "台南市":
                             city = "臺南市";
-                            CityName.setText("臺南市");
                             break;
                     }
+                    CityName.setText(city);
                 }
 
                 for (int b = 0; b < location_array .length (); b++) {
@@ -315,49 +309,14 @@ public class MainActivity extends AppCompatActivity {
                                             JSONObject jsonObject3 = time.getJSONObject(k);
                                             String T_date = jsonObject3.getString("dataTime");
                                             String current_date = T_date.substring(0, 10);
+                                            String T_time = T_date.substring(11, 13);
                                             T_day.setText(current_date);
-                                            T_hour.setText(T_date.substring(11, 13));
+                                            T_hour.setText(T_time);
                                             T_day_list.add(T_day.getText().toString());
                                             T_hour_list.add(T_hour.getText().toString());
-                                            Integer T_time = Integer.valueOf(T_date.substring(11, 13)).intValue();
-                                            Integer current_Time = Integer.valueOf(Today_Time.getText().toString()).intValue();
-                                            int quotients = Math.round(current_Time / 3);
-                                            switch (quotients) {
-                                                case 0:
-                                                    current_Time = 0;
-                                                    break;
-                                                case 1:
-                                                    current_Time = 3;
-                                                    break;
-                                                case 2:
-                                                    current_Time = 6;
-                                                    break;
-                                                case 3:
-                                                    current_Time = 9;
-                                                    break;
-                                                case 4:
-                                                    current_Time = 12;
-                                                    break;
-                                                case 5:
-                                                    current_Time = 15;
-                                                    break;
-                                                case 6:
-                                                    current_Time = 18;
-                                                    break;
-                                                case 7:
-                                                    current_Time = 21;
-                                                    break;
-                                                case 8:
-                                                    current_Time = 0;
-                                                    break;
-                                            }
                                             JSONObject TelementValue = jsonObject3.getJSONObject("elementValue");
                                             String value = TelementValue.getString("value");
                                             Today_Temperature_list.add(value);
-                                            if (current_date.equals(Today_date.getText().toString()) && T_time == current_Time) {
-                                                Today_Temperature.setText(value + " °C ");
-                                                Today_Temperature_list.add(Today_Temperature.getText().toString());
-                                            }
                                         }
                                         break;
                                     // 天氣現象
@@ -409,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
                                             Description_list.add(value);
                                             if (WD_startDate.equals(Today_date.getText().toString()) && WD_time == current_Time) {
                                                 Description.setText(value);
-                                                Description_list.add(Description.getText().toString());
                                             }
                                         }
                                         break;
@@ -426,7 +384,6 @@ public class MainActivity extends AppCompatActivity {
                                             PoP_list.add(value);
                                             if (PoP_startTime.equals(Today_date.getText().toString())) {
                                                 PoP.setText(value + " % ");
-                                                PoP_list.add(PoP.getText().toString());
                                             }
                                         }
                                         break;
@@ -437,6 +394,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 dbcount = 1;
+                for(int y = 0 ; y < dao.getWDweather(CityName.getText().toString()).size() ; y++){
+                    if(dao.getWDweather(CityName.getText().toString()).get(0).getDay().equals(dao.getWDweather(CityName.getText().toString()).get(y).getT_Day()) &&
+                            dao.getWDweather(CityName.getText().toString()).get(0).getHour().equals(dao.getWDweather(CityName.getText().toString()).get(y).getT_Hour())){
+                             Today_Temperature.setText(dao.getWDweather(CityName.getText().toString()).get(y).getTemperature() + " °C ");
+                    }
+                }
             } catch(JSONException e) {
                 e.printStackTrace();
             }
@@ -480,10 +443,10 @@ public class MainActivity extends AppCompatActivity {
         for (int a = 0; a < T_day_list.size(); a++) {
             getWeather.setT_Day(T_day_list.get(a));
             getWeather.setT_Hour(T_hour_list.get(a));
-            getWeather.setTemperature(Today_Temperature_list.get(0));
+            getWeather.setTemperature(Today_Temperature_list.get(a));
             getWeather.setWD_Day(WD_Day_list.get(a));
             getWeather.setWD_Hour(WD_Hour_list.get(a));
-            getWeather.setWeatherDescription(Description_list.get(0));
+            getWeather.setWeatherDescription(Description_list.get(a));
             getWeather.setThreehour_Description(threehour_Description_list.get(a));
             switch (a){
                 case 0:
@@ -491,45 +454,44 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                 case 3:
                     getWeather.setPoP_Day(PoP_Day_list.get(0));
-                    Log.d("PoP_Day_list", PoP_Day_list.get(0));
+                    getWeather.setPoPh(PoP_list.get(0));
                     break;
                 case 4:
                 case 5:
                 case 6:
                 case 7:
                     getWeather.setPoP_Day(PoP_Day_list.get(1));
-                    Log.d("PoP_Day_list", PoP_Day_list.get(1));
+                    getWeather.setPoPh(PoP_list.get(1));
                     break;
                 case 8:
                 case 9:
                 case 10:
                 case 11:
                     getWeather.setPoP_Day(PoP_Day_list.get(2));
-                    Log.d("PoP_Day_list", PoP_Day_list.get(2));
+                    getWeather.setPoPh(PoP_list.get(2));
                     break;
                 case 12:
                 case 13:
                 case 14:
                 case 15:
                     getWeather.setPoP_Day(PoP_Day_list.get(3));
-                    Log.d("PoP_Day_list", PoP_Day_list.get(3));
+                    getWeather.setPoPh(PoP_list.get(3));
                     break;
                 case 16:
                 case 17:
                 case 18:
                 case 19:
                     getWeather.setPoP_Day(PoP_Day_list.get(4));
-                    Log.d("PoP_Day_list", PoP_Day_list.get(4));
+                    getWeather.setPoPh(PoP_list.get(4));
                     break;
                 case 20:
                 case 21:
                 case 22:
                 case 23:
                     getWeather.setPoP_Day(PoP_Day_list.get(5));
-                    Log.d("PoP_Day_list", PoP_Day_list.get(5));
+                    getWeather.setPoPh(PoP_list.get(5));
                     break;
             }
-            getWeather.setPoPh(PoP_list.get(0));
 
             if(dao.getCount() != 528){
                 dao.insert(getWeather);
