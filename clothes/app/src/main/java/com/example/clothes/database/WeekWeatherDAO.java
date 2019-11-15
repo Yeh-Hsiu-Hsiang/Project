@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 // 資料功能類別
 public class WeekWeatherDAO {
     // 表格名稱
@@ -127,6 +129,21 @@ public class WeekWeatherDAO {
         return getWeekWeather;
     }
 
+    //取得指定類別的多量資料
+    public ArrayList<getWeekWeather> getWeekWeather(String City){
+        ArrayList<getWeekWeather> result = new ArrayList<>();
+
+        String where = CityName + " = \"" + City + "\"" ;
+        // 執行查詢
+        Cursor cursor = db.query(
+                TABLE_NAME, null, where, null, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            result.add(getRecord(cursor));
+        }
+        cursor.close();
+        return result;
+    }
 
     // 把Cursor目前的資料包裝為物件
     public getWeekWeather getRecord(Cursor cursor) {
