@@ -436,10 +436,31 @@ public class MainActivity extends AppCompatActivity {
 
     //整理進入DB
     public void CompleteAdd(int citycount){
+        //如果定位位址改變，只更新NowCity
+        getWeather.setNowCity(city);
+        if(!city.equals(dao.getWDweather(city).get(0).getNowCity()) && dao.getCount() == 528){
+            for(long i=1 ; i<=528 ; i++){
+                dao.getoneID(i);
+                getWeather.setId(i);
+                getWeather.setDay(dao.getoneID(i).getDay());
+                getWeather.setHour(dao.getoneID(i).getHour());
+                getWeather.setCityName(dao.getoneID(i).getCityName());
+                getWeather.setT_Day(dao.getoneID(i).getT_Day());
+                getWeather.setT_Hour(dao.getoneID(i).getT_Hour());
+                getWeather.setTemperature(dao.getoneID(i).getTemperature());
+                getWeather.setWD_Day(dao.getoneID(i).getWD_Day());
+                getWeather.setWD_Hour(dao.getoneID(i).getWD_Hour());
+                getWeather.setWeatherDescription(dao.getoneID(i).getWeatherDescription());
+                getWeather.setThreehour_Description(dao.getoneID(i).getThreehour_Description());
+                getWeather.setPoP_Day(dao.getoneID(i).getPoP_Day());
+                getWeather.setPoPh(dao.getoneID(i).getPoPh());
+                dao.update(getWeather);
+            }
+        }
+
         getWeather.setDay(Today_date.getText().toString());
         getWeather.setHour(Today_Time.getText().toString());
         getWeather.setCityName(CityName_list.get(citycount));
-        getWeather.setNowCity(city);
 
         for (int a = 0; a < T_day_list.size(); a++) {
             getWeather.setT_Day(T_day_list.get(a));

@@ -620,12 +620,25 @@ public class weather extends AppCompatActivity {
             getWeekWeather.setMinT_Day(MinT_Day_list.get(a));
             getWeekWeather.setLowTemperature(LowTemperature_list.get(a));
 
+            String[] Tdaylist_array,Today_date_array;
+            Integer Tdaylist_Y ,Tdaylist_MM ,Tdaylist_DD ,Today_date_Y ,Today_date_MM ,Today_date_DD;
+            Tdaylist_array = MaxT_Day_list.get(0).split("-");
+            Today_date_array =Today_date.getText().toString().split("-");
+            Tdaylist_Y = Integer.valueOf(Tdaylist_array[0]);
+            Tdaylist_MM = Integer.valueOf(Tdaylist_array[1]);
+            Tdaylist_DD = Integer.valueOf(Tdaylist_array[2]);
+            Today_date_Y = Integer.valueOf(Today_date_array[0]);
+            Today_date_MM = Integer.valueOf(Today_date_array[1]);
+            Today_date_DD = Integer.valueOf(Today_date_array[2]);
+
             if(dao_Week.getCount() != 330){
                 dao_Week.insert(getWeekWeather);
             }else{
-                getWeekWeather.setId(dbcount);
-                dao_Week.update(getWeekWeather);
-                dbcount++;
+                if(Today_date_Y >= Tdaylist_Y && Today_date_MM >= Tdaylist_MM && Today_date_DD >= Tdaylist_DD) {
+                    getWeekWeather.setId(dbcount);
+                    dao_Week.update(getWeekWeather);
+                    dbcount++;
+                }
             }
         }
         WD_Day_list = new ArrayList<String>();
