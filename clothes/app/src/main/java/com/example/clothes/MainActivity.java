@@ -416,14 +416,18 @@ public class MainActivity extends AppCompatActivity {
 
     // 預覽穿衣
     public void View_wearing(View view) {
-        if(clothesDAO.getUPCount() == 0 || clothesDAO.getDOWNCount() == 0){
-            Toast.makeText( MainActivity.this, "請先新增上衣及下衣至少各一件，才能進行預覽喔！" , Toast.LENGTH_LONG).show();
+        if(!Today_Temperature.getText().equals("°C")){
+            if(clothesDAO.getUPCount() == 0 || clothesDAO.getDOWNCount() == 0){
+                Toast.makeText( MainActivity.this, "請先新增上衣及下衣至少各一件，才能進行預覽喔！" , Toast.LENGTH_LONG).show();
+            }else {
+                clothesDAO.close();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, viewclothes.class);
+                startActivity(intent);
+                finish();
+            }
         }else {
-            clothesDAO.close();
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this, viewclothes.class);
-            startActivity(intent);
-            finish();
+            Toast.makeText( MainActivity.this, "需等待資料讀取，感謝您的耐心等候" , Toast.LENGTH_LONG).show();
         }
     }
 

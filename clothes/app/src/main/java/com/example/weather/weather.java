@@ -635,9 +635,11 @@ public class weather extends AppCompatActivity {
                 dao_Week.insert(getWeekWeather);
             }else{
                 if(Today_date_Y >= Tdaylist_Y && Today_date_MM >= Tdaylist_MM && Today_date_DD >= Tdaylist_DD) {
-                    getWeekWeather.setId(dbcount);
-                    dao_Week.update(getWeekWeather);
-                    dbcount++;
+                    if(Integer.valueOf(Today_Time.getText().toString()).intValue() >= Integer.valueOf(MaxT_Hour_list.get(0))){
+                        getWeekWeather.setId(dbcount);
+                        dao_Week.update(getWeekWeather);
+                        dbcount++;
+                    }
                 }
             }
         }
