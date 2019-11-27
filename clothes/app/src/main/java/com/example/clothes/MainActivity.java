@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -167,8 +168,13 @@ public class MainActivity extends AppCompatActivity {
         if (location != null)
             CityName.setText(getAddressByLocation(location));
             // Location.setText("經度：" + location.getLongitude() + "\n緯度：" + location.getLatitude());
-        else
-            CityName.setText("定位中");
+        else{
+            if(dao.getCount() == 528 && dao.getWDweather(city).size() != 0) {
+                CityName.setText(dao.getWDweather(city).get(0).getNowCity());
+            }else{
+                CityName.setText("定位中");
+            }
+        }
     }
 
     // 判斷當前是否開啟GPS
@@ -259,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String today_data) {
             super.onPostExecute ( today_data );
             parseJSON ( today_data );
-            if(Today_Temperature.getText().equals("°C"))
+            if(Today_Temperature.getText().equals("°C") && dao.getWDweather(city).size() != 0)
                 Today_Temperature.setText(dao.getWDweather(city).get(0).getTemperature() + " °C ");
         }
 
@@ -442,23 +448,25 @@ public class MainActivity extends AppCompatActivity {
     public void CompleteAdd(int citycount){
         //如果定位位址改變，只更新NowCity
         getWeather.setNowCity(city);
-        if(!city.equals(dao.getWDweather(city).get(0).getNowCity()) && dao.getCount() == 528){
-            for(long i=1 ; i<=528 ; i++){
-                dao.getoneID(i);
-                getWeather.setId(i);
-                getWeather.setDay(dao.getoneID(i).getDay());
-                getWeather.setHour(dao.getoneID(i).getHour());
-                getWeather.setCityName(dao.getoneID(i).getCityName());
-                getWeather.setT_Day(dao.getoneID(i).getT_Day());
-                getWeather.setT_Hour(dao.getoneID(i).getT_Hour());
-                getWeather.setTemperature(dao.getoneID(i).getTemperature());
-                getWeather.setWD_Day(dao.getoneID(i).getWD_Day());
-                getWeather.setWD_Hour(dao.getoneID(i).getWD_Hour());
-                getWeather.setWeatherDescription(dao.getoneID(i).getWeatherDescription());
-                getWeather.setThreehour_Description(dao.getoneID(i).getThreehour_Description());
-                getWeather.setPoP_Day(dao.getoneID(i).getPoP_Day());
-                getWeather.setPoPh(dao.getoneID(i).getPoPh());
-                dao.update(getWeather);
+        if(dao.getCount() == 528 && dao.getWDweather(city).size() != 0) {
+            if (!city.equals(dao.getWDweather(city).get(0).getNowCity())) {
+                for (long i = 1; i <= 528; i++) {
+                    dao.getoneID(i);
+                    getWeather.setId(i);
+                    getWeather.setDay(dao.getoneID(i).getDay());
+                    getWeather.setHour(dao.getoneID(i).getHour());
+                    getWeather.setCityName(dao.getoneID(i).getCityName());
+                    getWeather.setT_Day(dao.getoneID(i).getT_Day());
+                    getWeather.setT_Hour(dao.getoneID(i).getT_Hour());
+                    getWeather.setTemperature(dao.getoneID(i).getTemperature());
+                    getWeather.setWD_Day(dao.getoneID(i).getWD_Day());
+                    getWeather.setWD_Hour(dao.getoneID(i).getWD_Hour());
+                    getWeather.setWeatherDescription(dao.getoneID(i).getWeatherDescription());
+                    getWeather.setThreehour_Description(dao.getoneID(i).getThreehour_Description());
+                    getWeather.setPoP_Day(dao.getoneID(i).getPoP_Day());
+                    getWeather.setPoPh(dao.getoneID(i).getPoPh());
+                    dao.update(getWeather);
+                }
             }
         }
 
