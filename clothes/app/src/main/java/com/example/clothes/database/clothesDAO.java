@@ -139,7 +139,7 @@ public class clothesDAO {
     public ArrayList<getClothesMember> getUPclothes(Integer tem_MAX,Integer tem_MIN){
         ArrayList<getClothesMember> result = new ArrayList<>();
 
-        String where = TYPE_COLUMN + "=\"短袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"長袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"連衣裙\"" +" AND "+
+        String where = "("+TYPE_COLUMN + "=\"短袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"長袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"連衣裙\"" +") AND "+
                     TEMPLOWER_COLUMN + "<=" + tem_MAX.toString() +" AND "+ TEMPUPPER_COLUMN + ">=" + tem_MIN.toString();
         // 執行查詢
         Cursor cursor = db.query(
@@ -156,7 +156,7 @@ public class clothesDAO {
     public ArrayList<getClothesMember> getDOWNclothes(Integer tem_MAX,Integer tem_MIN){
         ArrayList<getClothesMember> result = new ArrayList<>();
 
-        String where = TYPE_COLUMN + "=\"短褲\"" +" OR "+ TYPE_COLUMN + "=\"長褲\"" +" OR "+ TYPE_COLUMN + "=\"裙子\"" +" AND "+
+        String where = "("+ TYPE_COLUMN + "=\"短褲\"" +" OR "+ TYPE_COLUMN + "=\"長褲\"" +" OR "+ TYPE_COLUMN + "=\"裙子\"" +") AND "+
                 TEMPLOWER_COLUMN + "<=" + tem_MAX.toString() +" AND "+ TEMPUPPER_COLUMN + ">=" + tem_MIN.toString();
         // 執行查詢
         Cursor cursor = db.query(
@@ -190,7 +190,7 @@ public class clothesDAO {
     // 取得上衣數量
     public int getUPCount() {
         int result = 0;
-        String where = ""+TYPE_COLUMN + "=\"短袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"長袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"連衣裙\"";
+        String where = TYPE_COLUMN + "=\"短袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"長袖上衣\"" +" OR "+ TYPE_COLUMN + "=\"連衣裙\"";
         Cursor cursor = db.query(
                 TABLE_NAME, null, where, null, null, null, null, null);
         if (cursor.moveToNext()) {
